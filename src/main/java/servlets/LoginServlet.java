@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
             User user = UserDao.authenticateUser(userRequest.getEmail(), userRequest.getPassword());
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, null);
+            apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, user.getRoleId());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);

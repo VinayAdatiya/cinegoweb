@@ -1,5 +1,7 @@
 package dao;
 
+import entity.Address;
+import entity.City;
 import entity.User;
 import utils.DBConnection;
 
@@ -57,8 +59,8 @@ public class UserDao {
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPhoneNumber(rs.getString("phone_number"));
-                user.setUserId(rs.getInt("address_id"));
-                user.setUserId(rs.getInt("role_id"));
+                user.setAddress(new Address(rs.getInt("address_id")));
+                user.setRoleId(rs.getInt("role_id"));
                 return user;
             }
         } catch (SQLException e) {

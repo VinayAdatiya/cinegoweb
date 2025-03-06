@@ -59,9 +59,10 @@
             url: "getCurrentUser",
             contentType: "application/json",
             success: function (response) {
+                console.log("getCurrentUser response:", response); // Log the entire response
                 alert(response.message);
-                user = response.data;
-                console.log(user);
+                user = JSON.stringify(response.data); // Stringify the data
+                console.log("User data:", user); // Log the user data specifically
                 console.log("User Found !!!");
                 updateNavBar(user);
             },
@@ -69,36 +70,40 @@
                 let response = JSON.parse(xhr.responseText);
                 alert(response.message);
                 console.log("No User Found !!!");
-                updateNavBar(user);
+                updateNavBar(null);
             }
         });
 
-        function updateNavBar(user){
-            user = JSON.parse(user);
-            console.log(user);
-            if (user != null) {
+        function updateNavBar(user) {
+            if (user != null && user != "null") { //added null string check
+                try{
+                    user = JSON.parse(user);
+                    console.log("parsed user: ", user);
+                }catch(e){
+                    console.log("error parsing user: ", e);
+                    return;
+                }
                 $('#AuthSection').html(
-                    '<li class="nav-item"> <a href = "#"><span class="glyphicon glyphicon-user">${user.firstName}</span> </a> </li>' +
+                    '<li class="nav-item"> <a href = "#"><span class="glyphicon glyphicon-user">' + user.firstName + '</span> </a> </li>' +
                     '<li class="nav-item"> <a href = "#"><span class="glyphicon glyphicon-log-out" id="logoutBtn">Logout</span> </a> </li>'
                 );
 
                 $('#welcomeMessage').html(
-                    '<h1 id="welcomeMessage">🙏 Welcome to CineGo , ${user.firstName} 🙏 </h1>'
+                    '<h1>🙏 Welcome to CineGo , ' + user.firstName + ' 🙏 </h1>'
                 );
             } else {
-
                 $('#AuthSection').html(
                     '<li class="nav-item"><a href = "SignUp.html"><span class="glyphicon glyphicon-user">SignUp</span> </a> </li>' +
                     '<li class="nav-item"><a href = "Login.html"><span class="glyphicon glyphicon-log-in">Login</span> </a> </li>'
                 );
 
                 $('#welcomeMessage').html(
-                    '<h1 id="welcomeMessage">🙏 Welcome to CineGo 🙏 </h1>'
+                    '<h1>🙏 Welcome to CineGo 🙏 </h1>'
                 );
             }
         }
 
-        $('#logoutBtn').on("click",function (event) {
+        $(document).on("click", "#logoutBtn", function (event) {
             event.preventDefault();
 
             $.ajax({
@@ -108,7 +113,7 @@
                 success: function (response) {
                     alert(response.message);
                     console.log("Logged Out Successfully !!!");
-                    updateNavBar();
+                    updateNavBar(null);
                 },
                 error: function (xhr) {
                     let response = JSON.parse(xhr.responseText);

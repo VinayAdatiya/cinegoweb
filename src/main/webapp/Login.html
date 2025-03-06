@@ -85,7 +85,23 @@
                 data: JSON.stringify(userData),
                 success: function (response) {
                     alert(response.message);
-                    window.location.href = "HomePage.html";
+                    if (response.data) {
+                        let redirectUrl;
+                        switch (response.data) {
+                            case 1:
+                                redirectUrl = "SuperAdminHome.html";
+                                break;
+                            case 2:
+                                redirectUrl = "TheatreAdminHome.html";
+                                break;
+                            case 3:
+                                redirectUrl = "HomePage.html";
+                                break;
+                            default:
+                                redirectUrl = "HomePage.html";
+                        }
+                        window.location.href = redirectUrl;
+                    }
                     console.log("Registered Successfully !!!");
                 },
                 error: function (xhr) {

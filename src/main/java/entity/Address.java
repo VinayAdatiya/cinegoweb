@@ -25,6 +25,10 @@ public class Address {
         this.city = city;
     }
 
+    public Address(int addressId) {
+        this.addressId = addressId;
+    }
+
     public int getAddressId() {
         return addressId;
     }

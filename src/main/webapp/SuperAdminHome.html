@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Admin Dashboard - CineGo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            background-color: #e0f7fa; /* Light Teal */
+            font-family: 'Montserrat', sans-serif;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #263238; /* Dark Grey */
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: white;
+            padding: 12px 20px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: #37474f; /* Lighter Dark Grey */
+            text-decoration: none;
+        }
+        .content {
+            padding: 30px;
+        }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .modal-content {
+            border-radius: 15px;
+        }
+        .modal-header {
+            background-color: #00897b; /* Teal */
+            color: white;
+            border-bottom: none;
+        }
+        .modal-title {
+            font-weight: 600;
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        .btn-primary {
+            background-color: #00897b;
+            border-color: #00897b;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #00695c;
+            border-color: #00695c;
+        }
+        .feature-box {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .feature-box img {
+            max-width: 100px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky">
+                <a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" data-toggle="modal" data-target="#addTheatreAdminModal"><i class="fas fa-user-plus"></i> Add Theatre Admin</a>
+                <a href="#" data-toggle="modal" data-target="#addTheatreModal"><i class="fas fa-film"></i> Add Theatre</a>
+            </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2 animate__animated animate__fadeIn">Super Admin Dashboard</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card animate__animated animate__fadeInUp">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-users"></i> Total Theatre Admins</h5>
+                            <p class="card-text">15</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card animate__animated animate__fadeInUp animate__delay-1s">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-video"></i> Total Theatres</h5>
+                            <p class="card-text">50</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-box animate__animated animate__fadeInLeft">
+                        <img src="https://via.placeholder.com/100?text=Admin" alt="Admin Icon">
+                        <h5>Manage Theatre Admins</h5>
+                        <p>Add, edit, or remove theatre admins.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box animate__animated animate__fadeInUp">
+                        <img src="https://via.placeholder.com/100?text=Theatre" alt="Theatre Icon">
+                        <h5>Manage Theatres</h5>
+                        <p>Add new theatres and assign admins.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // JavaScript functionality (same as before)
+</script>
+</body>
+</html>

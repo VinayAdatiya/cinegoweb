@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- Bootstrap's Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- JQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Bootstrap's Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <title>CineGo Login</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .login-card {
+            width: 350px;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="login-card">
+    <h1 class="text-center mb-4">CineGo</h1>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+<!--        <div class="form-group form-check">-->
+<!--            <input type="checkbox" class="form-check-input" id="remember">-->
+<!--            <label class="form-check-label" for="remember">Remember me</label>-->
+<!--        </div>-->
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+    <div class="signup-link">
+        <p>
+            New user?
+            <a href="SignUp.html">Sign up</a>
+        </p>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#loginForm").submit(function (event) {
+
+            // Prevents form from auto submission while reload
+            event.preventDefault();
+
+            let userData = {
+                email: $('#email').val(),
+                password: $('#password').val()
+            };
+            // console.log(userData);
+            $.ajax({
+                type: "POST",
+                url: "login",
+                contentType: "application/json",
+                data: JSON.stringify(userData),
+                success: function (response) {
+                    alert(response.message);
+                    window.location.href = "HomePage.html";
+                    console.log("Registered Successfully !!!");
+                },
+                error: function (xhr) {
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert("SignUp Failed :- " + response.message);
+                    } catch (e) {
+                        alert("Signup Failed !!! ")
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>

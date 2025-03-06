@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- Bootstrap's Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- JQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Bootstrap's Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <title>CineGo Sign Up</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .signup-card {
+            width: 450px;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+<div class="signup-card">
+    <h1 class="text-center mb-4">CineGo Sign Up</h1>
+    <form id="signupForm" action="">
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="firstName">First Name:</label>
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="lastName">Last Name:</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone Number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="addressLine1">Address Line 1:</label>
+            <input type="text" class="form-control" id="addressLine1" placeholder="Address Line 1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="addressLine2">Address Line 2:</label>
+            <input type="text" class="form-control" id="addressLine2" placeholder="Address Line 2">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="pincode">Pincode:</label>
+                <input type="text" class="form-control" id="pincode" placeholder="Pincode" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="cityId">City:</label>
+                <select class="form-control" id="cityId" required>
+                    <option value="">Select City</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Sign Up</button>
+    </form>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "FetchCity",
+            type: "GET",
+            success: function (data) {
+                let cityDropdown = $('#cityId');
+                cityDropdown.empty();
+                cityDropdown.append('<option value="">Select City</option>');
+                $.each(data, function (index, city) {
+                    cityDropdown.append('<option value="' + city.cityId + '">' + city.cityName + '</option>');
+                });
+            },
+            error: function () {
+                alert("Failed to Load Cities");
+            }
+        });
+
+
+        $("#signupForm").submit(function (event) {
+
+            // Prevents form from auto submission while reload
+            event.preventDefault();
+
+            let userData = {
+                username: $('#username').val(),
+                password: $('#password').val(),
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val(),
+                email: $('#email').val(),
+                phoneNumber: $('#phoneNumber').val(),
+                address: {
+                    addressLine1: $('#addressLine1').val(),
+                    addressLine2: $('#addressLine2').val(),
+                    pincode: $('#pincode').val(),
+                    city: {
+                        cityId: $('#cityId').val()
+                    }
+                },
+                roleId: 3
+            };
+            // console.log(userData);
+            $.ajax({
+                type: "POST",
+                url: "signup",
+                contentType: "application/json",
+                data: JSON.stringify(userData),
+                success: function (response) {
+                    alert(response.message);
+                    window.location.href = "Login.html";
+                    console.log("Registered Successfully !!!");
+                },
+                error: function (xhr) {
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert("SignUp Failed :- " + response.message);
+                    } catch (e) {
+                        alert("Signup Failed !!! ")
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>

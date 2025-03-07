@@ -4,40 +4,40 @@ import common.AppConstant;
 import common.Message;
 import common.ObjectMapperUtil;
 import common.exception.ApplicationException;
-import common.exception.DBException;
-import dao.AddressDao;
-import dao.UserDao;
-import entity.User;
+import dao.TheaterDao;
+import entity.Theater;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ApiResponse;
-import servlets.validation.SignUpValidator;
-
 import java.io.IOException;
+import dao.AddressDao;
+import dao.UserDao;
+import entity.User;
 
-public class SignUpServlet extends HttpServlet {
+public class AddTheaterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
-        response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
+        response.setCharacterEncoding(AppConstant.CONTENT_TYPE_JSON);
         ApiResponse apiResponse;
         try {
-            // Parse JSON request body into User object
-            User user = ObjectMapperUtil.toObject(request.getReader(), User.class);
-            SignUpValidator.validateSignup(user);
-            // Insert address first to get addressId
-            int addressId = AddressDao.insertAddress(user.getAddress());
-            // Updating user with generated addressId
-            user.getAddress().setAddressId(addressId);
-            UserDao.registerUser(user);
-            apiResponse = new ApiResponse(Message.Success.SIGNUP_SUCCESS, null);
+            Theater theater = ObjectMapperUtil.toObject(request.getReader(), Theater.class);
+            // Fetch Theater Admin
+            User theaterAdmin = UserDao.authenticateUser(theater.getTheaterAdmin().getEmail(),theater.getTheaterAdmin().getPassword());
+            if (theaterAdmin == null || theaterAdmin.getRole().getRoleId() != 2) {
+                throw new ApplicationException("Theater Admin not found");
+            }
+            theater.setTheaterAdmin(theaterAdmin);
+            // Insert address
+            int addressId = AddressDao.insertAddress(theater.getTheaterAddress());
+            theater.getTheaterAddress().setAddressId(addressId);
+            // Add theater
+            TheaterDao.addTheater(theater);
+            apiResponse = new ApiResponse(Message.Success.THEATER_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
-        } catch (DBException e) {
-            apiResponse = new ApiResponse("", null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (ApplicationException e) {
-            apiResponse = new ApiResponse(e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.THEATER_FAILED, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
             apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);

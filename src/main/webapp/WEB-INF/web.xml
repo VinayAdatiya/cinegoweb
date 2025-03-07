@@ -78,4 +78,14 @@
         <servlet-name>FetchCityServlet</servlet-name>
         <url-pattern>/FetchCity</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>AddTheaterServlet</servlet-name>
+        <servlet-class>servlets.AddTheaterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTheaterServlet</servlet-name>
+        <url-pattern>/addTheater</url-pattern>
+    </servlet-mapping>
 </web-app>

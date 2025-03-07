@@ -10,8 +10,6 @@ public class City {
         this.cityName = city_name;
     }
 
-
-
     public City(int cityId) {
         this.cityId = cityId;
     }

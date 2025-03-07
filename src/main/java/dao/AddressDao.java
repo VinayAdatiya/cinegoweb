@@ -18,7 +18,7 @@ public class AddressDao {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
-            connection = DBConnection.getConnection();
+            connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, address.getAddressLine1());
             preparedStatement.setString(2, address.getAddressLine2());
@@ -32,12 +32,11 @@ public class AddressDao {
                     // System.out.println(addressId);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new ApplicationException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(rs,preparedStatement,connection);
         }
         return addressId;
-
     }
 }

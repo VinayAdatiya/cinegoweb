@@ -1,7 +1,10 @@
 package servlets;
 
+import common.AppConstant;
 import common.Message;
 import common.ObjectMapperUtil;
+import common.exception.ApplicationException;
+import common.exception.DBException;
 import dao.UserDao;
 import entity.User;
 import jakarta.servlet.http.HttpServlet;
@@ -14,8 +17,8 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        response.setContentType(AppConstant.CONTENT_TYPE_JSON);
+        response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
             // Parse JSON request body into User object
@@ -24,7 +27,13 @@ public class LoginServlet extends HttpServlet {
             User user = UserDao.authenticateUser(userRequest.getEmail(), userRequest.getPassword());
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, user.getRoleId());
+            apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, user.getRole().getRoleId());
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (DBException e) {
+            apiResponse = new ApiResponse("Database error: " + e.getMessage(), null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (ApplicationException e) {
+            apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);

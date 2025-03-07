@@ -10,7 +10,9 @@ public class SignUpValidator {
 
     public static void validateSignup(User user) throws ApplicationException {
 
-        if (user.getUsername() == null || user.getPassword() == null || user.getEmail() == null || user.getPhoneNumber() == null || user.getAddress().getAddressLine1() == null || user.getAddress().getPincode() == 0 || user.getAddress().getCity().getCityId() == 0) {
+        if (user.getUsername() == null || user.getPassword() == null || user.getEmail() == null || user.getPhoneNumber() == null
+                || user.getAddress().getAddressLine1() == null || user.getAddress().getPincode() == 0
+                || user.getAddress().getCity().getCityId() == 0) {
             throw new ApplicationException(Message.Error.REQUIRED_FIELD_MISSING);
         }
 

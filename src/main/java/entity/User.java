@@ -1,5 +1,7 @@
 package entity;
 
+import common.Role;
+
 public class User {
     private int userId;
     private String username;
@@ -9,11 +11,11 @@ public class User {
     private String email;
     private String phoneNumber;
     private Address address;
-    private int roleId;
+    private Role role;
 
     public User() {}
 
-    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Address address, int roleId) {
+    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Address address,Role role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -21,7 +23,7 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.roleId = roleId;
+        this.role = role;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address=" + address +
-                ", roleId=" + roleId +
+                ", roleId=" + role.getRoleId() +
                 '}';
     }
 
@@ -103,11 +105,11 @@ public class User {
         this.address = address;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

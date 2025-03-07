@@ -8,6 +8,8 @@ public class Message {
         public static final String SIGNUP_SUCCESS = "Signup Completed Successfully!";
         public static final String LOGOUT_SUCCESS = "Logout Successful!";
         public static final String PROFILE_UPDATED = "Profile Updated Successfully!";
+        public static final String THEATER_SUCCESS = "Theater added Successfully!";
+        public static final String THEATER_ADMIN_REGISTERED = "Theater Admin registered successfully";
     }
 
     public static class Error {
@@ -32,5 +34,8 @@ public class Message {
         public static final String PHONE_TOO_LONG = "Phone number is too long";
         public static final String ADDRESS_TOO_LONG = "Address is too long";
         public static final String PIN_CODE_INVALID = "Pin code must be numeric!";
+        public static final String THEATER_FAILED = "Failed to list Theater!";
+        public static final String THEATER_ADMIN_FAILED = "Failed to register Theater Admin";
+        public static final String NO_RECORD_FOUND = "No Record Found";
     }
 }

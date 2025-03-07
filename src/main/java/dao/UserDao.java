@@ -1,24 +1,26 @@
 package dao;
 
+import common.Message;
+import common.Role;
+import common.exception.ApplicationException;
+import common.exception.DBException;
 import entity.Address;
-import entity.City;
 import entity.User;
 import utils.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    public static boolean registerUser(User user) {
+    public static void registerUser(User user) {
         String query = "INSERT INTO users (username , password , first_name , last_name  , email  , phone_number ,address_id ,created_by , role_id) " +
                 "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection = DBConnection.getConnection();
+            connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
@@ -28,11 +30,10 @@ public class UserDao {
             preparedStatement.setString(6, user.getPhoneNumber());
             preparedStatement.setInt(7, user.getAddress().getAddressId());
             preparedStatement.setInt(8, 1); // Default Created By 1 (Super Admin)
-            preparedStatement.setInt(9, user.getRoleId());
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            preparedStatement.setInt(9, user.getRole().getRoleId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(e);
         } finally {
             DBConnection.closeResources(null, preparedStatement, connection);
         }
@@ -46,7 +47,7 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
-            connection = DBConnection.getConnection();
+            connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
@@ -60,31 +61,35 @@ public class UserDao {
                 user.setEmail(rs.getString("email"));
                 user.setPhoneNumber(rs.getString("phone_number"));
                 user.setAddress(new Address(rs.getInt("address_id")));
-                user.setRoleId(rs.getInt("role_id"));
+                int roleId= rs.getInt("role_id");
+                user.setRole(Role.getRole(roleId));
+//                if(Role.ROLE_CUSTOMER.getRoleId() == roleId) {
+//                    user.setRole(Role.ROLE_CUSTOMER);
+//                }
                 return user;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR,e);
         } finally {
             DBConnection.closeResources(rs, preparedStatement, connection);
         }
         return null;
     }
 
-    private static boolean dataExistence(String email, String query) {
+    private static boolean dataExistence(String value, String query) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
-            connection = DBConnection.getConnection();
+            connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, value);
             rs = preparedStatement.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 return true;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new ApplicationException(Message.Error.INTERNAL_ERROR);
         } finally {
             DBConnection.closeResources(rs, preparedStatement, connection);
         }

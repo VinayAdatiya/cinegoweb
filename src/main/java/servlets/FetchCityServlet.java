@@ -1,6 +1,7 @@
 package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.AppConstant;
 import dao.CityDao;
 import entity.City;
 import jakarta.servlet.http.HttpServlet;
@@ -12,8 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class FetchCityServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        response.setContentType(AppConstant.CONTENT_TYPE_JSON);
+        response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
 
         System.out.println("Fetching cities....");
         List<City> cities = CityDao.getAllCities();

@@ -1,33 +1,39 @@
 package utils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 
 public class DBConnection {
-    private static String dbUrl;
-    private static String dbUsername;
-    private static String dbPassword;
-    private static String dbDriver;
 
-    public static void setDBConfig(String url , String username , String password , String driver ){
+    public static DBConnection INSTANCE = null;
+
+    private String dbUrl;
+    private String dbUsername;
+    private String dbPassword;
+    private String dbDriver;
+
+    private DBConnection(String url, String username, String password, String driver) throws SQLException, ClassNotFoundException {
         dbUrl = url;
         dbUsername = username;
         dbPassword = password;
         dbDriver = driver;
     }
 
-    public static Connection getConnection() {
-        Connection connection = null;
-        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
-            // Load the JDBC driver
-            Class.forName(dbDriver);
-            // Establish the connection
-            connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-        } catch (IOException | ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+    public static DBConnection getInstance(String url, String username, String password, String driver) throws SQLException, ClassNotFoundException {
+        if (INSTANCE == null) {
+            INSTANCE = new DBConnection(url,username,password,driver);
         }
-        return connection;
+        return INSTANCE;
+    }
+
+    public void validateConnection() throws SQLException, ClassNotFoundException {
+        getConnection();
+    }
+
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+        // Load the JDBC driver
+        Class.forName(this.dbDriver);
+        // Establish the connection
+        return DriverManager.getConnection(this.dbUrl, this.dbUsername, this.dbPassword);
     }
 
     public static void closeResources(ResultSet rs, PreparedStatement preparedStatement, Connection connection) {

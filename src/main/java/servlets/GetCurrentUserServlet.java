@@ -2,6 +2,8 @@ package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.AppConstant;
+import common.Message;
+import common.ObjectMapperUtil;
 import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -17,8 +19,6 @@ public class GetCurrentUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-
-        ObjectMapper objectMapper = new ObjectMapper();
         ApiResponse apiResponse;
         HttpSession session = request.getSession(false);
         User user = null;
@@ -26,12 +26,12 @@ public class GetCurrentUserServlet extends HttpServlet {
             user = (User) session.getAttribute("user");
         }
         if (user != null) {
-            apiResponse = new ApiResponse("User Found ", user);
+            apiResponse = new ApiResponse(Message.Success.USER_FOUND, user);
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            apiResponse = new ApiResponse("No User Logged In Found", null);
+            apiResponse = new ApiResponse(Message.Error.USER_NOT_FOUND, null);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

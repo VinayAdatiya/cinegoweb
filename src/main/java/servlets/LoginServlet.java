@@ -21,7 +21,6 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            // Parse JSON request body into User object
             User userRequest = ObjectMapperUtil.toObject(request.getReader(), User.class);
             LoginValidator.validateLogin(userRequest);
             User user = UserDao.authenticateUser(userRequest.getEmail(), userRequest.getPassword());

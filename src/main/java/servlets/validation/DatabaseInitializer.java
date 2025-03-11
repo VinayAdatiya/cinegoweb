@@ -3,15 +3,13 @@ package servlets.validation;
 import common.Message;
 import common.exception.ApplicationException;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import utils.DBConnection;
 import java.sql.SQLException;
 
-public class DBValidator extends HttpServlet {
-
+public class DatabaseInitializer extends HttpServlet {
     @Override
-    public void init() throws ServletException {
+    public void init() {
         ServletContext context = getServletConfig().getServletContext();
         try {
             String url = context.getInitParameter("db.url");

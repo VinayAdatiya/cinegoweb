@@ -5,6 +5,8 @@ public class City {
     private String cityName;
     private State state;
 
+    public City(){}
+
     public City(int city_id, String city_name) {
         this.cityId = city_id;
         this.cityName = city_name;

@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>DBValidator</servlet-name>
-        <servlet-class>servlets.validation.DBValidator</servlet-class>
+        <servlet-class>servlets.validation.DatabaseInitializer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -87,5 +87,14 @@
     <servlet-mapping>
         <servlet-name>AddTheaterServlet</servlet-name>
         <url-pattern>/addTheater</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddTheaterAdminServlet</servlet-name>
+        <servlet-class>servlets.AddTheaterAdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTheaterAdminServlet</servlet-name>
+        <url-pattern>/addTheaterAdmin</url-pattern>
     </servlet-mapping>
 </web-app>

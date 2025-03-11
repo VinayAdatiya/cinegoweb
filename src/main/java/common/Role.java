@@ -8,9 +8,9 @@ public enum Role {
     ROLE_THEATER_ADMIN(2),
     ROLE_CUSTOMER(3);
 
-    private final int roleId; // Make it final for immutability
+    private final int roleId;
     Role(int roleId) {
-        this.roleId = roleId; // Use 'this' to refer to the instance variable
+        this.roleId = roleId;
     }
 
     public int getRoleId() {

@@ -10,6 +10,7 @@ public class Message {
         public static final String PROFILE_UPDATED = "Profile Updated Successfully!";
         public static final String THEATER_SUCCESS = "Theater added Successfully!";
         public static final String THEATER_ADMIN_REGISTERED = "Theater Admin registered successfully";
+        public static final String USER_FOUND = "User fetched successfully";
     }
 
     public static class Error {
@@ -20,7 +21,7 @@ public class Message {
         public static final String INVALID_CREDENTIALS = "Invalid email or password!";
         public static final String USER_NOT_FOUND = "User not found!";
         public static final String SESSION_EXPIRED = "Session expired! Please login again.";
-        public static final String INTERNAL_ERROR = "Something went wrong. Please try again later.";
+        public static final String INTERNAL_ERROR = "Something went wrong on our end. Please try again later.";
         public static final String EMAIL_REQUIRED = "Email is required!";
         public static final String EMAIL_INVALID = "Invalid email format!";
         public static final String EMAIL_TOO_LONG = "Email length cannot exceed 50 characters!";
@@ -34,7 +35,10 @@ public class Message {
         public static final String PHONE_TOO_LONG = "Phone number is too long";
         public static final String ADDRESS_TOO_LONG = "Address is too long";
         public static final String PIN_CODE_INVALID = "Pin code must be numeric!";
+        public static final String PINCODE_INVALID = "Please enter a valid pincode";
+        public static final String THEATER_NAME_TOO_LONG = "Theater name is too long! It cannot exceed 30 characters!";
         public static final String THEATER_FAILED = "Failed to list Theater!";
+        public static final String THEATER_ADMIN_NOT_FOUND = "Theater Admin not found";
         public static final String THEATER_ADMIN_FAILED = "Failed to register Theater Admin";
         public static final String NO_RECORD_FOUND = "No Record Found";
     }

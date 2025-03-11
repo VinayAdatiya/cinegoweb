@@ -2,8 +2,6 @@ package common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.ApiResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -14,7 +12,7 @@ public class ObjectMapperUtil {
         return objectMapper.readValue(reader, targetType);
     }
 
-    public static String toString(ApiResponse apiResponse) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(apiResponse);
+    public static <T> String toString(T object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(object);
     }
 }

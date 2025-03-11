@@ -1,8 +1,8 @@
 package servlets;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import common.AppConstant;
-import jakarta.servlet.ServletException;
+import common.Message;
+import common.ObjectMapperUtil;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,22 +12,19 @@ import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-
-        ObjectMapper objectMapper = new ObjectMapper();
         ApiResponse apiResponse;
-
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
-            apiResponse = new ApiResponse("Logged Out Successfully !!!", null);
+            apiResponse = new ApiResponse(Message.Success.LOGOUT_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            apiResponse = new ApiResponse("Logged Out Failed !!!", null);
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

@@ -7,7 +7,8 @@ public class Theater {
     private Double theaterRating;
     private Address theaterAddress;
 
-    public Theater() {}
+    public Theater() {
+    }
 
     public Theater(int theaterId, User theaterAdmin, String theaterName, Double theaterRating, Address theaterAddress) {
         this.theaterId = theaterId;
@@ -15,6 +16,17 @@ public class Theater {
         this.theaterName = theaterName;
         this.theaterRating = theaterRating;
         this.theaterAddress = theaterAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Theater{" +
+                "theaterId=" + theaterId +
+                ", theaterAdmin=" + theaterAdmin +
+                ", theaterName='" + theaterName + '\'' +
+                ", theaterRating=" + theaterRating +
+                ", theaterAddress=" + theaterAddress +
+                '}';
     }
 
     public int getTheaterId() {

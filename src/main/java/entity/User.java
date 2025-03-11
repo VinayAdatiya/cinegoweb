@@ -37,7 +37,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address=" + address +
-                ", roleId=" + role.getRoleId() +
+                ", role=" + role+
                 '}';
     }
 

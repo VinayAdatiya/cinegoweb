@@ -1,6 +1,10 @@
 package dao;
 
+import common.Message;
+import common.exception.ApplicationException;
+import common.exception.DBException;
 import entity.Theater;
+import entity.User;
 import utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +14,7 @@ import java.sql.ResultSet;
 
 public class TheaterDao {
 
-    public static void addTheater(Theater theater) {
+    public static void addTheater(Theater theater) throws SQLException {
         String query = "INSERT INTO theater (theater_admin, theater_name, theater_rating, address_id, created_by) VALUES (?, ?, ?, ?, ?)";
 
         Connection connection = null;
@@ -18,6 +22,17 @@ public class TheaterDao {
         ResultSet generatedKeys = null;
         try {
             connection = DBConnection.INSTANCE.getConnection();
+            connection.setAutoCommit(false);
+            // Fetch Theater Admin
+            User theaterAdmin = UserDao.authenticateUser(theater.getTheaterAdmin().getEmail(),theater.getTheaterAdmin().getPassword());
+            if (theaterAdmin.getRole().getRoleId() != 2) {
+                throw new ApplicationException(Message.Error.THEATER_ADMIN_NOT_FOUND);
+            }
+            theater.setTheaterAdmin(theaterAdmin);
+            // Insert theaterAddress
+            int addressId = AddressDao.insertAddress(theater.getTheaterAddress(),connection);
+            theater.getTheaterAddress().setAddressId(addressId);
+            // Add theater
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS); // Get generated keys
             preparedStatement.setInt(1, theater.getTheaterAdmin().getUserId());
             preparedStatement.setString(2, theater.getTheaterName());
@@ -32,8 +47,11 @@ public class TheaterDao {
                     theater.setTheaterId(generatedTheaterId);
                 }
             }
-        } catch (SQLException | ClassNotFoundException e) {
+            connection.commit();
+        } catch (Exception e) {
             e.printStackTrace();
+            connection.rollback();
+            throw new DBException(Message.Error.INTERNAL_ERROR , e);
         } finally {
             DBConnection.closeResources(generatedKeys, preparedStatement, connection);
         }

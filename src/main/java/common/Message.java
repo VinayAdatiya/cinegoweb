@@ -11,6 +11,12 @@ public class Message {
         public static final String THEATER_SUCCESS = "Theater added Successfully!";
         public static final String THEATER_ADMIN_REGISTERED = "Theater Admin registered successfully";
         public static final String USER_FOUND = "User fetched successfully";
+        public static final String MOVIE_ADDED = "Movie added successfully.";
+        public static final String CREW_ADDED = "Crew member added successfully.";
+        public static final String MOVIE_CREW_ADDED = "Movie crew members added successfully.";
+        public static final String MOVIE_LANGUAGES_ADDED = "Movie languages added successfully.";
+        public static final String MOVIE_GENRES_ADDED = "Movie genres added successfully.";
+        public static final String MOVIE_FORMATS_ADDED = "Movie formats added successfully.";
     }
 
     public static class Error {
@@ -41,5 +47,24 @@ public class Message {
         public static final String THEATER_ADMIN_NOT_FOUND = "Theater Admin not found";
         public static final String THEATER_ADMIN_FAILED = "Failed to register Theater Admin";
         public static final String NO_RECORD_FOUND = "No Record Found";
+        public static final String MOVIE_TITLE_REQUIRED = "Movie title is required.";
+        public static final String MOVIE_RATING_INVALID = "Movie rating is invalid. It must be between 0 and 10.";
+        public static final String MOVIE_DURATION_REQUIRED = "Movie duration is required.";
+        public static final String MOVIE_DURATION_INVALID = "Movie duration is invalid. It must be in HH:MM:SS format.";
+        public static final String MOVIE_RELEASE_DATE_REQUIRED = "Movie release date is required.";
+        public static final String MOVIE_RELEASE_DATE_FUTURE = "Movie release date cannot be in the future.";
+        public static final String CREW_NAME_REQUIRED = "Crew Name is Required";
+        public static final String MOVIE_CREW_ENTRIES_INVALID = "Movie crew entries are invalid.";
+        public static final String MOVIE_CREW_ENTRY_INVALID = "Movie crew entry is invalid.";
+        public static final String MOVIE_LANGUAGES_LIST_NULL = "Movie languages list is null.";
+        public static final String MOVIE_ID_INVALID = "Movie ID is invalid.";
+        public static final String MOVIE_LANGUAGES_EMPTY = "Movie languages list is empty.";
+        public static final String LANGUAGE_ID_INVALID = "Language ID is invalid.";
+        public static final String MOVIE_GENRES_LIST_NULL = "Movie genres list is null.";
+        public static final String MOVIE_GENRES_EMPTY = "Movie genres list is empty.";
+        public static final String GENRE_ID_INVALID = "Genre ID is invalid.";
+        public static final String MOVIE_FORMATS_LIST_NULL = "Movie formats list is null.";
+        public static final String MOVIE_FORMATS_EMPTY = "Movie formats list is empty.";
+        public static final String FORMAT_ID_INVALID = "Format ID is invalid.";
     }
 }

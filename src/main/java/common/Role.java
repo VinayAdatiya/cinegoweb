@@ -20,7 +20,6 @@ public enum Role {
     public static Role getRole(int roleId) {
         return Arrays.stream(Role.values())
                 .filter(role -> role.getRoleId() == roleId)
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 }

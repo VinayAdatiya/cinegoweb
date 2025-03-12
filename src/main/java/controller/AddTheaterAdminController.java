@@ -1,4 +1,4 @@
-package servlets;
+package controller;
 
 import common.AppConstant;
 import common.Message;
@@ -12,13 +12,15 @@ import model.ApiResponse;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import servlets.validation.SignUpValidator;
+import controller.validation.SignUpValidator;
+import utils.AuthenticateUtil;
 import java.io.IOException;
 
-public class AddTheaterAdminServlet extends HttpServlet {
+public class AddTheaterAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
+        AuthenticateUtil.authorize(request,Role.ROLE_SUPER_ADMIN);
         ApiResponse apiResponse;
         try {
             User user = ObjectMapperUtil.toObject(request.getReader(), User.class);

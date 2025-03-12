@@ -1,5 +1,5 @@
-// servlets/AddMovieServlet.java
-package servlets;
+// servlets/AddMovieGenresServlet.java (Updated)
+package controller;
 
 import common.AppConstant;
 import common.Message;
@@ -8,32 +8,39 @@ import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.MovieDao;
-import entity.Movie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ApiResponse;
-import servlets.validation.MovieValidator;
+import controller.validation.MovieGenresValidator;
+import utils.AuthenticateUtil;
+import utils.DBConnection;
 import java.io.IOException;
+import java.sql.Connection;
 
-public class AddMovieServlet extends HttpServlet {
+public class AddMovieGenresController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-
+        AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
         ApiResponse apiResponse;
         try {
-            Movie movie = ObjectMapperUtil.toObject(request.getReader(), Movie.class);
-            MovieValidator.validateMovie(movie);
-            movie.setCreatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
-            MovieDao.addMovie(movie);
-            apiResponse = new ApiResponse(Message.Success.MOVIE_ADDED, null);
-            response.setStatus(HttpServletResponse.SC_CREATED);
+            MovieGenresValidator.MovieGenreList movieGenreList = ObjectMapperUtil.toObject(request.getReader(), MovieGenresValidator.MovieGenreList.class);
+            MovieGenresValidator.validateMovieGenreList(movieGenreList);
 
-        } catch (DBException e) {
-            apiResponse = new ApiResponse("Database Error: " + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            try (Connection connection = DBConnection.INSTANCE.getConnection()) {
+                MovieDao.addMovieGenres(movieGenreList.getMovieId(), movieGenreList.getGenreIds(), connection);
+                apiResponse = new ApiResponse(Message.Success.MOVIE_GENRES_ADDED, null);
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } catch (DBException e) {
+                apiResponse = new ApiResponse("Database Error: " + e.getMessage(), null);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } catch (ClassNotFoundException e) {
+                apiResponse = new ApiResponse("Class not found: " + e.getMessage(), null);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

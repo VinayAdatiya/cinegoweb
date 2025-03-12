@@ -4,6 +4,7 @@ package entity;
 import java.util.List;
 
 public class MovieCrewEntry {
+
     private int movieId;
     private int crewId;
     private int designationId;

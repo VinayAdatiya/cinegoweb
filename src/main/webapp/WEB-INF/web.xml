@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>DBValidator</servlet-name>
-        <servlet-class>servlets.validation.DatabaseInitializer</servlet-class>
+        <servlet-class>controller.validation.DatabaseInitializer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -36,7 +36,7 @@
 
     <servlet>
         <servlet-name>SignUpServlet</servlet-name>
-        <servlet-class>servlets.SignUpServlet</servlet-class>
+        <servlet-class>controller.SignUpController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
@@ -45,7 +45,7 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>servlets.LoginServlet</servlet-class>
+        <servlet-class>controller.LoginController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -54,7 +54,7 @@
 
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>servlets.LogoutServlet</servlet-class>
+        <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
@@ -63,7 +63,7 @@
 
     <servlet>
         <servlet-name>GetCurrentUserServlet</servlet-name>
-        <servlet-class>servlets.GetCurrentUserServlet</servlet-class>
+        <servlet-class>controller.GetCurrentUserController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetCurrentUserServlet</servlet-name>
@@ -72,7 +72,7 @@
 
     <servlet>
         <servlet-name>FetchCityServlet</servlet-name>
-        <servlet-class>servlets.FetchCityServlet</servlet-class>
+        <servlet-class>controller.FetchCityController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FetchCityServlet</servlet-name>
@@ -82,7 +82,7 @@
 
     <servlet>
         <servlet-name>AddTheaterServlet</servlet-name>
-        <servlet-class>servlets.AddTheaterServlet</servlet-class>
+        <servlet-class>controller.AddTheaterController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddTheaterServlet</servlet-name>
@@ -91,10 +91,100 @@
 
     <servlet>
         <servlet-name>AddTheaterAdminServlet</servlet-name>
-        <servlet-class>servlets.AddTheaterAdminServlet</servlet-class>
+        <servlet-class>controller.AddTheaterAdminController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddTheaterAdminServlet</servlet-name>
         <url-pattern>/addTheaterAdmin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddCrewServlet</servlet-name>
+        <servlet-class>controller.AddCrewController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCrewServlet</servlet-name>
+        <url-pattern>/addCrew</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMovieCrewServlet</servlet-name>
+        <servlet-class>controller.AddMovieCrewController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMovieCrewServlet</servlet-name>
+        <url-pattern>/addMovieCrew</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMovieFormatsServlet</servlet-name>
+        <servlet-class>controller.AddMovieFormatsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMovieFormatsServlet</servlet-name>
+        <url-pattern>/addMovieFormats</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMovieGenresServlet</servlet-name>
+        <servlet-class>controller.AddMovieGenresController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMovieGenresServlet</servlet-name>
+        <url-pattern>/addMovieGenres</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMovieLanguagesServlet</servlet-name>
+        <servlet-class>controller.AddMovieLanguagesController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMovieLanguagesServlet</servlet-name>
+        <url-pattern>/addMovieLanguages</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMovieServlet</servlet-name>
+        <servlet-class>controller.AddMovieController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMovieServlet</servlet-name>
+        <url-pattern>/addMovie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetCrewAndDesignationsServlet</servlet-name>
+        <servlet-class>controller.GetCrewAndDesignationsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCrewAndDesignationsServlet</servlet-name>
+        <url-pattern>/getCrewAndDesignations</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FetchLanguagesServlet</servlet-name>
+        <servlet-class>controller.FetchLanguagesController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FetchLanguagesServlet</servlet-name>
+        <url-pattern>/getLanguages</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FetchGenresServlet</servlet-name>
+        <servlet-class>controller.FetchGenresController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FetchGenresServlet</servlet-name>
+        <url-pattern>/getGenres</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FetchFormatsServlet</servlet-name>
+        <servlet-class>controller.FetchFormatsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FetchFormatsServlet</servlet-name>
+        <url-pattern>/getFormats</url-pattern>
     </servlet-mapping>
 </web-app>

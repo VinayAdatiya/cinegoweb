@@ -1,9 +1,10 @@
-// servlets/AddMovieGenresServlet.java (Updated)
-package servlets;
+// servlets/AddMovieLanguagesServlet.java (Updated)
+package controller;
 
 import common.AppConstant;
 import common.Message;
 import common.ObjectMapperUtil;
+import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.MovieDao;
@@ -11,25 +12,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ApiResponse;
-import servlets.validation.MovieGenresValidator;
+import controller.validation.MovieLanguagesValidator;
+import utils.AuthenticateUtil;
 import utils.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
 
-public class AddMovieGenresServlet extends HttpServlet {
+public class AddMovieLanguagesController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-
+        AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
         ApiResponse apiResponse;
         try {
-            MovieGenresValidator.MovieGenreList movieGenreList = ObjectMapperUtil.toObject(request.getReader(), MovieGenresValidator.MovieGenreList.class);
-            MovieGenresValidator.validateMovieGenreList(movieGenreList);
+            MovieLanguagesValidator.MovieLanguageList movieLanguageList = ObjectMapperUtil.toObject(request.getReader(), MovieLanguagesValidator.MovieLanguageList.class);
+            MovieLanguagesValidator.validateMovieLanguageList(movieLanguageList);
 
             try (Connection connection = DBConnection.INSTANCE.getConnection()) {
-                MovieDao.addMovieGenres(movieGenreList.getMovieId(), movieGenreList.getGenreIds(), connection);
-                apiResponse = new ApiResponse(Message.Success.MOVIE_GENRES_ADDED, null);
+                MovieDao.addMovieLanguages(movieLanguageList.getMovieId(), movieLanguageList.getLanguageIds(), connection);
+                apiResponse = new ApiResponse(Message.Success.MOVIE_LANGUAGES_ADDED, null);
                 response.setStatus(HttpServletResponse.SC_CREATED);
             } catch (DBException e) {
                 apiResponse = new ApiResponse("Database Error: " + e.getMessage(), null);

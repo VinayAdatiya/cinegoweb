@@ -1,36 +1,73 @@
 package entity;
 
+import utils.DateTimeUtil;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.LocalDateTime;
+import java.util.List;
 
 public class Movie {
+
     private int movieId;
     private String movieTitle;
-    private Double movieRating;
+    private Float movieRating;
     private LocalTime movieDuration;
     private LocalDate movieReleaseDate;
     private String movieDescription;
-    private LocalDateTime createdOn;
-    private int createdBy;
-    private LocalDateTime updatedOn;
-    private int updatedBy;
+    private List<Integer> languageIds;
+    private List<Integer> genreIds;
+    private List<Integer> formatIds;
+    private List<MovieCrewEntry> movieCrewEntries;
 
-    // Constructors
+    public LocalDate getMovieReleaseDate() {
+        return movieReleaseDate;
+    }
+
+    public void setMovieReleaseDate(LocalDate movieReleaseDate) {
+        this.movieReleaseDate = movieReleaseDate;
+    }
+
+    public LocalTime getMovieDuration() {
+        return movieDuration;
+    }
+
+    public void setMovieDuration(LocalTime movieDuration) {
+        this.movieDuration = movieDuration;
+    }
+
+    public Date getSqlMovieReleaseDate(){
+        return DateTimeUtil.toSqlDate(this.movieReleaseDate);
+    }
+    public void setSqlMovieReleaseDate(Date sqlDate){
+        this.movieReleaseDate = DateTimeUtil.toLocalDate(sqlDate);
+    }
+
+    public Time getSqlMovieDuration(){
+        return DateTimeUtil.toSqlTime(this.movieDuration);
+    }
+
+    public void setSqlMovieDuration(Time sqlTime){
+        this.movieDuration = DateTimeUtil.toLocalTime(sqlTime);
+    }
+
     public Movie() {
     }
 
-    public Movie(int movieId) {
+    public Movie(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration,
+                 LocalDate movieReleaseDate, String movieDescription,
+                 List<Integer> languageIds, List<Integer> genreIds,
+                 List<Integer> formatIds, List<MovieCrewEntry> movieCrewEntries) {
         this.movieId = movieId;
-    }
-
-    public Movie(String movieTitle, Double movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, int createdBy) {
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;
         this.movieDuration = movieDuration;
         this.movieReleaseDate = movieReleaseDate;
         this.movieDescription = movieDescription;
-        this.createdBy = createdBy;
+        this.languageIds = languageIds;
+        this.genreIds = genreIds;
+        this.formatIds = formatIds;
+        this.movieCrewEntries = movieCrewEntries;
     }
 
     @Override
@@ -42,6 +79,10 @@ public class Movie {
                 ", movieDuration=" + movieDuration +
                 ", movieReleaseDate=" + movieReleaseDate +
                 ", movieDescription='" + movieDescription + '\'' +
+                ", languageIds=" + languageIds +
+                ", genreIds=" + genreIds +
+                ", formatIds=" + formatIds +
+                ", movieCrewEntries=" + movieCrewEntries +
                 '}';
     }
 
@@ -61,28 +102,12 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public Double getMovieRating() {
+    public Float getMovieRating() {
         return movieRating;
     }
 
-    public void setMovieRating(Double movieRating) {
+    public void setMovieRating(Float movieRating) {
         this.movieRating = movieRating;
-    }
-
-    public LocalTime getMovieDuration() {
-        return movieDuration;
-    }
-
-    public void setMovieDuration(LocalTime movieDuration) {
-        this.movieDuration = movieDuration;
-    }
-
-    public LocalDate getMovieReleaseDate() {
-        return movieReleaseDate;
-    }
-
-    public void setMovieReleaseDate(LocalDate movieReleaseDate) {
-        this.movieReleaseDate = movieReleaseDate;
     }
 
     public String getMovieDescription() {
@@ -93,35 +118,35 @@ public class Movie {
         this.movieDescription = movieDescription;
     }
 
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
+    public List<Integer> getLanguageIds() {
+        return languageIds;
     }
 
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
+    public void setLanguageIds(List<Integer> languageIds) {
+        this.languageIds = languageIds;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
+    public List<Integer> getGenreIds() {
+        return genreIds;
     }
 
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
     }
 
-    public LocalDateTime getUpdatedOn() {
-        return updatedOn;
+    public List<Integer> getFormatIds() {
+        return formatIds;
     }
 
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
+    public void setFormatIds(List<Integer> formatIds) {
+        this.formatIds = formatIds;
     }
 
-    public int getUpdatedBy() {
-        return updatedBy;
+    public List<MovieCrewEntry> getMovieCrewEntries() {
+        return movieCrewEntries;
     }
 
-    public void setUpdatedBy(int updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setMovieCrewEntries(List<MovieCrewEntry> movieCrewEntries) {
+        this.movieCrewEntries = movieCrewEntries;
     }
 }

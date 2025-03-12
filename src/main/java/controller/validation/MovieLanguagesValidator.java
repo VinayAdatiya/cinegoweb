@@ -1,5 +1,5 @@
 // servlets/validation/MovieLanguagesValidator.java
-package servlets.validation;
+package controller.validation;
 
 import common.Message;
 import common.exception.ApplicationException;

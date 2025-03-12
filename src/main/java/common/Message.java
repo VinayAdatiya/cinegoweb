@@ -17,6 +17,7 @@ public class Message {
         public static final String MOVIE_LANGUAGES_ADDED = "Movie languages added successfully.";
         public static final String MOVIE_GENRES_ADDED = "Movie genres added successfully.";
         public static final String MOVIE_FORMATS_ADDED = "Movie formats added successfully.";
+        public static final String DESIGNATIONS_FETCHED = "Designations are fetched successfully";
     }
 
     public static class Error {

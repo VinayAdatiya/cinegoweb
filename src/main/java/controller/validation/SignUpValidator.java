@@ -3,12 +3,12 @@ package controller.validation;
 import common.Message;
 import common.ValidationUtil;
 import common.exception.ApplicationException;
-import dao.UserDao;
-import entity.User;
+import model.User;
+import service.UserService;
 
 public class SignUpValidator {
 
-    public static void validateSignup(User user) throws ApplicationException {
+    public static void validateSignup(User user , UserService userService) throws ApplicationException {
 
         if (user.getUsername() == null || user.getUsername().trim().isEmpty() ||
                 user.getPassword() == null || user.getPassword().trim().isEmpty() ||
@@ -23,7 +23,7 @@ public class SignUpValidator {
             throw new ApplicationException(Message.Error.PINCODE_INVALID);
         }
 
-        if (UserDao.emailExists(user.getEmail())) {
+        if (userService.emailExists(user.getEmail())) {
             throw new ApplicationException(Message.Error.EMAIL_EXISTS);
         }
 
@@ -43,7 +43,7 @@ public class SignUpValidator {
             throw new ApplicationException(Message.Error.PASSWORD_WEAK);
         }
 
-        if (UserDao.usernameExists(user.getUsername())) {
+        if (userService.usernameExists(user.getUsername())) {
             throw new ApplicationException(Message.Error.USERNAME_EXISTS);
         }
 

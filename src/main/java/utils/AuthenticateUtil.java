@@ -3,7 +3,7 @@ package utils;
 import common.Message;
 import common.Role;
 import common.exception.ApplicationException;
-import entity.User;
+import model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 

@@ -55,7 +55,8 @@ public class Message {
         public static final String MOVIE_RELEASE_DATE_REQUIRED = "Movie release date is required.";
         public static final String MOVIE_RELEASE_DATE_FUTURE = "Movie release date cannot be in the future.";
         public static final String CREW_NAME_REQUIRED = "Crew Name is Required";
-        public static final String MOVIE_CREW_ENTRIES_INVALID = "Movie crew entries are invalid.";
+        public static final String MOVIE_CREW_ENTRIES_NULL = "Movie crew entries are null.";
+        public static final String CHARACTER_NAME_TOO_LONG = "Character name is too long.";
         public static final String MOVIE_CREW_ENTRY_INVALID = "Movie crew entry is invalid.";
         public static final String MOVIE_LANGUAGES_LIST_NULL = "Movie languages list is null.";
         public static final String MOVIE_ID_INVALID = "Movie ID is invalid.";
@@ -67,5 +68,6 @@ public class Message {
         public static final String MOVIE_FORMATS_LIST_NULL = "Movie formats list is null.";
         public static final String MOVIE_FORMATS_EMPTY = "Movie formats list is empty.";
         public static final String FORMAT_ID_INVALID = "Format ID is invalid.";
+        public static final String ID_INVALID = "Invalid Id Entry";
     }
 }

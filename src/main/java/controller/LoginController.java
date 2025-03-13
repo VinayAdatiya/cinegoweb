@@ -5,17 +5,19 @@ import common.Message;
 import common.ObjectMapperUtil;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import dao.UserDao;
-import entity.User;
+import model.User;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.ApiResponse;
+import dto.ApiResponse;
 import controller.validation.LoginValidator;
+import service.UserService;
+
 import java.io.IOException;
 
 public class LoginController extends HttpServlet {
+    private final UserService userService = new UserService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
@@ -23,7 +25,7 @@ public class LoginController extends HttpServlet {
         try {
             User userRequest = ObjectMapperUtil.toObject(request.getReader(), User.class);
             LoginValidator.validateLogin(userRequest);
-            User user = UserDao.authenticateUser(userRequest.getEmail(), userRequest.getPassword());
+            User user = userService.authenticateUser(userRequest.getEmail(), userRequest.getPassword());
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, user.getRole().getRoleId());

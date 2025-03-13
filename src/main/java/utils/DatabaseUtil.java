@@ -1,11 +1,17 @@
 package utils;
 
-import java.sql.*;
 import common.Message;
+import common.exception.ApplicationException;
 import common.exception.DBException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 public class DatabaseUtil {
-    public static boolean checkRecordExists(String tableName, String columnName, String value) {
+
+    public static <T> boolean checkRecordExists(String tableName, String columnName, T value) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -13,18 +19,32 @@ public class DatabaseUtil {
             connection = DBConnection.INSTANCE.getConnection();
             String query = "SELECT COUNT(*) FROM " + tableName + " WHERE " + columnName + " = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, value);
+
+            if (value instanceof String) {
+                preparedStatement.setString(1, (String) value);
+            } else if (value instanceof Integer) {
+                preparedStatement.setInt(1, (Integer) value);
+            } else {
+                throw new IllegalArgumentException("Unsupported Id type");
+            }
+
             rs = preparedStatement.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
-            }
-            else{
-                return false;
-            }
+            return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException | ClassNotFoundException e) {
-            throw new DBException(Message.Error.INTERNAL_ERROR , e);
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(rs, preparedStatement, connection);
+        }
+    }
+
+    public static void validateIdsExist(String tableName, String columnName, List<Integer> ids) throws ApplicationException {
+        for (Integer id : ids) {
+            if (id == null || id <= 0) {
+                throw new ApplicationException(Message.Error.ID_INVALID);
+            }
+            if (!checkRecordExists(tableName, columnName, id)) {
+                throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+            }
         }
     }
 }

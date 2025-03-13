@@ -2,7 +2,7 @@ package controller.validation;
 
 import common.Message;
 import common.exception.ApplicationException;
-import entity.Crew;
+import model.Crew;
 
 public class CrewValidator {
 

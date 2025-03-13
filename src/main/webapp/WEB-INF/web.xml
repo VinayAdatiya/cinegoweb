@@ -25,12 +25,12 @@
     </context-param>
 
     <servlet>
-        <servlet-name>DBValidator</servlet-name>
+        <servlet-name>DatabaseInitializer</servlet-name>
         <servlet-class>controller.validation.DatabaseInitializer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>DBValidator</servlet-name>
+        <servlet-name>DatabaseInitializer</servlet-name>
         <url-pattern>/dbvalidator</url-pattern>
     </servlet-mapping>
 

@@ -3,13 +3,13 @@ package controller;
 import common.AppConstant;
 import common.Message;
 import common.ObjectMapperUtil;
-import entity.User;
+import model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.ApiResponse;
+import dto.ApiResponse;
 import java.io.IOException;
 
 public class GetCurrentUserController extends HttpServlet {

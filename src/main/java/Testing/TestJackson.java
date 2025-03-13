@@ -1,7 +1,7 @@
 package Testing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.State;
+import model.State;
 
 public class TestJackson {
     public static void main(String[] args) {

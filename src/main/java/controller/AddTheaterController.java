@@ -6,27 +6,28 @@ import common.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import dao.TheaterDao;
-import entity.Theater;
+import model.Theater;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.ApiResponse;
+import dto.ApiResponse;
 import controller.validation.TheaterValidator;
+import service.TheaterService;
 import utils.AuthenticateUtil;
 
 import java.io.IOException;
 
 public class AddTheaterController extends HttpServlet {
+    private final TheaterService theaterService = new TheaterService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
         ApiResponse apiResponse;
         try {
+            AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
             Theater theater = ObjectMapperUtil.toObject(request.getReader(), Theater.class);
             TheaterValidator.validateTheater(theater);
-            TheaterDao.addTheater(theater);
+            theaterService.addTheater(theater);
             apiResponse = new ApiResponse(Message.Success.THEATER_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {

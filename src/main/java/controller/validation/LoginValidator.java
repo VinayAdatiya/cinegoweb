@@ -3,7 +3,7 @@ package controller.validation;
 import common.Message;
 import common.ValidationUtil;
 import common.exception.ApplicationException;
-import entity.User;
+import model.User;
 
 public class LoginValidator {
     public static void validateLogin(User user) throws ApplicationException {

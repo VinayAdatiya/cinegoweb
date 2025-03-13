@@ -3,7 +3,7 @@ package controller.validation;
 import common.Message;
 import common.ValidationUtil;
 import common.exception.ApplicationException;
-import entity.Theater;
+import model.Theater;
 
 public class TheaterValidator {
     public static void validateTheater(Theater theater) throws ApplicationException {

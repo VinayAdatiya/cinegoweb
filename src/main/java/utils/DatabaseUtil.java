@@ -42,7 +42,7 @@ public class DatabaseUtil {
                 throw new ApplicationException(Message.Error.ID_INVALID);
             }
             if (!checkRecordExists(tableName, columnName, id)) {
-                throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+                throw new ApplicationException(Message.Error.INVALID_INPUT);
             }
         }
     }

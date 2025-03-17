@@ -50,6 +50,7 @@ public class Message {
         public static final String THEATER_ADMIN_NOT_FOUND = "Theater Admin not found";
         public static final String THEATER_ADMIN_FAILED = "Failed to register Theater Admin";
         public static final String NO_RECORD_FOUND = "No Record Found";
+        public static final String INVALID_INPUT = "Please Enter Valid Input";
         public static final String MOVIE_TITLE_REQUIRED = "Movie title is required.";
         public static final String MOVIE_RATING_INVALID = "Movie rating is invalid. It must be between 0 and 10.";
         public static final String MOVIE_DURATION_REQUIRED = "Movie duration is required.";

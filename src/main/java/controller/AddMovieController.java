@@ -18,14 +18,15 @@ import java.io.IOException;
 
 public class AddMovieController extends HttpServlet {
     private final MovieService movieService = new MovieService();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            AuthenticateUtil.authorize(request,Role.ROLE_SUPER_ADMIN);
+            AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
             Movie movie = ObjectMapperUtil.toObject(request.getReader(), Movie.class);
-            System.out.println(movie);
+            //System.out.println(movie);
             MovieValidator.validateMovie(movie);
             int movieId = movieService.addMovie(movie);
             apiResponse = new ApiResponse(Message.Success.MOVIE_ADDED, movieId);

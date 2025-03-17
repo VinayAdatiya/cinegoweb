@@ -64,7 +64,7 @@ public class MovieValidator {
         List<Integer> designationIds = movie.getMovieCrewEntries().stream().map(MovieCrew::getDesignationId).collect(Collectors.toList());
         DatabaseUtil.validateIdsExist("crew_designation", "designation_id", designationIds);
 
-        List<String> characterNames = movie.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).toList();
+        List<String> characterNames = movie.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).collect(Collectors.toList());
         for (String cn : characterNames) {
             if (cn.length() > 30) {
                 throw new ApplicationException(Message.Error.CHARACTER_NAME_TOO_LONG);

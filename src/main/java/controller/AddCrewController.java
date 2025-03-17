@@ -8,7 +8,6 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import model.Crew;
 import java.io.IOException;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +18,8 @@ import utils.AuthenticateUtil;
 
 public class AddCrewController extends HttpServlet {
     private final CrewService crewService = new CrewService();
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
@@ -35,9 +35,6 @@ public class AddCrewController extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } catch (IOException e) {
-            apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);

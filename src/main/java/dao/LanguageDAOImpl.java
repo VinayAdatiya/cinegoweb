@@ -1,5 +1,7 @@
 package dao;
 
+import common.Message;
+import common.exception.DBException;
 import model.Language;
 import utils.DBConnection;
 import java.sql.Connection;
@@ -25,6 +27,7 @@ public class LanguageDAOImpl implements ILanguageDAO{
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            throw new DBException(Message.Error.INTERNAL_ERROR);
         } finally {
             DBConnection.closeResources(rs,preparedStatement,connection);
         }

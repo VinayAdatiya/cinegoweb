@@ -1,7 +1,10 @@
 package controller;
 
 import common.AppConstant;
+import common.Message;
 import common.ObjectMapperUtil;
+import common.exception.DBException;
+import dto.ApiResponse;
 import model.Language;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,10 +16,22 @@ import java.util.List;
 
 public class FetchLanguagesController extends HttpServlet {
     private final LanguageService languageService = new LanguageService();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ApiResponse apiResponse;
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        List<Language> languages = languageService.getAllLanguages();
-        response.getWriter().write(ObjectMapperUtil.toString(languages));
+        try {
+            List<Language> languages = languageService.getAllLanguages();
+            apiResponse = new ApiResponse(Message.Success.LANGUAGES_FOUND, languages);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (DBException e) {
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (Exception e) {
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

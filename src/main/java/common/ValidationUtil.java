@@ -1,7 +1,5 @@
 package common;
 
-import common.exception.ApplicationException;
-
 import java.util.regex.Pattern;
 
 public class ValidationUtil {

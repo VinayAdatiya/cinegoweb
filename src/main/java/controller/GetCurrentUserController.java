@@ -4,7 +4,6 @@ import common.AppConstant;
 import common.Message;
 import common.ObjectMapperUtil;
 import model.User;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 public class GetCurrentUserController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;

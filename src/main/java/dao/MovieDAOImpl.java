@@ -6,7 +6,6 @@ import common.exception.DBException;
 import model.Movie;
 import model.MovieCrew;
 import utils.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,8 +19,8 @@ public class MovieDAOImpl implements IMovieDAO {
         String query = "INSERT INTO movie (movie_title, movie_rating, movie_duration, movie_release_date, movie_description, created_by) " + "VALUES (?, ?, ?, ?, ?, ?)";
         int generatedId = -1;
         Connection connection = null;
-        PreparedStatement preparedStatement;
-        ResultSet generatedKeys;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
@@ -33,31 +32,25 @@ public class MovieDAOImpl implements IMovieDAO {
             preparedStatement.setString(5, movie.getMovieDescription());
             preparedStatement.setInt(6, Role.ROLE_SUPER_ADMIN.getRoleId());
             preparedStatement.executeUpdate();
-            generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                generatedId = generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Failed to retrieve generated movie ID.");
-            }
-            if (generatedId > 0) {
-                if (movie.getLanguageIds() != null && !movie.getLanguageIds().isEmpty()) {
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                generatedId = resultSet.getInt(1);
+                if (generatedId > 0) {
                     addMovieLanguages(generatedId, movie.getLanguageIds(), connection);
-                }
-                if (movie.getGenreIds() != null && !movie.getGenreIds().isEmpty()) {
                     addMovieGenres(generatedId, movie.getGenreIds(), connection);
-                }
-                if (movie.getFormatIds() != null && !movie.getFormatIds().isEmpty()) {
                     addMovieFormats(generatedId, movie.getFormatIds(), connection);
-                }
-                if (movie.getMovieCrewEntries() != null && !movie.getMovieCrewEntries().isEmpty()) {
                     addMovieCrew(generatedId, movie.getMovieCrewEntries(), connection);
                 }
+            } else {
+                throw new SQLException("Failed to retrieve generated movie ID.");
             }
             connection.commit();
         } catch (SQLException | ClassNotFoundException e) {
             connection.rollback();
             e.printStackTrace();
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
         return generatedId;
     }
@@ -77,13 +70,13 @@ public class MovieDAOImpl implements IMovieDAO {
         addMovieMetadata(movieId, genreIds, connection, query);
     }
 
-    private static void addMovieMetadata(int movieId, List<Integer> languageIds, Connection connection, String query) {
+    private static void addMovieMetadata(int movieId, List<Integer> ids, Connection connection, String query) {
         PreparedStatement preparedStatement;
         try {
             preparedStatement = connection.prepareStatement(query);
-            for (int languageId : languageIds) {
+            for (int id : ids) {
                 preparedStatement.setInt(1, movieId);
-                preparedStatement.setInt(2, languageId);
+                preparedStatement.setInt(2, id);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -94,14 +87,13 @@ public class MovieDAOImpl implements IMovieDAO {
     private void addMovieCrew(int movieId, List<MovieCrew> crewEntries, Connection connection) throws DBException {
         String query = "INSERT INTO movie_crew (movie_id, crew_id, designation_id, character_name) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement;
-
         try {
             preparedStatement = connection.prepareStatement(query);
-            for (MovieCrew entry : crewEntries) {
+            for (MovieCrew crew : crewEntries) {
                 preparedStatement.setInt(1, movieId);
-                preparedStatement.setInt(2, entry.getCrewId());
-                preparedStatement.setInt(3, entry.getDesignationId());
-                preparedStatement.setString(4, entry.getCharacterName());
+                preparedStatement.setInt(2, crew.getCrewId());
+                preparedStatement.setInt(3, crew.getDesignationId());
+                preparedStatement.setString(4, crew.getCharacterName());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

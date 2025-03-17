@@ -14,7 +14,6 @@ import dto.ApiResponse;
 import controller.validation.TheaterValidator;
 import service.TheaterService;
 import utils.AuthenticateUtil;
-
 import java.io.IOException;
 
 public class AddTheaterController extends HttpServlet {
@@ -31,7 +30,7 @@ public class AddTheaterController extends HttpServlet {
             apiResponse = new ApiResponse(Message.Success.THEATER_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
-            apiResponse = new ApiResponse("Database error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.THEATER_FAILED, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);

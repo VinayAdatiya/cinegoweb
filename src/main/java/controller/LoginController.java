@@ -31,13 +31,13 @@ public class LoginController extends HttpServlet {
             apiResponse = new ApiResponse(Message.Success.LOGIN_SUCCESS, user.getRole().getRoleId());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            apiResponse = new ApiResponse("Database error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         response.getWriter().write(ObjectMapperUtil.toString(apiResponse));

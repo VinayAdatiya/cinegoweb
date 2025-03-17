@@ -5,24 +5,24 @@ import common.Message;
 import common.ObjectMapperUtil;
 import common.exception.DBException;
 import dto.ApiResponse;
-import model.City;
 import jakarta.servlet.http.HttpServlet;
-import java.io.IOException;
-import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.CityService;
+import model.CrewDesignation;
+import service.CrewDesignationService;
+import java.io.IOException;
+import java.util.List;
 
-public class FetchCityController extends HttpServlet {
-    private final CityService cityService = new CityService();
+public class FetchDesignationsController extends HttpServlet {
+    private final CrewDesignationService crewDesignationService = new CrewDesignationService();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-
         ApiResponse apiResponse;
         try {
-            List<City> cities = cityService.getAllCities();
-            apiResponse = new ApiResponse(Message.Success.CITIES_FOUND, cities);
+            List<CrewDesignation> designationList = crewDesignationService.getAllCrewDesignation();
+            apiResponse = new ApiResponse(Message.Success.DESIGNATIONS_FOUND, designationList);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);

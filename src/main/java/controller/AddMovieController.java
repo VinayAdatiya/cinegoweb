@@ -31,7 +31,7 @@ public class AddMovieController extends HttpServlet {
             apiResponse = new ApiResponse(Message.Success.MOVIE_ADDED, movieId);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
-            apiResponse = new ApiResponse("Database Error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.THEATER_FAILED, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);

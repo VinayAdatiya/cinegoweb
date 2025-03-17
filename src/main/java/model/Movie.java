@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class Movie {
-
     private int movieId;
     private String movieTitle;
     private Float movieRating;
@@ -19,6 +18,36 @@ public class Movie {
     private List<Integer> genreIds;
     private List<Integer> formatIds;
     private List<MovieCrew> movieCrewEntries;
+
+    public Movie() {
+    }
+
+    public Movie(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, List<Integer> languageIds, List<Integer> genreIds, List<Integer> formatIds, List<MovieCrew> movieCrewEntries) {
+        this.movieId = movieId;
+        this.movieTitle = movieTitle;
+        this.movieRating = movieRating;
+        this.movieDuration = movieDuration;
+        this.movieReleaseDate = movieReleaseDate;
+        this.movieDescription = movieDescription;
+        this.languageIds = languageIds;
+        this.genreIds = genreIds;
+        this.formatIds = formatIds;
+        this.movieCrewEntries = movieCrewEntries;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" + "movieId=" + movieId
+                + ", movieTitle='" + movieTitle + '\''
+                + ", movieRating=" + movieRating
+                + ", movieDuration=" + movieDuration
+                + ", movieReleaseDate=" + movieReleaseDate
+                + ", movieDescription='" + movieDescription + '\''
+                + ", languageIds=" + languageIds
+                + ", genreIds=" + genreIds
+                + ", formatIds=" + formatIds
+                + ", movieCrewEntries=" + movieCrewEntries + '}';
+    }
 
     public LocalDate getMovieReleaseDate() {
         return movieReleaseDate;
@@ -36,54 +65,20 @@ public class Movie {
         this.movieDuration = movieDuration;
     }
 
-    public Date getSqlMovieReleaseDate(){
+    public Date getSqlMovieReleaseDate() {
         return DateTimeUtil.toSqlDate(this.movieReleaseDate);
     }
-    public void setSqlMovieReleaseDate(Date sqlDate){
+
+    public void setSqlMovieReleaseDate(Date sqlDate) {
         this.movieReleaseDate = DateTimeUtil.toLocalDate(sqlDate);
     }
 
-    public Time getSqlMovieDuration(){
+    public Time getSqlMovieDuration() {
         return DateTimeUtil.toSqlTime(this.movieDuration);
     }
 
-    public void setSqlMovieDuration(Time sqlTime){
+    public void setSqlMovieDuration(Time sqlTime) {
         this.movieDuration = DateTimeUtil.toLocalTime(sqlTime);
-    }
-
-    public Movie() {
-    }
-
-    public Movie(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration,
-                 LocalDate movieReleaseDate, String movieDescription,
-                 List<Integer> languageIds, List<Integer> genreIds,
-                 List<Integer> formatIds, List<MovieCrew> movieCrewEntries) {
-        this.movieId = movieId;
-        this.movieTitle = movieTitle;
-        this.movieRating = movieRating;
-        this.movieDuration = movieDuration;
-        this.movieReleaseDate = movieReleaseDate;
-        this.movieDescription = movieDescription;
-        this.languageIds = languageIds;
-        this.genreIds = genreIds;
-        this.formatIds = formatIds;
-        this.movieCrewEntries = movieCrewEntries;
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "movieId=" + movieId +
-                ", movieTitle='" + movieTitle + '\'' +
-                ", movieRating=" + movieRating +
-                ", movieDuration=" + movieDuration +
-                ", movieReleaseDate=" + movieReleaseDate +
-                ", movieDescription='" + movieDescription + '\'' +
-                ", languageIds=" + languageIds +
-                ", genreIds=" + genreIds +
-                ", formatIds=" + formatIds +
-                ", movieCrewEntries=" + movieCrewEntries +
-                '}';
     }
 
     public int getMovieId() {

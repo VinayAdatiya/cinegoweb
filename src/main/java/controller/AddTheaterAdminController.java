@@ -33,7 +33,7 @@ public class AddTheaterAdminController extends HttpServlet {
             apiResponse = new ApiResponse(Message.Success.THEATER_ADMIN_REGISTERED, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
-            apiResponse = new ApiResponse("Database Error :- " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.THEATER_ADMIN_FAILED, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);

@@ -13,11 +13,12 @@ public class Message {
         public static final String USER_FOUND = "User fetched successfully";
         public static final String MOVIE_ADDED = "Movie added successfully.";
         public static final String CREW_ADDED = "Crew member added successfully.";
-        public static final String MOVIE_CREW_ADDED = "Movie crew members added successfully.";
-        public static final String MOVIE_LANGUAGES_ADDED = "Movie languages added successfully.";
-        public static final String MOVIE_GENRES_ADDED = "Movie genres added successfully.";
-        public static final String MOVIE_FORMATS_ADDED = "Movie formats added successfully.";
-        public static final String DESIGNATIONS_FETCHED = "Designations are fetched successfully";
+        public static final String CREW_FOUND = "crew members Fetched successfully.";
+        public static final String CITIES_FOUND = "Cities fetched successfully.";
+        public static final String LANGUAGES_FOUND = "Languages fetched successfully.";
+        public static final String GENRES_FOUND = "Genres fetched successfully.";
+        public static final String FORMATS_FOUND = "Formats fetched successfully.";
+        public static final String DESIGNATIONS_FOUND = "Designations are fetched successfully";
     }
 
     public static class Error {
@@ -27,6 +28,7 @@ public class Message {
         public static final String USERNAME_EXISTS = "Username already taken!";
         public static final String INVALID_CREDENTIALS = "Invalid email or password!";
         public static final String USER_NOT_FOUND = "User not found!";
+        public static final String LOGIN_FIRST = "User not found Please login first!";
         public static final String SESSION_EXPIRED = "Session expired! Please login again.";
         public static final String INTERNAL_ERROR = "Something went wrong on our end. Please try again later.";
         public static final String EMAIL_REQUIRED = "Email is required!";
@@ -57,17 +59,9 @@ public class Message {
         public static final String CREW_NAME_REQUIRED = "Crew Name is Required";
         public static final String MOVIE_CREW_ENTRIES_NULL = "Movie crew entries are null.";
         public static final String CHARACTER_NAME_TOO_LONG = "Character name is too long.";
-        public static final String MOVIE_CREW_ENTRY_INVALID = "Movie crew entry is invalid.";
         public static final String MOVIE_LANGUAGES_LIST_NULL = "Movie languages list is null.";
-        public static final String MOVIE_ID_INVALID = "Movie ID is invalid.";
-        public static final String MOVIE_LANGUAGES_EMPTY = "Movie languages list is empty.";
-        public static final String LANGUAGE_ID_INVALID = "Language ID is invalid.";
         public static final String MOVIE_GENRES_LIST_NULL = "Movie genres list is null.";
-        public static final String MOVIE_GENRES_EMPTY = "Movie genres list is empty.";
-        public static final String GENRE_ID_INVALID = "Genre ID is invalid.";
         public static final String MOVIE_FORMATS_LIST_NULL = "Movie formats list is null.";
-        public static final String MOVIE_FORMATS_EMPTY = "Movie formats list is empty.";
-        public static final String FORMAT_ID_INVALID = "Format ID is invalid.";
         public static final String ID_INVALID = "Invalid Id Entry";
     }
 }

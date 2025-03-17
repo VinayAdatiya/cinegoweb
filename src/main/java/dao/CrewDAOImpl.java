@@ -13,30 +13,30 @@ public class CrewDAOImpl implements ICrewDAO{
         String query = "INSERT INTO crew (crew_name) VALUES (?)";
         PreparedStatement preparedStatement;
         Connection connection;
-        int generatedId = -1;
+        ResultSet rs;
+        int crewId = -1;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, crew.getCrewName());
-            preparedStatement.executeUpdate();
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    generatedId = generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("Failed to retrieve generated crew ID.");
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                rs = preparedStatement.getGeneratedKeys();
+                if (rs.next()) {
+                    crewId = rs.getInt(1);
                 }
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         }
-        return generatedId;
+        return crewId;
     }
 
     public List<Crew> getAllCrew() throws DBException {
         String query = "SELECT * FROM crew";
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-        Connection connection;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         List<Crew> crewList = new ArrayList<>();
         try{
             connection = DBConnection.INSTANCE.getConnection();
@@ -48,6 +48,8 @@ public class CrewDAOImpl implements ICrewDAO{
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet,preparedStatement,connection);
         }
         return crewList;
     }

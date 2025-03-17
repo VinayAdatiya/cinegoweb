@@ -27,7 +27,6 @@ public class DatabaseUtil {
             } else {
                 throw new IllegalArgumentException("Unsupported Id type");
             }
-
             rs = preparedStatement.executeQuery();
             return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException | ClassNotFoundException e) {

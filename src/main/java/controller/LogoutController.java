@@ -18,6 +18,10 @@ public class LogoutController extends HttpServlet {
         ApiResponse apiResponse;
         HttpSession session = request.getSession(false);
         if (session != null) {
+            if (session.getAttribute("user") == null ){
+                apiResponse = new ApiResponse(Message.Error.LOGIN_FIRST, null);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
             session.invalidate();
             apiResponse = new ApiResponse(Message.Success.LOGOUT_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_OK);

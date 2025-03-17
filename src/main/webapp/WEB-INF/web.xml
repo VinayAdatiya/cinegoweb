@@ -108,42 +108,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddMovieCrewServlet</servlet-name>
-        <servlet-class>controller.AddMovieCrewController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddMovieCrewServlet</servlet-name>
-        <url-pattern>/addMovieCrew</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AddMovieFormatsServlet</servlet-name>
-        <servlet-class>controller.AddMovieFormatsController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddMovieFormatsServlet</servlet-name>
-        <url-pattern>/addMovieFormats</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AddMovieGenresServlet</servlet-name>
-        <servlet-class>controller.AddMovieGenresController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddMovieGenresServlet</servlet-name>
-        <url-pattern>/addMovieGenres</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AddMovieLanguagesServlet</servlet-name>
-        <servlet-class>controller.AddMovieLanguagesController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddMovieLanguagesServlet</servlet-name>
-        <url-pattern>/addMovieLanguages</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>AddMovieServlet</servlet-name>
         <servlet-class>controller.AddMovieController</servlet-class>
     </servlet>
@@ -153,12 +117,21 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>GetCrewAndDesignationsServlet</servlet-name>
-        <servlet-class>controller.GetCrewAndDesignationsController</servlet-class>
+        <servlet-name>FetchCrewController</servlet-name>
+        <servlet-class>controller.FetchCrewController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GetCrewAndDesignationsServlet</servlet-name>
-        <url-pattern>/getCrewAndDesignations</url-pattern>
+        <servlet-name>FetchCrewController</servlet-name>
+        <url-pattern>/getCrewMembers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FetchDesignationsController</servlet-name>
+        <servlet-class>controller.FetchDesignationsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FetchDesignationsController</servlet-name>
+        <url-pattern>/getCrewDesignations</url-pattern>
     </servlet-mapping>
 
     <servlet>

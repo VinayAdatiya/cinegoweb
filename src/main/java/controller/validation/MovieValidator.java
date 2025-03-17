@@ -57,13 +57,16 @@ public class MovieValidator {
         if (movie.getMovieCrewEntries() == null || movie.getMovieCrewEntries().isEmpty()) {
             throw new ApplicationException(Message.Error.MOVIE_CREW_ENTRIES_NULL);
         }
+
         List<Integer> crewIds = movie.getMovieCrewEntries().stream().map(MovieCrew::getCrewId).collect(Collectors.toList());
         DatabaseUtil.validateIdsExist("crew", "crew_id", crewIds);
+
         List<Integer> designationIds = movie.getMovieCrewEntries().stream().map(MovieCrew::getDesignationId).collect(Collectors.toList());
         DatabaseUtil.validateIdsExist("crew_designation", "designation_id", designationIds);
-        List<String> characterNames = movie.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).collect(Collectors.toList());
-        for (String cn:characterNames) {
-            if(cn.length()>30){
+
+        List<String> characterNames = movie.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).toList();
+        for (String cn : characterNames) {
+            if (cn.length() > 30) {
                 throw new ApplicationException(Message.Error.CHARACTER_NAME_TOO_LONG);
             }
         }

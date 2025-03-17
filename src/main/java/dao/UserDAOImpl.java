@@ -36,7 +36,7 @@ public class UserDAOImpl implements IUserDAO{
             preparedStatement.setString(5, user.getEmail());
             preparedStatement.setString(6, user.getPhoneNumber());
             preparedStatement.setInt(7, user.getAddress().getAddressId());
-            preparedStatement.setInt(8, 1); // Default Created By 1 (Super Admin)
+            preparedStatement.setInt(8, user.getCreatedBy());
             preparedStatement.setInt(9, user.getRole().getRoleId());
             preparedStatement.executeUpdate();
             connection.commit();

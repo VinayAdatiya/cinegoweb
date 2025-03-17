@@ -39,7 +39,7 @@ public class TheaterDAOImpl implements ITheaterDAO{
             preparedStatement.setString(2, theater.getTheaterName());
             preparedStatement.setObject(3, theater.getTheaterRating());
             preparedStatement.setInt(4, theater.getTheaterAddress().getAddressId());
-            preparedStatement.setInt(5, 1);
+            preparedStatement.setInt(5, theater.getCreatedBy());
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 generatedKeys = preparedStatement.getGeneratedKeys();

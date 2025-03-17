@@ -1,5 +1,6 @@
 package service;
 
+import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IUserDAO;
@@ -12,6 +13,7 @@ public class UserService {
     private final IUserDAO userDAO = new UserDAOImpl();
 
     public void registerUser(User user) throws DBException, SQLException {
+        user.setCreatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
         userDAO.registerUser(user);
     }
 

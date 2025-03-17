@@ -1,11 +1,17 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class Theater {
     private int theaterId;
     private User theaterAdmin;
     private String theaterName;
     private Double theaterRating;
     private Address theaterAddress;
+    private int createdBy;
+    private LocalDateTime createdOn;
+    private int updatedBy;
+    private LocalDateTime updatedOn;
 
     public Theater() {
     }
@@ -67,5 +73,37 @@ public class Theater {
 
     public void setTheaterAddress(Address theaterAddress) {
         this.theaterAddress = theaterAddress;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public int getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(int updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

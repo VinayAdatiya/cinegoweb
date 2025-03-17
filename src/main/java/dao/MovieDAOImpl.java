@@ -1,7 +1,6 @@
 package dao;
 
 import common.Message;
-import common.Role;
 import common.exception.DBException;
 import model.Movie;
 import model.MovieCrew;
@@ -30,7 +29,7 @@ public class MovieDAOImpl implements IMovieDAO {
             preparedStatement.setTime(3, movie.getSqlMovieDuration());
             preparedStatement.setDate(4, movie.getSqlMovieReleaseDate());
             preparedStatement.setString(5, movie.getMovieDescription());
-            preparedStatement.setInt(6, Role.ROLE_SUPER_ADMIN.getRoleId());
+            preparedStatement.setInt(6, movie.getCreatedBy());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {

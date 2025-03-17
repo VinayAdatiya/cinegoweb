@@ -2,6 +2,8 @@ package model;
 
 import common.Role;
 
+import java.time.LocalDateTime;
+
 public class User {
     private int userId;
     private String username;
@@ -12,6 +14,10 @@ public class User {
     private String phoneNumber;
     private Address address;
     private Role role;
+    private int createdBy;
+    private LocalDateTime createdOn;
+    private int updatedBy;
+    private LocalDateTime updatedOn;
 
     public User() {}
 
@@ -111,5 +117,37 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public int getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(int updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

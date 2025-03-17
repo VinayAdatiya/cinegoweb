@@ -4,6 +4,7 @@ import utils.DateTimeUtil;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -18,6 +19,10 @@ public class Movie {
     private List<Integer> genreIds;
     private List<Integer> formatIds;
     private List<MovieCrew> movieCrewEntries;
+    private int createdBy;
+    private LocalDateTime createdOn;
+    private int updatedBy;
+    private LocalDateTime updatedOn;
 
     public Movie() {
     }
@@ -143,5 +148,37 @@ public class Movie {
 
     public void setMovieCrewEntries(List<MovieCrew> movieCrewEntries) {
         this.movieCrewEntries = movieCrewEntries;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public int getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(int updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "4090d4ff-bb55-4cd4-96f5-b4d20f060c09",
+		"name": "CineGo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42784723"
+	},
+	"item": [
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "Movie Metadata",
+					"item": [
+						{
+							"name": "Crew",
+							"item": [
+								{
+									"name": "addCrew",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"crewName\": \"Vicky Kaushal\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/CineGo_war_exploded/addCrew",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"CineGo_war_exploded",
+												"addCrew"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getCrewMembers",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/CineGo_war_exploded/getCrewMembers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"CineGo_war_exploded",
+												"getCrewMembers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getCrewDesignations",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/CineGo_war_exploded/getCrewDesignations",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"CineGo_war_exploded",
+												"getCrewDesignations"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "FetchCity",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/FetchCity",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"FetchCity"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLanguages",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getLanguages",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getLanguages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getFormats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getFormats",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getFormats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getGenres",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getGenres",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getGenres"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Movie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movieTitle\": \"Test Movie\",\r\n  \"movieRating\": 7.5,\r\n  \"movieDuration\": \"02:30:00\",\r\n  \"movieReleaseDate\": \"2023-10-35\",\r\n  \"movieDescription\": \"A test movie description.\",\r\n  \"languageIds\": [1, 2],\r\n  \"genreIds\": [3, 4],\r\n  \"formatIds\": [5, 6],\r\n  \"movieCrewEntries\": [\r\n    {\r\n      \"crewId\": 1,\r\n      \"designationId\": 1,\r\n      \"characterName\": \"Character 1\"\r\n    },\r\n    {\r\n      \"crewId\": 2,\r\n      \"designationId\": 2,\r\n      \"characterName\": \"Character 2\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/addMovie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"addMovie"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "User Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"arpan@gmail.com\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SuperAdmin Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"vad@narola.email\",\r\n    \"password\":\"Pass@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Signup",
+					"item": [
+						{
+							"name": "Customer Signup",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"vinay\",\r\n  \"password\": \"Pass@1234\",\r\n  \"email\": \"vad@gmail.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876543210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395009\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Theater",
+			"item": [
+				{
+					"name": "addTheater",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"theaterAdmin\": {\r\n    \"email\": \"ta1@cinego.com\",\r\n    \"password\": \"Tadmin@1\"\r\n  },\r\n  \"theaterName\": \"My Awesome Cinema\",\r\n  \"theaterRating\": 5,\r\n  \"theaterAddress\": {\r\n    \"addressLine1\": \"456 Oak Avenue\",\r\n    \"addressLine2\": \"Suite 201\",\r\n    \"pincode\": 123456,\r\n    \"city\": {\r\n      \"cityId\": 2\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/addTheater",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"addTheater"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTheaterAdmin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"vinay_Ta\",\r\n  \"password\": \"Tadmin@1\",\r\n  \"email\": \"ta1@cinego.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876543210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395007\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/addTheaterAdmin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"addTheaterAdmin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

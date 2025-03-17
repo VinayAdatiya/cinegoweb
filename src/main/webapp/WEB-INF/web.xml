@@ -9,7 +9,7 @@
 
     <context-param>
         <param-name>db.url</param-name>
-        <param-value>jdbc:mysql://localhost:3306/cinego</param-value>
+        <param-value>jdbc:mysql://localhost:3306/cinego_frontend</param-value>
     </context-param>
     <context-param>
         <param-name>db.username</param-name>

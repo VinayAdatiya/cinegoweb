@@ -6,7 +6,7 @@ import common.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import model.User;
+import dto.user.UserSignUpDTO;
 import dto.ApiResponse;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,11 +25,11 @@ public class AddTheaterAdminController extends HttpServlet {
         ApiResponse apiResponse;
         try {
             AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
-            User user = ObjectMapperUtil.toObject(request.getReader(), User.class);
-            SignUpValidator.validateSignup(user, userService);
+            UserSignUpDTO userSignUpDTO = ObjectMapperUtil.toObject(request.getReader(), UserSignUpDTO.class);
+            SignUpValidator.validateSignup(userSignUpDTO, userService);
             // Set roleId to 2 for Theater Admin
-            user.setRole(Role.ROLE_THEATER_ADMIN);
-            userService.registerUser(user);
+            userSignUpDTO.setRole(Role.ROLE_THEATER_ADMIN);
+            userService.registerUser(userSignUpDTO);
             apiResponse = new ApiResponse(Message.Success.THEATER_ADMIN_REGISTERED, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {

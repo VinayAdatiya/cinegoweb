@@ -5,16 +5,19 @@ import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import model.Address;
+import model.City;
 import model.User;
 import utils.DBConnection;
 import utils.DatabaseUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAOImpl implements IUserDAO{
+public class UserDAOImpl implements IUserDAO {
     IAddressDAO addressDAO = new AddressDAOImpl();
+
     public void registerUser(User user) throws SQLException {
         String query = "INSERT INTO users (username , password , first_name , last_name  , email  , phone_number ,address_id ,created_by , role_id) " +
                 "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -42,7 +45,7 @@ public class UserDAOImpl implements IUserDAO{
             connection.commit();
         } catch (Exception e) {
             connection.rollback();
-            throw new DBException(Message.Error.INTERNAL_ERROR,e);
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(null, preparedStatement, connection);
         }
@@ -73,8 +76,7 @@ public class UserDAOImpl implements IUserDAO{
                 int roleId = rs.getInt("role_id");
                 user.setRole(Role.getRole(roleId));
                 return user;
-            }
-            else{
+            } else {
                 throw new ApplicationException(Message.Error.INVALID_CREDENTIALS);
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -84,11 +86,58 @@ public class UserDAOImpl implements IUserDAO{
         }
     }
 
+    public User getUserById(int userId) {
+        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.roleid" +
+                " a.address_line1, a.address_line2, a.pincode, " +
+                " c.city_id, c.city_name," +
+                " r.role_id" +
+                " FROM users u " +
+                " LEFT JOIN address a ON u.address_id = a.address_id " +
+                " LEFT JOIN city c ON a.city_id = c.city_id " +
+                " WHERE u.user_id = ? ";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        User user = null;
+
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhoneNumber(resultSet.getString("phone_number"));
+                user.setRole(Role.getRole(resultSet.getInt("roleid")));
+                Address address = new Address();
+                address.setAddressLine1(resultSet.getString("address_line"));
+                address.setAddressLine2(resultSet.getString("address_line2"));
+                address.setPincode(resultSet.getInt("pincode"));
+                City city = new City();
+                city.setCityName(resultSet.getString("city_name"));
+                address.setCity(city);
+                user.setAddress(address);
+            } else {
+                throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+        return user;
+    }
+
     public boolean emailExists(String email) {
-        return DatabaseUtil.checkRecordExists("users" , "email", email);
+        return DatabaseUtil.checkRecordExists("users", "email", email);
     }
 
     public boolean usernameExists(String username) {
-        return DatabaseUtil.checkRecordExists("users" , "username", username);
+        return DatabaseUtil.checkRecordExists("users", "username", username);
     }
 }

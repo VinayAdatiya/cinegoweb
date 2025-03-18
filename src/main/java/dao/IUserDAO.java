@@ -8,7 +8,8 @@ import java.sql.SQLException;
 
 public interface IUserDAO {
     void registerUser(User user) throws SQLException, DBException;
-    User authenticateUser(String email, String password) throws DBException, ApplicationException;
+    User authenticateUser(String email, String password) throws ApplicationException;
+    User getUserById(int userId);
     boolean emailExists(String email) throws DBException;
     boolean usernameExists(String username) throws DBException;
 }

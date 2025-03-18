@@ -6,6 +6,7 @@ import common.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import dto.user.UserSignUpDTO;
 import model.User;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,10 +25,10 @@ public class SignUpController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            User user = ObjectMapperUtil.toObject(request.getReader(), User.class);
-            SignUpValidator.validateSignup(user, userService);
-            user.setRole(Role.ROLE_CUSTOMER);
-            userService.registerUser(user);
+            UserSignUpDTO userSignUpDTO = ObjectMapperUtil.toObject(request.getReader(), UserSignUpDTO.class);
+            SignUpValidator.validateSignup(userSignUpDTO, userService);
+            userSignUpDTO.setRole(Role.ROLE_CUSTOMER);
+            userService.registerUser(userSignUpDTO);
             apiResponse = new ApiResponse(Message.Success.SIGNUP_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {

@@ -3,79 +3,80 @@ package controller.validation;
 import common.Message;
 import common.ValidationUtil;
 import common.exception.ApplicationException;
+import dto.user.UserSignUpDTO;
 import model.User;
 import service.UserService;
 
 public class SignUpValidator {
 
-    public static void validateSignup(User user , UserService userService) throws ApplicationException {
+    public static void validateSignup(UserSignUpDTO userSignUpDTO , UserService userService) throws ApplicationException {
 
-        if (user.getUsername() == null || user.getUsername().trim().isEmpty() ||
-                user.getPassword() == null || user.getPassword().trim().isEmpty() ||
-                user.getEmail() == null || user.getEmail().trim().isEmpty() ||
-                user.getPhoneNumber() == null || user.getPhoneNumber().trim().isEmpty() ||
-                user.getAddress() == null || user.getAddress().getAddressLine1() == null || user.getAddress().getAddressLine1().trim().isEmpty() ||
-                user.getAddress().getCity() == null || user.getAddress().getCity().getCityId() == 0) {
+        if (userSignUpDTO.getUsername() == null || userSignUpDTO.getUsername().trim().isEmpty() ||
+                userSignUpDTO.getPassword() == null || userSignUpDTO.getPassword().trim().isEmpty() ||
+                userSignUpDTO.getEmail() == null || userSignUpDTO.getEmail().trim().isEmpty() ||
+                userSignUpDTO.getPhoneNumber() == null || userSignUpDTO.getPhoneNumber().trim().isEmpty() ||
+                userSignUpDTO.getAddress() == null || userSignUpDTO.getAddress().getAddressLine1() == null || userSignUpDTO.getAddress().getAddressLine1().trim().isEmpty() ||
+                userSignUpDTO.getAddress().getCity() == null || userSignUpDTO.getAddress().getCity().getCityId() == 0) {
             throw new ApplicationException(Message.Error.REQUIRED_FIELD_MISSING);
         }
 
-        if (user.getAddress() != null && user.getAddress().getPincode() <= 0) {
+        if (userSignUpDTO.getAddress() != null && userSignUpDTO.getAddress().getPincode() <= 0) {
             throw new ApplicationException(Message.Error.PINCODE_INVALID);
         }
 
-        if (userService.emailExists(user.getEmail())) {
+        if (userService.emailExists(userSignUpDTO.getEmail())) {
             throw new ApplicationException(Message.Error.EMAIL_EXISTS);
         }
 
-        if (!ValidationUtil.isValidLength(user.getEmail(), 50)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getEmail(), 50)) {
             throw new ApplicationException(Message.Error.EMAIL_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidLength(user.getPassword(), 50)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getPassword(), 50)) {
             throw new ApplicationException(Message.Error.PASSWORD_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidEmail(user.getEmail())) {
+        if (!ValidationUtil.isValidEmail(userSignUpDTO.getEmail())) {
             throw new ApplicationException(Message.Error.EMAIL_INVALID);
         }
 
-        if (!ValidationUtil.isValidPassword(user.getPassword())) {
+        if (!ValidationUtil.isValidPassword(userSignUpDTO.getPassword())) {
             throw new ApplicationException(Message.Error.PASSWORD_WEAK);
         }
 
-        if (userService.usernameExists(user.getUsername())) {
+        if (userService.usernameExists(userSignUpDTO.getUsername())) {
             throw new ApplicationException(Message.Error.USERNAME_EXISTS);
         }
 
-        if (!ValidationUtil.isValidLength(user.getUsername(), 20)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getUsername(), 20)) {
             throw new ApplicationException(Message.Error.USERNAME_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidLength(user.getFirstName(), 30)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getFirstName(), 30)) {
             throw new ApplicationException(Message.Error.FIRST_NAME_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidLength(user.getLastName(), 30)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getLastName(), 30)) {
             throw new ApplicationException(Message.Error.LAST_NAME_TOO_LONG);
         }
 
-        if (!ValidationUtil.isNumeric(user.getPhoneNumber())) {
+        if (!ValidationUtil.isNumeric(userSignUpDTO.getPhoneNumber())) {
             throw new ApplicationException(Message.Error.PHONE_INVALID);
         }
 
-        if (!ValidationUtil.isValidLength(user.getPhoneNumber(), 15)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getPhoneNumber(), 15)) {
             throw new ApplicationException(Message.Error.PHONE_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidLength(user.getAddress().getAddressLine1(), 100)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getAddress().getAddressLine1(), 100)) {
             throw new ApplicationException(Message.Error.ADDRESS_TOO_LONG);
         }
 
-        if (!ValidationUtil.isValidLength(user.getAddress().getAddressLine2(), 100)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getAddress().getAddressLine2(), 100)) {
             throw new ApplicationException(Message.Error.ADDRESS_TOO_LONG);
         }
 
-        if (!ValidationUtil.isNumeric(Integer.toString(user.getAddress().getPincode()))) {
+        if (!ValidationUtil.isNumeric(Integer.toString(userSignUpDTO.getAddress().getPincode()))) {
             throw new ApplicationException(Message.Error.PIN_CODE_INVALID);
         }
     }

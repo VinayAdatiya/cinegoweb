@@ -3,7 +3,7 @@ package common.utils;
 import common.Message;
 import common.Role;
 import common.exception.ApplicationException;
-import model.User;
+import dto.user.UserResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -13,7 +13,7 @@ public class AuthenticateUtil {
         if (session == null || session.getAttribute("user") == null) {
             throw new ApplicationException(Message.Error.SESSION_EXPIRED);
         }
-        User user = (User) session.getAttribute("user");
+        UserResponseDTO user = (UserResponseDTO) session.getAttribute("user");
         if (user.getRole().getRoleId() != requiredRole.getRoleId()) {
             throw new ApplicationException(Message.Error.USER_NOT_FOUND);
         }

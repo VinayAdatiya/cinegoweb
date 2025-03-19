@@ -10,7 +10,7 @@ public class SignUpValidator {
 
     public static void validateSignup(UserSignUpDTO userSignUpDTO , UserService userService) throws ApplicationException {
 
-        if (userSignUpDTO.getUsername() == null || userSignUpDTO.getUsername().trim().isEmpty() ||
+        if (userSignUpDTO.getUserName() == null || userSignUpDTO.getUserName().trim().isEmpty() ||
                 userSignUpDTO.getPassword() == null || userSignUpDTO.getPassword().trim().isEmpty() ||
                 userSignUpDTO.getEmail() == null || userSignUpDTO.getEmail().trim().isEmpty() ||
                 userSignUpDTO.getPhoneNumber() == null || userSignUpDTO.getPhoneNumber().trim().isEmpty() ||
@@ -43,11 +43,11 @@ public class SignUpValidator {
             throw new ApplicationException(Message.Error.PASSWORD_WEAK);
         }
 
-        if (userService.usernameExists(userSignUpDTO.getUsername())) {
+        if (userService.usernameExists(userSignUpDTO.getUserName())) {
             throw new ApplicationException(Message.Error.USERNAME_EXISTS);
         }
 
-        if (!ValidationUtil.isValidLength(userSignUpDTO.getUsername(), 20)) {
+        if (!ValidationUtil.isValidLength(userSignUpDTO.getUserName(), 20)) {
             throw new ApplicationException(Message.Error.USERNAME_TOO_LONG);
         }
 

@@ -4,7 +4,7 @@ import common.Role;
 import model.Address;
 
 public class UserSignUpDTO {
-    private String username;
+    private String userName;
     private String password;
     private String firstName;
     private String lastName;
@@ -18,7 +18,7 @@ public class UserSignUpDTO {
     }
 
     public UserSignUpDTO(String username, String password, String firstName, String lastName, String email, String phoneNumber, Address address, Role role, int createdBy) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,12 +29,12 @@ public class UserSignUpDTO {
         this.createdBy = createdBy;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

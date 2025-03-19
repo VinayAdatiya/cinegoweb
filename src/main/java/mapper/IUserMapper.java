@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface IUserMapper {
-    UserResponseDTO userToUserResponseDTO(User user);
-    User usersignupdtoToUser(UserSignUpDTO userSignUpDTO);
+    UserResponseDTO toUserDTO(User user); //toDTO
+    User toUserModel(UserSignUpDTO userDTO); //toModel
 }

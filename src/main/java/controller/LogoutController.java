@@ -2,7 +2,10 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.ObjectMapperUtil;
+import common.utils.ObjectMapperUtil;
+import common.exception.ApplicationException;
+import controller.validation.LogoutValidator;
+import dto.user.UserResponseDTO;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,16 +19,21 @@ public class LogoutController extends HttpServlet {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            if (session.getAttribute("user") == null ){
-                apiResponse = new ApiResponse(Message.Error.LOGIN_FIRST, null);
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        try {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                UserResponseDTO userResponseDTO = (UserResponseDTO) session.getAttribute("user");
+                LogoutValidator.validateLogout(userResponseDTO);
+                session.invalidate();
+                apiResponse = new ApiResponse(Message.Success.LOGOUT_SUCCESS, null);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                throw new ApplicationException(Message.Error.SESSION_EXPIRED);
             }
-            session.invalidate();
-            apiResponse = new ApiResponse(Message.Success.LOGOUT_SUCCESS, null);
-            response.setStatus(HttpServletResponse.SC_OK);
-        } else {
+        } catch (ApplicationException e) {
+            apiResponse = new ApiResponse(e.getMessage(), null);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (Exception e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

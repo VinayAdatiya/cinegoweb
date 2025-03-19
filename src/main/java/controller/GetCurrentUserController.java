@@ -2,8 +2,8 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.ObjectMapperUtil;
-import model.User;
+import common.utils.ObjectMapperUtil;
+import dto.user.UserResponseDTO;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,9 +18,9 @@ public class GetCurrentUserController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         HttpSession session = request.getSession(false);
-        User user = null;
+        UserResponseDTO user = null;
         if (session != null) {
-            user = (User) session.getAttribute("user");
+            user = (UserResponseDTO) session.getAttribute("user");
         }
         if (user != null) {
             apiResponse = new ApiResponse(Message.Success.USER_FOUND, user);

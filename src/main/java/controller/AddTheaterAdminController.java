@@ -2,7 +2,7 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.ObjectMapperUtil;
+import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import controller.validation.SignUpValidator;
 import service.UserService;
-import utils.AuthenticateUtil;
+import common.utils.AuthenticateUtil;
 import java.io.IOException;
 
 public class AddTheaterAdminController extends HttpServlet {
@@ -34,13 +34,13 @@ public class AddTheaterAdminController extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.THEATER_ADMIN_FAILED, null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
             apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -1,10 +1,12 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.exception.DBException;
+import dao.IMovieDAO;
 import model.Movie;
 import model.MovieCrew;
-import utils.DBConnection;
+import config.DBConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +16,8 @@ import java.util.List;
 
 public class MovieDAOImpl implements IMovieDAO {
 
-    public int addMovie(Movie movie) throws DBException, SQLException {
+    public void addMovie(Movie movie) {
         String query = "INSERT INTO movie (movie_title, movie_rating, movie_duration, movie_release_date, movie_description, created_by) " + "VALUES (?, ?, ?, ?, ?, ?)";
-        int generatedId = -1;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -33,38 +34,38 @@ public class MovieDAOImpl implements IMovieDAO {
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                generatedId = resultSet.getInt(1);
-                if (generatedId > 0) {
-                    addMovieLanguages(generatedId, movie.getLanguageIds(), connection);
-                    addMovieGenres(generatedId, movie.getGenreIds(), connection);
-                    addMovieFormats(generatedId, movie.getFormatIds(), connection);
-                    addMovieCrew(generatedId, movie.getMovieCrewEntries(), connection);
-                }
+                int movieId = resultSet.getInt(1);
+                addMovieLanguages(movieId, movie.getLanguageIds(), connection);
+                addMovieGenres(movieId, movie.getGenreIds(), connection);
+                addMovieFormats(movieId, movie.getFormatIds(), connection);
+                addMovieCrew(movieId, movie.getMovieCrewEntries(), connection);
             } else {
                 throw new SQLException("Failed to retrieve generated movie ID.");
             }
             connection.commit();
         } catch (SQLException | ClassNotFoundException e) {
-            connection.rollback();
-            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException error) {
+                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            }
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
-        return generatedId;
     }
 
-    private void addMovieFormats(int movieId, List<Integer> formatIds, Connection connection) throws DBException {
+    private void addMovieFormats(int movieId, List<Integer> formatIds, Connection connection) {
         String query = "INSERT INTO movie_formats (movie_id, format_id) VALUES (?, ?)";
         addMovieMetadata(movieId, formatIds, connection, query);
     }
 
-    private void addMovieLanguages(int movieId, List<Integer> languageIds, Connection connection) throws DBException {
+    private void addMovieLanguages(int movieId, List<Integer> languageIds, Connection connection) {
         String query = "INSERT INTO movie_languages (movie_id, language_id) VALUES (?, ?)";
         addMovieMetadata(movieId, languageIds, connection, query);
     }
 
-    private void addMovieGenres(int movieId, List<Integer> genreIds, Connection connection) throws DBException {
+    private void addMovieGenres(int movieId, List<Integer> genreIds, Connection connection) {
         String query = "INSERT INTO movie_genres (movie_id, genre_id) VALUES (?, ?)";
         addMovieMetadata(movieId, genreIds, connection, query);
     }
@@ -83,7 +84,7 @@ public class MovieDAOImpl implements IMovieDAO {
         }
     }
 
-    private void addMovieCrew(int movieId, List<MovieCrew> crewEntries, Connection connection) throws DBException {
+    private void addMovieCrew(int movieId, List<MovieCrew> crewEntries, Connection connection) {
         String query = "INSERT INTO movie_crew (movie_id, crew_id, designation_id, character_name) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement;
         try {

@@ -1,6 +1,6 @@
 package model;
 
-import utils.DateTimeUtil;
+import common.utils.DateTimeUtil;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;

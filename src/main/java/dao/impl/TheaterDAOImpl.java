@@ -1,37 +1,37 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import dao.IAddressDAO;
+import dao.ITheaterDAO;
+import dao.IUserDAO;
 import model.Theater;
 import model.User;
-import utils.DBConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import config.DBConnection;
 
-public class TheaterDAOImpl implements ITheaterDAO{
+import java.sql.*;
+
+public class TheaterDAOImpl implements ITheaterDAO {
     IUserDAO userDAO = new UserDAOImpl();
     IAddressDAO addressDAO = new AddressDAOImpl();
-    public void addTheater(Theater theater) throws SQLException {
+
+    public void addTheater(Theater theater) throws ApplicationException {
         String query = "INSERT INTO theater (theater_admin, theater_name, theater_rating, address_id, created_by) VALUES (?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet generatedKeys = null;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
             // Fetch Theater Admin
-            User theaterAdmin = userDAO.authenticateUser(theater.getTheaterAdmin().getEmail(),theater.getTheaterAdmin().getPassword());
+            User theaterAdmin = userDAO.authenticateUser(theater.getTheaterAdmin().getEmail(), theater.getTheaterAdmin().getPassword());
             if (theaterAdmin.getRole().getRoleId() != 2) {
                 throw new ApplicationException(Message.Error.THEATER_ADMIN_NOT_FOUND);
             }
             theater.setTheaterAdmin(theaterAdmin);
             // Insert theaterAddress
-            int addressId = addressDAO.insertAddress(theater.getTheaterAddress(),connection);
+            int addressId = addressDAO.insertAddress(theater.getTheaterAddress(), connection);
             theater.getTheaterAddress().setAddressId(addressId);
             // Add theater
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS); // Get generated keys
@@ -40,21 +40,17 @@ public class TheaterDAOImpl implements ITheaterDAO{
             preparedStatement.setObject(3, theater.getTheaterRating());
             preparedStatement.setInt(4, theater.getTheaterAddress().getAddressId());
             preparedStatement.setInt(5, theater.getCreatedBy());
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                generatedKeys = preparedStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int generatedTheaterId = generatedKeys.getInt(1);
-                    theater.setTheaterId(generatedTheaterId);
-                }
-            }
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (Exception e) {
-            e.printStackTrace();
-            connection.rollback();
-            throw new DBException(Message.Error.INTERNAL_ERROR , e);
+            try {
+                connection.rollback();
+            } catch (SQLException error) {
+                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            }
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
-            DBConnection.closeResources(generatedKeys, preparedStatement, connection);
+            DBConnection.closeResources(null, preparedStatement, connection);
         }
     }
 }

@@ -1,29 +1,30 @@
 package dto.user;
 
+import common.Role;
+import model.Address;
+
 public class UserResponseDTO {
     private int userId;
-    private String username;
+    private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-    private int pincode;
-    private String cityName;
-    private int roleId;
+    private Address address;
+    private Role role;
 
     public UserResponseDTO() {
     }
 
-    public UserResponseDTO(int userId, String username, String firstName, String lastName, String email, String phoneNumber, int pincode, String cityName, int roleId) {
+    public UserResponseDTO(int userId, String userName, String firstName, String lastName, String email, String phoneNumber, Address address, Role role) {
         this.userId = userId;
-        this.username = username;
+        this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.pincode = pincode;
-        this.cityName = cityName;
-        this.roleId = roleId;
+        this.address = address;
+        this.role = role;
     }
 
     public int getUserId() {
@@ -34,12 +35,12 @@ public class UserResponseDTO {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -74,27 +75,19 @@ public class UserResponseDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPincode() {
-        return pincode;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setPincode(int pincode) {
-        this.pincode = pincode;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getCityName() {
-        return cityName;
+    public Role getRole() {
+        return role;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

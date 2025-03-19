@@ -1,35 +1,30 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.exception.DBException;
+import dao.ICrewDAO;
 import model.Crew;
-import utils.DBConnection;
+import config.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrewDAOImpl implements ICrewDAO{
-    public int addCrew(Crew crew) throws DBException {
+public class CrewDAOImpl implements ICrewDAO {
+    public void addCrew(Crew crew) throws DBException {
         String query = "INSERT INTO crew (crew_name) VALUES (?)";
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = null;
         Connection connection;
-        ResultSet rs;
-        int crewId = -1;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, crew.getCrewName());
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                rs = preparedStatement.getGeneratedKeys();
-                if (rs.next()) {
-                    crewId = rs.getInt(1);
-                }
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(null, preparedStatement, null);
         }
-        return crewId;
     }
 
     public List<Crew> getAllCrew() throws DBException {
@@ -38,7 +33,7 @@ public class CrewDAOImpl implements ICrewDAO{
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         List<Crew> crewList = new ArrayList<>();
-        try{
+        try {
             connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
@@ -49,7 +44,7 @@ public class CrewDAOImpl implements ICrewDAO{
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
-            DBConnection.closeResources(resultSet,preparedStatement,connection);
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
         return crewList;
     }

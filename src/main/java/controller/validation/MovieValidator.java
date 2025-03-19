@@ -1,11 +1,11 @@
 package controller.validation;
 
 import common.Message;
-import common.ValidationUtil;
+import common.utils.ValidationUtil;
 import common.exception.ApplicationException;
 import model.Movie;
 import model.MovieCrew;
-import utils.DatabaseUtil;
+import common.utils.DatabaseUtil;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;

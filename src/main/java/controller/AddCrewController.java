@@ -2,7 +2,7 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.ObjectMapperUtil;
+import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import dto.ApiResponse;
 import controller.validation.CrewValidator;
 import service.CrewService;
-import utils.AuthenticateUtil;
+import common.utils.AuthenticateUtil;
 
 public class AddCrewController extends HttpServlet {
     private final CrewService crewService = new CrewService();
@@ -27,12 +27,12 @@ public class AddCrewController extends HttpServlet {
             AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
             Crew crew = ObjectMapperUtil.toObject(request.getReader(), Crew.class);
             CrewValidator.validateCrew(crew);
-            int crewId = crewService.addCrew(crew);
-            apiResponse = new ApiResponse(Message.Success.CREW_ADDED, crewId);
+            crewService.addCrew(crew);
+            apiResponse = new ApiResponse(Message.Success.CREW_ADDED, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
-            apiResponse = new ApiResponse("Database Error: " + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

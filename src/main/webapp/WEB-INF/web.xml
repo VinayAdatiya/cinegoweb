@@ -10,13 +10,26 @@
     <filter>
         <filter-name>CorsFilter</filter-name>
         <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+
+        <!-- Allow only trusted frontend origins -->
         <init-param>
             <param-name>cors.allowed.origins</param-name>
-            <param-value>*</param-value>
+            <param-value>http://localhost:63342</param-value>
         </init-param>
+
         <init-param>
             <param-name>cors.allowed.methods</param-name>
             <param-value>GET,POST,PUT,DELETE,OPTIONS</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>Content-Type, Authorization</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>cors.support.credentials</param-name>
+            <param-value>true</param-value>
         </init-param>
     </filter>
     <filter-mapping>
@@ -41,9 +54,13 @@
         <param-value>com.mysql.cj.jdbc.Driver</param-value>
     </context-param>
 
+    <listener>
+        <listener-class>config.FlywayInitializer</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>DatabaseInitializer</servlet-name>
-        <servlet-class>controller.validation.DatabaseInitializer</servlet-class>
+        <servlet-class>config.DatabaseInitializer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

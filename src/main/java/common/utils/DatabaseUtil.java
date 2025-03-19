@@ -1,8 +1,9 @@
-package utils;
+package common.utils;
 
 import common.Message;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import config.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

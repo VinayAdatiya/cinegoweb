@@ -4,6 +4,7 @@ public class Message {
 
     public static class Success {
         public static final String DB_CONNECTION_SUCCESS = "Database Connected Successful!";
+        public static final String FLYWAY_SUCCESS = "Flyway migration applied successfully.";
         public static final String LOGIN_SUCCESS = "Login Successful!";
         public static final String SIGNUP_SUCCESS = "Signup Completed Successfully!";
         public static final String LOGOUT_SUCCESS = "Logout Successful!";
@@ -23,6 +24,7 @@ public class Message {
 
     public static class Error {
         public static final String DB_CONNECTION_FAILED = "Database connection Failed!";
+        public static final String FLYWAY_FAILED = "Flyway migration failed!";
         public static final String REQUIRED_FIELD_MISSING = "Please Fill in all required fields!";
         public static final String EMAIL_EXISTS = "Email already exists!";
         public static final String USERNAME_EXISTS = "Username already taken!";

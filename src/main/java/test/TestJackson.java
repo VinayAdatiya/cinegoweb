@@ -1,4 +1,4 @@
-package Testing;
+package test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.State;

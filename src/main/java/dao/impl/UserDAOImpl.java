@@ -1,14 +1,16 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import dao.IAddressDAO;
+import dao.IUserDAO;
 import model.Address;
 import model.City;
 import model.User;
-import utils.DBConnection;
-import utils.DatabaseUtil;
+import config.DBConnection;
+import common.utils.DatabaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +20,7 @@ import java.sql.SQLException;
 public class UserDAOImpl implements IUserDAO {
     IAddressDAO addressDAO = new AddressDAOImpl();
 
-    public void registerUser(User user) throws SQLException {
+    public void registerUser(User user) throws DBException {
         String query = "INSERT INTO users (username , password , first_name , last_name  , email  , phone_number ,address_id ,created_by , role_id) " +
                 "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -32,7 +34,7 @@ public class UserDAOImpl implements IUserDAO {
             // Updating user with generated addressId
             user.getAddress().setAddressId(addressId);
             preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
@@ -44,14 +46,18 @@ public class UserDAOImpl implements IUserDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (Exception e) {
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException error) {
+                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            }
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(null, preparedStatement, connection);
         }
     }
 
-    public User authenticateUser(String email, String password) {
+    public User authenticateUser(String email, String password) throws ApplicationException{
         String query = "SELECT user_id , username , first_name , last_name  , email  , phone_number , address_id, role_id " +
                 "FROM users " +
                 "WHERE email = ? and password = ?";
@@ -67,7 +73,7 @@ public class UserDAOImpl implements IUserDAO {
             if (rs.next()) {
                 User user = new User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setUsername(rs.getString("username"));
+                user.setUserName(rs.getString("username"));
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
@@ -86,7 +92,7 @@ public class UserDAOImpl implements IUserDAO {
         }
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(int userId) throws DBException {
         String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.roleid" +
                 " a.address_line1, a.address_line2, a.pincode, " +
                 " c.city_id, c.city_name," +
@@ -108,7 +114,7 @@ public class UserDAOImpl implements IUserDAO {
             if (resultSet.next()) {
                 user = new User();
                 user.setUserId(resultSet.getInt("user_id"));
-                user.setUsername(resultSet.getString("username"));
+                user.setUserName(resultSet.getString("username"));
                 user.setFirstName(resultSet.getString("first_name"));
                 user.setLastName(resultSet.getString("last_name"));
                 user.setEmail(resultSet.getString("email"));
@@ -133,11 +139,11 @@ public class UserDAOImpl implements IUserDAO {
         return user;
     }
 
-    public boolean emailExists(String email) {
+    public boolean isEmailExist(String email) {
         return DatabaseUtil.checkRecordExists("users", "email", email);
     }
 
-    public boolean usernameExists(String username) {
+    public boolean isUsernameExist(String username) {
         return DatabaseUtil.checkRecordExists("users", "username", username);
     }
 }

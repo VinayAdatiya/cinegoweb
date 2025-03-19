@@ -1,10 +1,9 @@
 package controller.validation;
 
 import common.Message;
-import common.ValidationUtil;
+import common.utils.ValidationUtil;
 import common.exception.ApplicationException;
 import dto.user.UserSignUpDTO;
-import model.User;
 import service.UserService;
 
 public class SignUpValidator {
@@ -24,7 +23,7 @@ public class SignUpValidator {
             throw new ApplicationException(Message.Error.PINCODE_INVALID);
         }
 
-        if (userService.emailExists(userSignUpDTO.getEmail())) {
+        if (userService.isEmailExist(userSignUpDTO.getEmail())) {
             throw new ApplicationException(Message.Error.EMAIL_EXISTS);
         }
 

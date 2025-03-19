@@ -1,16 +1,17 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.exception.ApplicationException;
+import dao.IAddressDAO;
 import model.Address;
-import utils.DBConnection;
+import config.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AddressDAOImpl implements IAddressDAO{
-    public int insertAddress(Address address,Connection connection) {
+public class AddressDAOImpl implements IAddressDAO {
+    public int insertAddress(Address address, Connection connection) {
         int addressId = 0;
         String query = "INSERT INTO address (address_line,address_line2,pincode,city_id) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = null;
@@ -32,7 +33,7 @@ public class AddressDAOImpl implements IAddressDAO{
         } catch (SQLException e) {
             throw new ApplicationException(Message.Error.INTERNAL_ERROR, e);
         } finally {
-            DBConnection.closeResources(rs,preparedStatement,null);
+            DBConnection.closeResources(rs, preparedStatement, null);
         }
         return addressId;
     }

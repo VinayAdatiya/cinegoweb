@@ -4,12 +4,10 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import model.User;
 
-import java.sql.SQLException;
-
 public interface IUserDAO {
-    void registerUser(User user) throws SQLException, DBException;
+    void registerUser(User user) throws DBException;
     User authenticateUser(String email, String password) throws ApplicationException;
-    User getUserById(int userId);
-    boolean emailExists(String email) throws DBException;
-    boolean usernameExists(String username) throws DBException;
+    User getUserById(int userId) throws DBException;
+    boolean isEmailExist(String email) throws DBException;
+    boolean isUsernameExist(String username) throws DBException;
 }

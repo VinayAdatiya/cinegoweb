@@ -2,7 +2,7 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.ObjectMapperUtil;
+import common.utils.ObjectMapperUtil;
 import common.exception.DBException;
 import dto.ApiResponse;
 import model.Language;

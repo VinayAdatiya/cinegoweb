@@ -1,6 +1,6 @@
-package Testing;
+package test;
 
-import utils.DBConnection;
+import config.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

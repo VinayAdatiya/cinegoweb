@@ -1,16 +1,15 @@
 package service;
 
 import common.Role;
+import common.exception.ApplicationException;
 import dao.ITheaterDAO;
-import dao.TheaterDAOImpl;
+import dao.impl.TheaterDAOImpl;
 import model.Theater;
-
-import java.sql.SQLException;
 
 public class TheaterService {
     private final ITheaterDAO theaterDAO = new TheaterDAOImpl();
 
-    public void addTheater(Theater theater) throws SQLException {
+    public void addTheater(Theater theater) throws ApplicationException {
         theater.setCreatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
         theaterDAO.addTheater(theater);
     }

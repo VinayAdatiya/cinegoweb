@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class User {
     private int userId;
-    private String username;
+    private String userName;
     private String password;
     private String firstName;
     private String lastName;
@@ -22,7 +22,7 @@ public class User {
     public User() {}
 
     public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Address address,Role role) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +36,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", username='" + username + '\'' +
+                ", username='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -55,12 +55,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

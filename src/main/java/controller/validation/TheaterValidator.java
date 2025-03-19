@@ -1,7 +1,7 @@
 package controller.validation;
 
 import common.Message;
-import common.ValidationUtil;
+import common.utils.ValidationUtil;
 import common.exception.ApplicationException;
 import model.Theater;
 

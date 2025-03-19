@@ -1,9 +1,10 @@
-package dao;
+package dao.impl;
 
 import common.Message;
 import common.exception.DBException;
+import dao.ICrewDesignation;
 import model.CrewDesignation;
-import utils.DBConnection;
+import config.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class CrewDesignationDAOImpl implements ICrewDesignation {
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
-            DBConnection.closeResources(resultSet,preparedStatement,connection);
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
         return designationList;
     }

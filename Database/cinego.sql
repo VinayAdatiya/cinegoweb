@@ -43,7 +43,7 @@ INSERT INTO city (city_id, city_name, state_code) VALUES
 	(10, 'Pune', 'MH');
 
 CREATE TABLE address (
-    address_id INT PRIMARY KEY,
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
     address_line TEXT NOT NULL,
     address_line2 TEXT,
     pincode INT NOT NULL,
@@ -79,7 +79,7 @@ INSERT INTO users (user_id, username, password, first_name, last_name, email, ph
 VALUES (1, 'superadmin', 'CineGo@94278', 'Super', 'Admin', 'superadmin@cinego.com', '9427882822', 1, 1, 1);
 
 CREATE TABLE theater (
-    theater_id INT PRIMARY KEY,
+    theater_id INT PRIMARY KEY AUTO_INCREMENT,
     theater_admin INT NOT NULL, 
     theater_name VARCHAR(30) NOT NULL,
     theater_rating DECIMAL(3,1),
@@ -95,7 +95,7 @@ CREATE TABLE theater (
 );
 
 CREATE TABLE movie (
-    movie_id INT PRIMARY KEY,
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_title VARCHAR(30) NOT NULL,
     movie_rating DECIMAL(3,1),
     movie_duration TIME NOT NULL,

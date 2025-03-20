@@ -69,85 +69,121 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>SignUpServlet</servlet-name>
+        <servlet-name>SignUpController</servlet-name>
         <servlet-class>controller.SignUpController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>SignUpServlet</servlet-name>
+        <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <servlet-name>GetCurrentUserController</servlet-name>
         <servlet-class>controller.GetCurrentUserController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <servlet-name>GetCurrentUserController</servlet-name>
         <url-pattern>/getCurrentUser</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>FetchCityServlet</servlet-name>
+        <servlet-name>FetchCityController</servlet-name>
         <servlet-class>controller.FetchCityController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FetchCityServlet</servlet-name>
+        <servlet-name>FetchCityController</servlet-name>
         <url-pattern>/FetchCity</url-pattern>
     </servlet-mapping>
 
 
     <servlet>
-        <servlet-name>AddTheaterServlet</servlet-name>
+        <servlet-name>AddTheaterController</servlet-name>
         <servlet-class>controller.AddTheaterController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddTheaterServlet</servlet-name>
+        <servlet-name>AddTheaterController</servlet-name>
         <url-pattern>/addTheater</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddTheaterAdminServlet</servlet-name>
+        <servlet-name>AddTheaterAdminController</servlet-name>
         <servlet-class>controller.AddTheaterAdminController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddTheaterAdminServlet</servlet-name>
+        <servlet-name>AddTheaterAdminController</servlet-name>
         <url-pattern>/addTheaterAdmin</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddCrewServlet</servlet-name>
+        <servlet-name>AddCrewController</servlet-name>
         <servlet-class>controller.AddCrewController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddCrewServlet</servlet-name>
+        <servlet-name>AddCrewController</servlet-name>
         <url-pattern>/addCrew</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddMovieServlet</servlet-name>
+        <servlet-name>AddMovieController</servlet-name>
         <servlet-class>controller.AddMovieController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddMovieServlet</servlet-name>
+        <servlet-name>AddMovieController</servlet-name>
         <url-pattern>/addMovie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetMovieController</servlet-name>
+        <servlet-class>controller.GetMovieController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetMovieController</servlet-name>
+        <url-pattern>/fetchMovie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAllMoviesController</servlet-name>
+        <servlet-class>controller.GetAllMoviesController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllMoviesController</servlet-name>
+        <url-pattern>/getAllMovies</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateMovieController</servlet-name>
+        <servlet-class>controller.UpdateMovieController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateMovieController</servlet-name>
+        <url-pattern>/updateMovie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteMovieController</servlet-name>
+        <servlet-class>controller.DeleteMovieController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteMovieController</servlet-name>
+        <url-pattern>/deleteMovie</url-pattern>
     </servlet-mapping>
 
     <servlet>

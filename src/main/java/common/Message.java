@@ -11,15 +11,19 @@ public class Message {
         public static final String PROFILE_UPDATED = "Profile Updated Successfully!";
         public static final String THEATER_SUCCESS = "Theater added Successfully!";
         public static final String THEATER_ADMIN_REGISTERED = "Theater Admin registered successfully";
+        public static final String RECORD_FOUND = "Record retrieved Successfully";
         public static final String USER_FOUND = "User fetched successfully";
         public static final String MOVIE_ADDED = "Movie added successfully.";
         public static final String CREW_ADDED = "Crew member added successfully.";
         public static final String CREW_FOUND = "crew members Fetched successfully.";
+        public static final String MOVIES_FOUND = "Movies fetched successfully";
         public static final String CITIES_FOUND = "Cities fetched successfully.";
         public static final String LANGUAGES_FOUND = "Languages fetched successfully.";
         public static final String GENRES_FOUND = "Genres fetched successfully.";
         public static final String FORMATS_FOUND = "Formats fetched successfully.";
         public static final String DESIGNATIONS_FOUND = "Designations are fetched successfully";
+        public static final String RECORD_UPDATED = "Record updated successfully";
+        public static final String RECORD_DELETED = "Record deleted successfully";
     }
 
     public static class Error {
@@ -65,6 +69,8 @@ public class Message {
         public static final String MOVIE_LANGUAGES_LIST_NULL = "Movie languages list is null.";
         public static final String MOVIE_GENRES_LIST_NULL = "Movie genres list is null.";
         public static final String MOVIE_FORMATS_LIST_NULL = "Movie formats list is null.";
-        public static final String ID_INVALID = "Invalid Id Entry";
+        public static final String POSTER_PATH_REQUIRED = "Enter valid poster path.";
+        public static final String STORE_FAILED = "Failed to store poster";
+        public static final String INVALID_ID = "Invalid Id Entry";
     }
 }

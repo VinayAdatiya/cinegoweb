@@ -6,14 +6,13 @@ import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import dto.user.UserSignUpDTO;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import dto.user.UserSignUpDTO;
 import dto.ApiResponse;
 import controller.validation.SignUpValidator;
 import service.UserService;
-
 import java.io.IOException;
 
 public class SignUpController extends HttpServlet {

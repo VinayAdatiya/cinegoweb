@@ -40,7 +40,7 @@ public class DatabaseUtil {
     public static void validateIdsExist(String tableName, String columnName, List<Integer> ids) throws ApplicationException {
         for (Integer id : ids) {
             if (id == null || id <= 0) {
-                throw new ApplicationException(Message.Error.ID_INVALID);
+                throw new ApplicationException(Message.Error.INVALID_ID);
             }
             if (!checkRecordExists(tableName, columnName, id)) {
                 throw new ApplicationException(Message.Error.INVALID_INPUT);

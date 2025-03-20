@@ -3,17 +3,17 @@ package model;
 public class MovieCrew {
 
     private int movieId;
-    private int crewId;
-    private int designationId;
+    private Crew crew;
+    private CrewDesignation crewDesignation;
     private String characterName;
 
     public MovieCrew() {
     }
 
-    public MovieCrew(int movieId, int crewId, int designationId, String characterName) {
+    public MovieCrew(int movieId, Crew crew, CrewDesignation crewDesignation, String characterName) {
         this.movieId = movieId;
-        this.crewId = crewId;
-        this.designationId = designationId;
+        this.crew = crew;
+        this.crewDesignation = crewDesignation;
         this.characterName = characterName;
     }
 
@@ -25,20 +25,20 @@ public class MovieCrew {
         this.movieId = movieId;
     }
 
-    public int getCrewId() {
-        return crewId;
+    public Crew getCrew() {
+        return crew;
     }
 
-    public void setCrewId(int crewId) {
-        this.crewId = crewId;
+    public void setCrew(Crew crew) {
+        this.crew = crew;
     }
 
-    public int getDesignationId() {
-        return designationId;
+    public CrewDesignation getCrewDesignation() {
+        return crewDesignation;
     }
 
-    public void setDesignationId(int designationId) {
-        this.designationId = designationId;
+    public void setCrewDesignation(CrewDesignation crewDesignation) {
+        this.crewDesignation = crewDesignation;
     }
 
     public String getCharacterName() {

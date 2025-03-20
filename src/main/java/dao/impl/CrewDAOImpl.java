@@ -48,4 +48,24 @@ public class CrewDAOImpl implements ICrewDAO {
         }
         return crewList;
     }
+
+    @Override
+    public Crew getCrewById(int crewId, Connection connection) throws DBException {
+        Crew crew;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String query = "SELECT crew_id, crew_name FROM crew WHERE crew_id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, crewId);
+            resultSet = preparedStatement.executeQuery();
+            crew = new Crew();
+            crew.setCrewId(resultSet.getInt("crew_id"));
+            crew.setCrewName(resultSet.getString("crew_name"));
+            return crew;
+        } catch (SQLException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        }
+    }
 }

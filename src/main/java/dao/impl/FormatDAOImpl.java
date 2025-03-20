@@ -34,4 +34,32 @@ public class FormatDAOImpl implements IFormatDAO {
         }
         return formats;
     }
+
+    @Override
+    public List<Format> getFormatsByMovieId(int movieId, Connection connection) throws DBException {
+        List<Format> formats = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet movieFormatsSet = null;
+        String query = "SELECT f.format_id, f.format_name " +
+                "FROM formats f " +
+                "JOIN movie_formats mf " +
+                "ON f.format_id = mf.format_id " +
+                "WHERE mf.movie_id = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, movieId);
+            movieFormatsSet = preparedStatement.executeQuery();
+            while (movieFormatsSet.next()) {
+                Format format = new Format();
+                format.setFormatId(movieFormatsSet.getInt("format_id"));
+                format.setFormatName(movieFormatsSet.getString("format_name"));
+                formats.add(format);
+            }
+            return formats;
+        } catch (SQLException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(movieFormatsSet, preparedStatement, null);
+        }
+    }
 }

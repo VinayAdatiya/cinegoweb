@@ -1,15 +1,15 @@
-package model;
+package dto.movie;
 
-import common.utils.DateTimeUtil;
-import java.sql.Date;
-import java.sql.Time;
+import model.Format;
+import model.Genre;
+import model.Language;
+import model.MovieCrew;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class Movie {
+public class MovieResponseDTO {
     private int movieId;
     private String movieTitle;
     private Float movieRating;
@@ -21,15 +21,12 @@ public class Movie {
     private List<Genre> genres;
     private List<Format> formats;
     private List<MovieCrew> movieCrewEntries;
-    private int createdBy;
-    private LocalDateTime createdOn;
-    private int updatedBy;
-    private LocalDateTime updatedOn;
 
-    public Movie() {
+    public MovieResponseDTO() {
+
     }
 
-    public Movie(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries, int createdBy, LocalDateTime createdOn, int updatedBy, LocalDateTime updatedOn) {
+    public MovieResponseDTO(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;
@@ -41,10 +38,6 @@ public class Movie {
         this.genres = genres;
         this.formats = formats;
         this.movieCrewEntries = movieCrewEntries;
-        this.createdBy = createdBy;
-        this.createdOn = createdOn;
-        this.updatedBy = updatedBy;
-        this.updatedOn = updatedOn;
     }
 
     public int getMovieId() {
@@ -133,63 +126,5 @@ public class Movie {
 
     public void setMovieCrewEntries(List<MovieCrew> movieCrewEntries) {
         this.movieCrewEntries = movieCrewEntries;
-    }
-
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public int getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(int updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public LocalDateTime getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
-    public Time getSqlMovieDuration() {
-        return DateTimeUtil.toSqlTime(this.getMovieDuration());
-    }
-
-    public Date getSqlMovieReleaseDate() {
-        return DateTimeUtil.toSqlDate(this.getMovieReleaseDate());
-    }
-
-    public List<Integer> getLanguageIds() {
-        return languages.stream()
-                .map(Language::getLanguageId)
-                .collect(Collectors.toList());
-    }
-
-    public List<Integer> getGenreIds() {
-        return genres.stream()
-                .map(Genre::getGenreId)
-                .collect(Collectors.toList());
-    }
-
-    public List<Integer> getFormatIds() {
-        return formats.stream()
-                .map(Format::getFormatId)
-                .collect(Collectors.toList());
     }
 }

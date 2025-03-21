@@ -105,6 +105,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>GetAllUserController</servlet-name>
+        <servlet-class>controller.GetAllUserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllUserController</servlet-name>
+        <url-pattern>/getAllUsers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>FetchCityController</servlet-name>
         <servlet-class>controller.FetchCityController</servlet-class>
     </servlet>

@@ -4,6 +4,8 @@ public class State {
     private String stateCode;
     private String stateName;
 
+    public State(){}
+
     public State(String stateCode, String stateName) {
         this.stateCode = stateCode;
         this.stateName = stateName;

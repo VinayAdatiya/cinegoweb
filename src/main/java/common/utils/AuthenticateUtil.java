@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 public class AuthenticateUtil {
-    public static void authorize(HttpServletRequest request, Role requiredRole) {
+    public static void authorize(HttpServletRequest request, Role requiredRole) throws ApplicationException{
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             throw new ApplicationException(Message.Error.SESSION_EXPIRED);

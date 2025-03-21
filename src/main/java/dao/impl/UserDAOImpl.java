@@ -6,9 +6,7 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IAddressDAO;
 import dao.IUserDAO;
-import model.Address;
-import model.City;
-import model.User;
+import model.*;
 import config.DBConnection;
 import common.utils.DatabaseUtil;
 
@@ -16,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements IUserDAO {
     IAddressDAO addressDAO = new AddressDAOImpl();
@@ -57,7 +57,7 @@ public class UserDAOImpl implements IUserDAO {
         }
     }
 
-    public User authenticateUser(String email, String password) throws ApplicationException{
+    public User authenticateUser(String email, String password) throws ApplicationException {
         String query = "SELECT user_id , username , first_name , last_name  , email  , phone_number , address_id, role_id " +
                 "FROM users " +
                 "WHERE email = ? and password = ?";
@@ -93,9 +93,9 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     public User getUserById(int userId) throws DBException {
-        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.roleid" +
-                " a.address_line1, a.address_line2, a.pincode, " +
-                " c.city_id, c.city_name," +
+        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.roleid," +
+                " a.address_line, a.address_line2, a.pincode, " +
+                " c.city_id, c.city_name, c.state_code," +
                 " r.role_id" +
                 " FROM users u " +
                 " LEFT JOIN address a ON u.address_id = a.address_id " +
@@ -104,7 +104,7 @@ public class UserDAOImpl implements IUserDAO {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        User user = null;
+        User user;
 
         try {
             connection = DBConnection.INSTANCE.getConnection();
@@ -124,10 +124,15 @@ public class UserDAOImpl implements IUserDAO {
                 address.setAddressLine1(resultSet.getString("address_line"));
                 address.setAddressLine2(resultSet.getString("address_line2"));
                 address.setPincode(resultSet.getInt("pincode"));
+                State state = new State();
+                state.setStateCode(resultSet.getString("state_code"));
                 City city = new City();
+                city.setCityId(resultSet.getInt("city_id"));
                 city.setCityName(resultSet.getString("city_name"));
+                city.setState(state);
                 address.setCity(city);
                 user.setAddress(address);
+                return user;
             } else {
                 throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
             }
@@ -136,7 +141,55 @@ public class UserDAOImpl implements IUserDAO {
         } finally {
             DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
-        return user;
+    }
+
+    public List<User> getAllUser() throws DBException {
+        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.role_id, u.phone_number," +
+                " a.address_line, a.address_line2, a.pincode, " +
+                " c.city_id, c.city_name, c.state_code," +
+                " s.state_name " +
+                " FROM users u " +
+                " LEFT JOIN address a ON u.address_id = a.address_id " +
+                " LEFT JOIN city c ON a.city_id = c.city_id " +
+                " LEFT JOIN state s ON c.state_code = s.state_code";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                user.setUserName(resultSet.getString("username"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhoneNumber(resultSet.getString("phone_number"));
+                user.setRole(Role.getRole(resultSet.getInt("role_id")));
+                Address address = new Address();
+                address.setAddressLine1(resultSet.getString("address_line"));
+                address.setAddressLine2(resultSet.getString("address_line2"));
+                address.setPincode(resultSet.getInt("pincode"));
+                State state = new State();
+                state.setStateCode(resultSet.getString("state_code"));
+                state.setStateName(resultSet.getString("state_name"));
+                City city = new City();
+                city.setCityId(resultSet.getInt("city_id"));
+                city.setCityName(resultSet.getString("city_name"));
+                city.setState(state);
+                address.setCity(city);
+                user.setAddress(address);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
     }
 
     public boolean isEmailExist(String email) {

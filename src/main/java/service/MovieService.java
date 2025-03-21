@@ -47,7 +47,7 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public void updateMovie(MovieRequestDTO movieRequestDTO) throws DBException, ApplicationException {
+    public void updateMovie(MovieRequestDTO movieRequestDTO) throws ApplicationException {
         String posterPath = storeMoviePoster(movieRequestDTO.getMoviePosterPath(), movieRequestDTO.getMovieTitle());
         Movie movie = movieMapper.toMovieModel(movieRequestDTO);
         movie.setMoviePosterPath(posterPath);

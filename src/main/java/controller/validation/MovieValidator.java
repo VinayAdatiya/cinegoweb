@@ -6,15 +6,14 @@ import common.exception.ApplicationException;
 import dto.movie.MovieRequestDTO;
 import model.MovieCrew;
 import common.utils.DatabaseUtil;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MovieValidator {
 
     public static void validateMovie(MovieRequestDTO movieRequestDTO) throws ApplicationException {
-        if (movieRequestDTO.getMovieId() != 0){
-            if(!DatabaseUtil.checkRecordExists("movie","movie_id",movieRequestDTO.getMovieId())){
+        if (movieRequestDTO.getMovieId() != 0) {
+            if (!DatabaseUtil.checkRecordExists("movie", "movie_id", movieRequestDTO.getMovieId())) {
                 throw new ApplicationException(Message.Error.INVALID_ID);
             }
         }
@@ -38,23 +37,19 @@ public class MovieValidator {
 
         if (movieRequestDTO.getMovieReleaseDate() == null) {
             throw new ApplicationException(Message.Error.MOVIE_RELEASE_DATE_REQUIRED);
-        } else {
-            if (movieRequestDTO.getMovieReleaseDate().isAfter(LocalDate.now())) {
-                throw new ApplicationException(Message.Error.MOVIE_RELEASE_DATE_FUTURE);
-            }
         }
 
-        if (movieRequestDTO.getLanguageIds() == null || movieRequestDTO.getLanguageIds().isEmpty()) {
+        if (movieRequestDTO.getLanguages() == null || movieRequestDTO.getLanguages().isEmpty()) {
             throw new ApplicationException(Message.Error.MOVIE_LANGUAGES_LIST_NULL);
         }
         DatabaseUtil.validateIdsExist("languages", "language_id", movieRequestDTO.getLanguageIds());
 
-        if (movieRequestDTO.getGenreIds() == null || movieRequestDTO.getGenreIds().isEmpty()) {
+        if (movieRequestDTO.getGenres() == null || movieRequestDTO.getGenres().isEmpty()) {
             throw new ApplicationException(Message.Error.MOVIE_GENRES_LIST_NULL);
         }
         DatabaseUtil.validateIdsExist("genres", "genre_id", movieRequestDTO.getGenreIds());
 
-        if (movieRequestDTO.getFormatIds() == null || movieRequestDTO.getFormatIds().isEmpty()) {
+        if (movieRequestDTO.getFormats() == null || movieRequestDTO.getFormats().isEmpty()) {
             throw new ApplicationException(Message.Error.MOVIE_FORMATS_LIST_NULL);
         }
         DatabaseUtil.validateIdsExist("formats", "format_id", movieRequestDTO.getFormatIds());

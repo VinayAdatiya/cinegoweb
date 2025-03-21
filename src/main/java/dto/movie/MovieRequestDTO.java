@@ -153,7 +153,7 @@ public class MovieRequestDTO {
         if (languages != null) {
             return languages.stream().map(Language::getLanguageId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 
@@ -161,7 +161,7 @@ public class MovieRequestDTO {
         if (genres != null) {
             return genres.stream().map(Genre::getGenreId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 
@@ -169,7 +169,7 @@ public class MovieRequestDTO {
         if (formats != null) {
             return formats.stream().map(Format::getFormatId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 }

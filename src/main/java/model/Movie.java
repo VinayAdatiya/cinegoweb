@@ -3,6 +3,7 @@ package model;
 import common.Message;
 import common.exception.DBException;
 import common.utils.DateTimeUtil;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -200,9 +201,9 @@ public class Movie {
 
     public List<Integer> getLanguageIds() {
         if (languages != null) {
-            return this.getLanguages().stream().map(Language::getLanguageId).collect(Collectors.toList());
+            return languages.stream().map(Language::getLanguageId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 
@@ -210,7 +211,7 @@ public class Movie {
         if (genres != null) {
             return genres.stream().map(Genre::getGenreId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 
@@ -218,7 +219,7 @@ public class Movie {
         if (formats != null) {
             return formats.stream().map(Format::getFormatId).collect(Collectors.toList());
         } else {
-            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+            throw new DBException(Message.Error.INTERNAL_ERROR, null);
         }
     }
 }

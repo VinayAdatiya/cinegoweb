@@ -1,5 +1,7 @@
 package model;
 
+import common.Message;
+import common.exception.DBException;
 import common.utils.DateTimeUtil;
 import java.sql.Date;
 import java.sql.Time;
@@ -45,6 +47,27 @@ public class Movie {
         this.createdOn = createdOn;
         this.updatedBy = updatedBy;
         this.updatedOn = updatedOn;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "movieId=" + movieId +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", movieRating=" + movieRating +
+                ", movieDuration=" + movieDuration +
+                ", movieReleaseDate=" + movieReleaseDate +
+                ", movieDescription='" + movieDescription + '\'' +
+                ", moviePosterPath='" + moviePosterPath + '\'' +
+                ", languages=" + languages +
+                ", genres=" + genres +
+                ", formats=" + formats +
+                ", movieCrewEntries=" + movieCrewEntries +
+                ", createdBy=" + createdBy +
+                ", createdOn=" + createdOn +
+                ", updatedBy=" + updatedBy +
+                ", updatedOn=" + updatedOn +
+                '}';
     }
 
     public int getMovieId() {
@@ -176,20 +199,26 @@ public class Movie {
     }
 
     public List<Integer> getLanguageIds() {
-        return languages.stream()
-                .map(Language::getLanguageId)
-                .collect(Collectors.toList());
+        if (languages != null) {
+            return this.getLanguages().stream().map(Language::getLanguageId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
     }
 
     public List<Integer> getGenreIds() {
-        return genres.stream()
-                .map(Genre::getGenreId)
-                .collect(Collectors.toList());
+        if (genres != null) {
+            return genres.stream().map(Genre::getGenreId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
     }
 
     public List<Integer> getFormatIds() {
-        return formats.stream()
-                .map(Format::getFormatId)
-                .collect(Collectors.toList());
+        if (formats != null) {
+            return formats.stream().map(Format::getFormatId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
     }
 }

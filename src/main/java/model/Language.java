@@ -12,6 +12,14 @@ public class Language {
         this.languageName = languageName;
     }
 
+    @Override
+    public String toString() {
+        return "Language{" +
+                "languageId=" + languageId +
+                ", languageName='" + languageName + '\'' +
+                '}';
+    }
+
     public int getLanguageId() {
         return languageId;
     }

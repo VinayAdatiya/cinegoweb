@@ -41,6 +41,7 @@ public class AddMovieController extends HttpServlet {
             apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
+            e.printStackTrace();
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

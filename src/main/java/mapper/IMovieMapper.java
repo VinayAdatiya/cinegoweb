@@ -1,7 +1,7 @@
 package mapper;
 
 import dto.movie.MovieRequestDTO;
-import dto.movie.MovieResponseDTO;
+import dto.movie.MovieDTO;
 import model.Movie;
 import org.mapstruct.Mapper;
 
@@ -9,5 +9,5 @@ import org.mapstruct.Mapper;
 public interface IMovieMapper {
     Movie toMovieModel(MovieRequestDTO movieRequestDTO);
 
-    MovieResponseDTO toMovieResponseDTO(Movie movie);
+    MovieDTO toMovieResponseDTO(Movie movie);
 }

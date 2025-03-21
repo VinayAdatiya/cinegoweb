@@ -6,7 +6,7 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
-import dto.movie.MovieResponseDTO;
+import dto.movie.MovieDTO;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,11 +24,11 @@ public class GetMovieController extends HttpServlet {
         try {
             int movieId;
             try {
-                movieId = Integer.parseInt(request.getParameter("id"));
+                movieId = Integer.parseInt(request.getParameter("movieId"));
             } catch (NumberFormatException e) {
                 throw new ApplicationException(Message.Error.INVALID_ID);
             }
-            MovieResponseDTO movieResponseDTO = movieService.getMovieById(movieId);
+            MovieDTO movieResponseDTO = movieService.getMovieById(movieId);
             if (movieResponseDTO != null) {
                 apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, movieResponseDTO);
                 response.setStatus(HttpServletResponse.SC_OK);

@@ -12,6 +12,14 @@ public class Format {
         this.formatName = FormatName;
     }
 
+    @Override
+    public String toString() {
+        return "Format{" +
+                "formatId=" + formatId +
+                ", formatName='" + formatName + '\'' +
+                '}';
+    }
+
     public int getFormatId() {
         return formatId;
     }

@@ -2,10 +2,9 @@ package controller;
 
 import common.AppConstant;
 import common.Message;
-import common.exception.DBException;
 import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
-import dto.movie.MovieResponseDTO;
+import dto.movie.MovieDTO;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,10 +21,11 @@ public class GetAllMoviesController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            List<MovieResponseDTO> movieResponseDTOs = movieService.getAllMovies();
+            List<MovieDTO> movieResponseDTOs = movieService.getAllMovies();
             apiResponse = new ApiResponse(Message.Success.MOVIES_FOUND, movieResponseDTOs);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
+            e.printStackTrace();
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

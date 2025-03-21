@@ -13,6 +13,12 @@ import java.util.stream.Collectors;
 public class MovieValidator {
 
     public static void validateMovie(MovieRequestDTO movieRequestDTO) throws ApplicationException {
+        if (movieRequestDTO.getMovieId() != 0){
+            if(!DatabaseUtil.checkRecordExists("movie","movie_id",movieRequestDTO.getMovieId())){
+                throw new ApplicationException(Message.Error.INVALID_ID);
+            }
+        }
+
         if (movieRequestDTO.getMovieTitle() == null || movieRequestDTO.getMovieTitle().trim().isEmpty()) {
             throw new ApplicationException(Message.Error.MOVIE_TITLE_REQUIRED);
         }

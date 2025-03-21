@@ -4,10 +4,11 @@ import common.Message;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import common.utils.DatabaseUtil;
 import dao.IMovieDAO;
 import dao.impl.MovieDAOImpl;
 import dto.movie.MovieRequestDTO;
-import dto.movie.MovieResponseDTO;
+import dto.movie.MovieDTO;
 import mapper.IMovieMapper;
 import model.Movie;
 import org.mapstruct.factory.Mappers;
@@ -34,12 +35,12 @@ public class MovieService {
         movieDAO.addMovie(movie);
     }
 
-    public MovieResponseDTO getMovieById(int movieId) throws DBException {
+    public MovieDTO getMovieById(int movieId) throws DBException {
         Movie movie = movieDAO.getMovieById(movieId);
         return movieMapper.toMovieResponseDTO(movie);
     }
 
-    public List<MovieResponseDTO> getAllMovies() throws DBException {
+    public List<MovieDTO> getAllMovies() throws DBException {
         List<Movie> movies = movieDAO.getAllMovies();
         return movies.stream()
                 .map(movieMapper::toMovieResponseDTO)
@@ -50,11 +51,17 @@ public class MovieService {
         String posterPath = storeMoviePoster(movieRequestDTO.getMoviePosterPath(), movieRequestDTO.getMovieTitle());
         Movie movie = movieMapper.toMovieModel(movieRequestDTO);
         movie.setMoviePosterPath(posterPath);
+        movie.setUpdatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
         movieDAO.updateMovie(movie);
     }
 
-    public void deleteMovie(int movieId) throws DBException {
-        movieDAO.deleteMovie(movieId);
+    public void deleteMovie(int movieId) throws ApplicationException {
+        if (DatabaseUtil.checkRecordExists("movie", "movie_id", movieId)) {
+            movieDAO.deleteMovie(movieId);
+        }
+        else{
+            throw new ApplicationException(Message.Error.INVALID_ID);
+        }
     }
 
     private String storeMoviePoster(String posterPath, String movieTitle) throws ApplicationException {

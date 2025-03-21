@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class MovieResponseDTO {
+public class MovieDTO {
     private int movieId;
     private String movieTitle;
     private Float movieRating;
@@ -22,11 +22,11 @@ public class MovieResponseDTO {
     private List<Format> formats;
     private List<MovieCrew> movieCrewEntries;
 
-    public MovieResponseDTO() {
+    public MovieDTO() {
 
     }
 
-    public MovieResponseDTO(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
+    public MovieDTO(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;

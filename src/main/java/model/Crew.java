@@ -12,6 +12,14 @@ public class Crew {
         this.crewName = crewName;
     }
 
+    @Override
+    public String toString() {
+        return "Crew{" +
+                "crewId=" + crewId +
+                ", crewName='" + crewName + '\'' +
+                '}';
+    }
+
     public int getCrewId() {
         return crewId;
     }

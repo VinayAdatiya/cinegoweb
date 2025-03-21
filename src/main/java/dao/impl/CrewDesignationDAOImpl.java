@@ -5,7 +5,6 @@ import common.exception.DBException;
 import dao.ICrewDesignationDAO;
 import model.CrewDesignation;
 import config.DBConnection;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +37,17 @@ public class CrewDesignationDAOImpl implements ICrewDesignationDAO {
         CrewDesignation designation;
         PreparedStatement preparedStatement;
         ResultSet resultSet;
-        String query = "SELECT designation_id, designation_name FROM crew_designation WHERE designation_id = ?";
+        String query = "SELECT designation_id, designation_title FROM crew_designation WHERE designation_id = ?";
 
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, designationId);
             resultSet = preparedStatement.executeQuery();
             designation = new CrewDesignation();
-            designation.setDesignationId(resultSet.getInt("designation_id"));
-            designation.setDesignationName(resultSet.getString("designation_name"));
+            if (resultSet.next()) {
+                designation.setDesignationId(resultSet.getInt("designation_id"));
+                designation.setDesignationName(resultSet.getString("designation_title"));
+            }
             return designation;
         } catch (SQLException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);

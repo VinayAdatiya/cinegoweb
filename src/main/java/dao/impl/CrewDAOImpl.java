@@ -61,8 +61,10 @@ public class CrewDAOImpl implements ICrewDAO {
             preparedStatement.setInt(1, crewId);
             resultSet = preparedStatement.executeQuery();
             crew = new Crew();
-            crew.setCrewId(resultSet.getInt("crew_id"));
-            crew.setCrewName(resultSet.getString("crew_name"));
+            if (resultSet.next()) {
+                crew.setCrewId(resultSet.getInt("crew_id"));
+                crew.setCrewName(resultSet.getString("crew_name"));
+            }
             return crew;
         } catch (SQLException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);

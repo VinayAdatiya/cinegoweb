@@ -1,38 +1,72 @@
 package dto.movie;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import common.Message;
+import common.exception.DBException;
+import model.Format;
+import model.Genre;
+import model.Language;
 import model.MovieCrew;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MovieRequestDTO {
+    private int movieId;
     private String movieTitle;
     private Float movieRating;
     private LocalTime movieDuration;
     private LocalDate movieReleaseDate;
     private String movieDescription;
     private String moviePosterPath;
-    private List<Integer> languageIds;
-    private List<Integer> genreIds;
-    private List<Integer> formatIds;
+    private List<Language> languages;
+    private List<Genre> genres;
+    private List<Format> formats;
     private List<MovieCrew> movieCrewEntries;
 
     public MovieRequestDTO() {
 
     }
 
-    public MovieRequestDTO(String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Integer> languageIds, List<Integer> genreIds, List<Integer> formatIds, List<MovieCrew> movieCrewEntries) {
+    public MovieRequestDTO(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
+        this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;
         this.movieDuration = movieDuration;
         this.movieReleaseDate = movieReleaseDate;
         this.movieDescription = movieDescription;
         this.moviePosterPath = moviePosterPath;
-        this.languageIds = languageIds;
-        this.genreIds = genreIds;
-        this.formatIds = formatIds;
+        this.languages = languages;
+        this.genres = genres;
+        this.formats = formats;
         this.movieCrewEntries = movieCrewEntries;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieRequestDTO{" +
+                "movieTitle='" + movieTitle + '\'' +
+                ", movieRating=" + movieRating +
+                ", movieDuration=" + movieDuration +
+                ", movieReleaseDate=" + movieReleaseDate +
+                ", movieDescription='" + movieDescription + '\'' +
+                ", moviePosterPath='" + moviePosterPath + '\'' +
+                ", languages=" + languages +
+                ", genres=" + genres +
+                ", formats=" + formats +
+                ", movieCrewEntries=" + movieCrewEntries +
+                '}';
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getMovieTitle() {
@@ -83,28 +117,28 @@ public class MovieRequestDTO {
         this.movieDescription = movieDescription;
     }
 
-    public List<Integer> getLanguageIds() {
-        return languageIds;
+    public List<Language> getLanguages() {
+        return languages;
     }
 
-    public void setLanguageIds(List<Integer> languageIds) {
-        this.languageIds = languageIds;
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
     }
 
-    public List<Integer> getGenreIds() {
-        return genreIds;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
-    public List<Integer> getFormatIds() {
-        return formatIds;
+    public List<Format> getFormats() {
+        return formats;
     }
 
-    public void setFormatIds(List<Integer> formatIds) {
-        this.formatIds = formatIds;
+    public void setFormats(List<Format> formats) {
+        this.formats = formats;
     }
 
     public List<MovieCrew> getMovieCrewEntries() {
@@ -113,5 +147,29 @@ public class MovieRequestDTO {
 
     public void setMovieCrewEntries(List<MovieCrew> movieCrewEntries) {
         this.movieCrewEntries = movieCrewEntries;
+    }
+
+    public List<Integer> getLanguageIds() {
+        if (languages != null) {
+            return languages.stream().map(Language::getLanguageId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
+    }
+
+    public List<Integer> getGenreIds() {
+        if (genres != null) {
+            return genres.stream().map(Genre::getGenreId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
+    }
+
+    public List<Integer> getFormatIds() {
+        if (formats != null) {
+            return formats.stream().map(Format::getFormatId).collect(Collectors.toList());
+        } else {
+            throw new DBException(Message.Error.INTERNAL_ERROR,null);
+        }
     }
 }

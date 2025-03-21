@@ -12,6 +12,14 @@ public class CrewDesignation {
         this.designationName = designationName;
     }
 
+    @Override
+    public String toString() {
+        return "CrewDesignation{" +
+                "designationId=" + designationId +
+                ", designationName='" + designationName + '\'' +
+                '}';
+    }
+
     public int getDesignationId() {
         return designationId;
     }

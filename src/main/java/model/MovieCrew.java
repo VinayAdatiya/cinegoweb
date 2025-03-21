@@ -17,6 +17,16 @@ public class MovieCrew {
         this.characterName = characterName;
     }
 
+    @Override
+    public String toString() {
+        return "MovieCrew{" +
+                "movieId=" + movieId +
+                ", crew=" + crew +
+                ", crewDesignation=" + crewDesignation +
+                ", characterName='" + characterName + '\'' +
+                '}';
+    }
+
     public int getMovieId() {
         return movieId;
     }

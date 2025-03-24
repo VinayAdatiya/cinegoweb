@@ -122,7 +122,7 @@
         <url-pattern>/FetchCity</url-pattern>
     </servlet-mapping>
 
-
+<!--    Theater CRUD-->
     <servlet>
         <servlet-name>AddTheaterController</servlet-name>
         <servlet-class>controller.AddTheaterController</servlet-class>
@@ -130,6 +130,42 @@
     <servlet-mapping>
         <servlet-name>AddTheaterController</servlet-name>
         <url-pattern>/addTheater</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetTheaterController</servlet-name>
+        <servlet-class>controller.GetTheaterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetTheaterController</servlet-name>
+        <url-pattern>/fetchTheater</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAllTheaterController</servlet-name>
+        <servlet-class>controller.GetAllTheaterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllTheaterController</servlet-name>
+        <url-pattern>/getAllTheaters</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateTheaterController</servlet-name>
+        <servlet-class>controller.UpdateTheaterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateTheaterController</servlet-name>
+        <url-pattern>/updateTheater</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteTheaterController</servlet-name>
+        <servlet-class>controller.DeleteTheaterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteTheaterController</servlet-name>
+        <url-pattern>/deleteTheater</url-pattern>
     </servlet-mapping>
 
     <servlet>

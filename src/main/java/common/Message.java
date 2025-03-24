@@ -17,6 +17,7 @@ public class Message {
         public static final String CREW_ADDED = "Crew member added successfully.";
         public static final String CREW_FOUND = "crew members Fetched successfully.";
         public static final String MOVIES_FOUND = "Movies fetched successfully";
+        public static final String THEATERS_FOUND = "Theaters fetched successfully";
         public static final String CITIES_FOUND = "Cities fetched successfully.";
         public static final String LANGUAGES_FOUND = "Languages fetched successfully.";
         public static final String GENRES_FOUND = "Genres fetched successfully.";
@@ -58,6 +59,7 @@ public class Message {
         public static final String NO_RECORD_FOUND = "No Record Found";
         public static final String INVALID_INPUT = "Please Enter Valid Input";
         public static final String MOVIE_TITLE_REQUIRED = "Movie title is required.";
+        public static final String MOVIE_TITLE_TOO_LONG = "Movie title cannot exceed 30 characters!";
         public static final String MOVIE_RATING_INVALID = "Movie rating is invalid. It must be between 0 and 10.";
         public static final String MOVIE_DURATION_REQUIRED = "Movie duration is required.";
         public static final String MOVIE_DURATION_INVALID = "Movie duration is invalid. It must be in HH:MM:SS format.";

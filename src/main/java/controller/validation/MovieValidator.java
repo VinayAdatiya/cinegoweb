@@ -22,6 +22,10 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_TITLE_REQUIRED);
         }
 
+        if(!ValidationUtil.isValidLength(movieRequestDTO.getMovieTitle(), 30)){
+            throw new ApplicationException(Message.Error.MOVIE_TITLE_TOO_LONG);
+        }
+
         if (movieRequestDTO.getMovieRating() == null || movieRequestDTO.getMovieRating() < 0 || movieRequestDTO.getMovieRating() > 10) {
             throw new ApplicationException(Message.Error.MOVIE_RATING_INVALID);
         }

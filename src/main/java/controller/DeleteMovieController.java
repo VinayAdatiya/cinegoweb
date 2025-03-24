@@ -26,7 +26,7 @@ public class DeleteMovieController extends HttpServlet {
             int movieId = Integer.parseInt(request.getParameter("movieId"));
             movieService.deleteMovie(movieId);
             apiResponse = new ApiResponse(Message.Success.RECORD_DELETED, null);
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

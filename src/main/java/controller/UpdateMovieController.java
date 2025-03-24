@@ -30,7 +30,7 @@ public class UpdateMovieController extends HttpServlet {
             MovieValidator.validateMovie(movieRequestDTO);
             movieService.updateMovie(movieRequestDTO);
             apiResponse = new ApiResponse(Message.Success.RECORD_UPDATED, null);
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

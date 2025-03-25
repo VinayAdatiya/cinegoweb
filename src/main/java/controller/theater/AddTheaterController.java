@@ -1,4 +1,4 @@
-package controller;
+package controller.theater;
 
 import common.AppConstant;
 import common.Message;
@@ -6,18 +6,21 @@ import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import model.Crew;
-import java.io.IOException;
+import dto.theater.TheaterRequestDTO;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import dto.ApiResponse;
-import controller.validation.CrewValidator;
-import service.CrewService;
+import controller.validation.TheaterValidator;
+import service.TheaterService;
 import common.utils.AuthenticateUtil;
 
-public class AddCrewController extends HttpServlet {
-    private final CrewService crewService = new CrewService();
+import java.io.IOException;
+
+@WebServlet(name = "AddTheaterController" , value = "/addTheater" , description = "Setup New Theater TheaterAdmin Credentials are required")
+public class AddTheaterController extends HttpServlet {
+    private final TheaterService theaterService = new TheaterService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
@@ -25,17 +28,20 @@ public class AddCrewController extends HttpServlet {
         ApiResponse apiResponse;
         try {
             AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
-            Crew crew = ObjectMapperUtil.toObject(request.getReader(), Crew.class);
-            CrewValidator.validateCrew(crew);
-            crewService.addCrew(crew);
-            apiResponse = new ApiResponse(Message.Success.CREW_ADDED, null);
+            TheaterRequestDTO theaterRequestDTO = ObjectMapperUtil.toObject(request.getReader(), TheaterRequestDTO.class);
+            TheaterValidator.validateTheater(theaterRequestDTO);
+            theaterService.addTheater(theaterRequestDTO);
+            apiResponse = new ApiResponse(Message.Success.THEATER_SUCCESS, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
+            apiResponse = new ApiResponse(Message.Error.THEATER_FAILED, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (IOException e) {
+            apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

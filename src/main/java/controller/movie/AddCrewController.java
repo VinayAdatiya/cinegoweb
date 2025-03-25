@@ -1,41 +1,42 @@
-package controller;
+package controller.movie;
 
 import common.AppConstant;
 import common.Message;
+import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.AuthenticateUtil;
-import common.utils.ObjectMapperUtil;
-import dto.ApiResponse;
+import jakarta.servlet.annotation.WebServlet;
+import model.Crew;
+import java.io.IOException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.TheaterService;
+import dto.ApiResponse;
+import controller.validation.CrewValidator;
+import service.CrewService;
+import common.utils.AuthenticateUtil;
 
-import java.io.IOException;
+@WebServlet(name = "AddCrewController" , value = "/addCrew" , description = "Add Crew Member if it is not available in list E.x. SRK or Salman Khan")
+public class AddCrewController extends HttpServlet {
+    private final CrewService crewService = new CrewService();
 
-public class DeleteTheaterController extends HttpServlet {
-    private final TheaterService theaterService = new TheaterService();
-
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
             AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
-            int theaterId = Integer.parseInt(request.getParameter("theaterId"));
-            theaterService.deleteTheater(theaterId);
-            apiResponse = new ApiResponse(Message.Success.RECORD_DELETED, null);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            Crew crew = ObjectMapperUtil.toObject(request.getReader(), Crew.class);
+            CrewValidator.validateCrew(crew);
+            crewService.addCrew(crew);
+            apiResponse = new ApiResponse(Message.Success.CREW_ADDED, null);
+            response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } catch (NumberFormatException e) {
-            apiResponse = new ApiResponse(Message.Error.INVALID_ID, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);

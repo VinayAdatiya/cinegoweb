@@ -6,6 +6,7 @@ import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import controller.validation.SignUpValidator;
 import service.UserService;
 import java.io.IOException;
 
+@WebServlet(name = "SignUpController" , value = "/signup" , description = "Normal User Signup")
 public class SignUpController extends HttpServlet {
     private final UserService userService = new UserService();
 

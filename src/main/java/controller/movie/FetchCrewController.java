@@ -1,10 +1,11 @@
-package controller;
+package controller.movie;
 
 import common.AppConstant;
 import common.Message;
 import common.utils.ObjectMapperUtil;
 import common.exception.DBException;
 import dto.ApiResponse;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import service.CrewService;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet(name = "FetchCrewController" , value = "/getCrewMembers" , description = "Get All Crew Members List")
 public class FetchCrewController extends HttpServlet {
     private final CrewService crewService = new CrewService();
 

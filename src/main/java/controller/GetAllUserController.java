@@ -10,6 +10,7 @@ import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
 import dto.user.UserResponseDTO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import service.UserService;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet(name = "GetAllUserController", value = "/getAllUsers", description = "Get All User")
 public class GetAllUserController extends HttpServlet {
     private final UserService userService = new UserService();
 

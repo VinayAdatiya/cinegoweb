@@ -1,4 +1,4 @@
-package controller;
+package controller.theater;
 
 import common.AppConstant;
 import common.Message;
@@ -6,31 +6,33 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
-import dto.movie.MovieDTO;
+import dto.theater.TheaterResponseDTO;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.MovieService;
+import service.TheaterService;
 
 import java.io.IOException;
 
-public class GetMovieController extends HttpServlet {
-    private final MovieService movieService = new MovieService();
+@WebServlet(name = "GetTheaterController" , value = "/fetchTheater" , description = "Fetch Particular Theater By theaterId")
+public class GetTheaterController extends HttpServlet {
+    private final TheaterService theaterService = new TheaterService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            int movieId;
+            int theaterId;
             try {
-                movieId = Integer.parseInt(request.getParameter("movieId"));
+                theaterId = Integer.parseInt(request.getParameter("theaterId"));
             } catch (NumberFormatException e) {
                 throw new ApplicationException(Message.Error.INVALID_ID);
             }
-            MovieDTO movieResponseDTO = movieService.getMovieById(movieId);
-            if (movieResponseDTO != null) {
-                apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, movieResponseDTO);
+            TheaterResponseDTO theaterResponseDTO = theaterService.getTheaterById(theaterId);
+            if (theaterResponseDTO != null) {
+                apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, theaterResponseDTO);
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
                 apiResponse = new ApiResponse(Message.Error.NO_RECORD_FOUND, null);

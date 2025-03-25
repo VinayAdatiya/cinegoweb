@@ -238,3 +238,40 @@ CREATE TABLE movie_crew (
     FOREIGN KEY (designation_id) REFERENCES crew_designation(designation_id),
     PRIMARY KEY (movie_id, crew_id, designation_id)
 );
+
+CREATE TABLE screen_types
+(
+    screen_type_id          INT PRIMARY KEY AUTO_INCREMENT,
+    screen_type             VARCHAR(10) NOT NULL UNIQUE,
+    screen_type_description TEXT
+);
+
+INSERT INTO screen_types (screen_type, screen_type_description)
+VALUES ('2D', 'Standard 2D screen'),
+       ('3D', '3D screen with polarized glasses'),
+       ('IMAX', 'Large format screen with enhanced visuals'),
+       ('4DX', 'Motion and sensory effects screen'),
+       ('GOLD', 'Premium screen with luxury seating and service'),
+       ('SCREENX', 'Panoramic 270-degree screen'),
+       ('MX4D', 'Motion and environmental effects screen'),
+       ('ONYX', 'LED cinema screen with HDR'),
+       ('PLAYHOUSE', 'Kids-focused screen with play area'),
+       ('INSIGNIA', 'Premium screen with recliner seats and service');
+
+CREATE TABLE screen
+(
+    screen_id      INT PRIMARY KEY AUTO_INCREMENT,
+    screen_title   VARCHAR(10) NOT NULL,
+    total_seats    INT         NOT NULL,
+    screen_type_id INT,
+    layout         TEXT        NOT NULL,
+    theater_id     INT,
+    created_on     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by     INT         NOT NULL,
+    updated_on     DATETIME             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by     INT,
+    FOREIGN KEY (screen_type_id) REFERENCES screen_types (screen_type_id),
+    FOREIGN KEY (theater_id) REFERENCES theater (theater_id),
+    FOREIGN KEY (created_by) REFERENCES users (user_id),
+    FOREIGN KEY (updated_by) REFERENCES users (user_id)
+);

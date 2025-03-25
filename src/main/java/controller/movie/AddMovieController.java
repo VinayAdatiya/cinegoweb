@@ -1,4 +1,4 @@
-package controller;
+package controller.movie;
 
 import common.AppConstant;
 import common.Message;
@@ -10,13 +10,14 @@ import common.utils.ObjectMapperUtil;
 import controller.validation.MovieValidator;
 import dto.ApiResponse;
 import dto.movie.MovieRequestDTO;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.MovieService;
-
 import java.io.IOException;
 
+@WebServlet(name = "AddMovieController" , value = "/addMovie" , description = "Add New Movie by SuperAdmin")
 public class AddMovieController extends HttpServlet {
     private final MovieService movieService = new MovieService();
 

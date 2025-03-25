@@ -1,39 +1,40 @@
-package controller;
+package controller.movie;
 
 import common.AppConstant;
 import common.Message;
-import common.utils.ObjectMapperUtil;
 import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import dto.user.UserSignUpDTO;
+import common.utils.AuthenticateUtil;
+import common.utils.ObjectMapperUtil;
+import controller.validation.MovieValidator;
 import dto.ApiResponse;
+import dto.movie.MovieRequestDTO;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import controller.validation.SignUpValidator;
-import service.UserService;
-import common.utils.AuthenticateUtil;
+import service.MovieService;
+
 import java.io.IOException;
 
-public class AddTheaterAdminController extends HttpServlet {
-    private final UserService userService = new UserService();
+@WebServlet(name = "UpdateMovieController" , value = "/updateMovie" , description = "Update Movie Details restricted to SuperAdmin")
+public class UpdateMovieController extends HttpServlet {
+    private final MovieService movieService = new MovieService();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
             AuthenticateUtil.authorize(request, Role.ROLE_SUPER_ADMIN);
-            UserSignUpDTO userSignUpDTO = ObjectMapperUtil.toObject(request.getReader(), UserSignUpDTO.class);
-            SignUpValidator.validateSignup(userSignUpDTO, userService);
-            // Set roleId to 2 for Theater Admin
-            userSignUpDTO.setRole(Role.ROLE_THEATER_ADMIN);
-            userService.registerUser(userSignUpDTO);
-            apiResponse = new ApiResponse(Message.Success.THEATER_ADMIN_REGISTERED, null);
-            response.setStatus(HttpServletResponse.SC_CREATED);
+            MovieRequestDTO movieRequestDTO = ObjectMapperUtil.toObject(request.getReader(), MovieRequestDTO.class);
+            MovieValidator.validateMovie(movieRequestDTO);
+            movieService.updateMovie(movieRequestDTO);
+            apiResponse = new ApiResponse(Message.Success.RECORD_UPDATED, null);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            apiResponse = new ApiResponse(Message.Error.THEATER_ADMIN_FAILED, null);
+            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);

@@ -4,13 +4,16 @@ import common.AppConstant;
 import common.Message;
 import common.utils.ObjectMapperUtil;
 import dto.user.UserResponseDTO;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import dto.ApiResponse;
+
 import java.io.IOException;
 
+@WebServlet(name = "GetCurrentUserController", value = "/getCurrentUser", description = "Get Current User")
 public class GetCurrentUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -6,6 +6,7 @@ import common.utils.ObjectMapperUtil;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dto.user.UserResponseDTO;
+import jakarta.servlet.annotation.WebServlet;
 import model.User;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import service.UserService;
 
 import java.io.IOException;
 
+@WebServlet(name = "LoginController" , value = "/login" , description = "Common Login API for all Users")
 public class LoginController extends HttpServlet {
     private final UserService userService = new UserService();
 

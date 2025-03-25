@@ -3,10 +3,12 @@ package config;
 import common.Message;
 import common.exception.ApplicationException;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
 import java.sql.SQLException;
 
+@WebServlet(name = "DatabaseInitializer" , value = "/dbvalidator" , description = "Database Validator", loadOnStartup = 1)
 public class DatabaseInitializer extends HttpServlet {
     @Override
     public void init() {

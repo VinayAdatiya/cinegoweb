@@ -25,6 +25,7 @@ public class Message {
         public static final String DESIGNATIONS_FOUND = "Designations are fetched successfully";
         public static final String RECORD_UPDATED = "Record updated successfully";
         public static final String RECORD_DELETED = "Record deleted successfully";
+        public static final String SCREEN_ADDED = "Screen added successfully";
     }
 
     public static class Error {
@@ -64,7 +65,6 @@ public class Message {
         public static final String MOVIE_DURATION_REQUIRED = "Movie duration is required.";
         public static final String MOVIE_DURATION_INVALID = "Movie duration is invalid. It must be in HH:MM:SS format.";
         public static final String MOVIE_RELEASE_DATE_REQUIRED = "Movie release date is required.";
-        public static final String MOVIE_RELEASE_DATE_FUTURE = "Movie release date cannot be in the future.";
         public static final String CREW_NAME_REQUIRED = "Crew Name is Required";
         public static final String MOVIE_CREW_ENTRIES_NULL = "Movie crew entries are null.";
         public static final String CHARACTER_NAME_TOO_LONG = "Character name is too long.";
@@ -74,5 +74,13 @@ public class Message {
         public static final String POSTER_PATH_REQUIRED = "Enter valid poster path.";
         public static final String STORE_FAILED = "Failed to store poster";
         public static final String INVALID_ID = "Invalid Id Entry";
+        public static final String SCREEN_TITLE_REQUIRED = "Screen title is required.";
+        public static final String SCREEN_TITLE_TOO_LONG = "Screen title is too long (max 10 characters).";
+        public static final String SCREEN_TOTAL_SEATS_INVALID = "Total seats must be greater than zero.";
+        public static final String INVALID_SCREEN_TYPE_ID = "Invalid screen type ID.";
+        public static final String SCREEN_LAYOUT_REQUIRED = "Screen layout is required.";
+        public static final String SCREEN_THEATER_ID_REQUIRED = "Theater ID is required.";
+        public static final String INVALID_THEATER_ID = "Invalid theater ID.";
+        public static final String SCREEN_LAYOUT_TOO_LONG = "Screen layout is too long.";
     }
 }

@@ -1,10 +1,7 @@
 package dao;
 
 import common.exception.DBException;
-import dto.screen.ScreenRequestDTO;
-import dto.screen.ScreenResponseDTO;
 import model.Screen;
-
 import java.util.List;
 
 public interface IScreenDAO {
@@ -13,6 +10,8 @@ public interface IScreenDAO {
     Screen getScreenById(int screenId) throws DBException;
 
     List<Screen> getAllScreens() throws DBException;
+
+    List<Screen> getAllScreensByTheater(int theaterId) throws DBException;
 
     void updateScreen(Screen screen) throws DBException;
 

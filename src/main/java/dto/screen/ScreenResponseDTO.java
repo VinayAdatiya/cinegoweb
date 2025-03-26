@@ -1,8 +1,8 @@
 package dto.screen;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dto.theater.TheaterResponseDTO;
 import model.ScreenType;
-import model.Theater;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScreenResponseDTO {
@@ -11,12 +11,12 @@ public class ScreenResponseDTO {
     private int totalSeats;
     private ScreenType screenType;
     private String layout;
-    private Theater theater;
+    private TheaterResponseDTO theater;
 
     public ScreenResponseDTO() {
     }
 
-    public ScreenResponseDTO(int screenId, String screenTitle, int totalSeats, ScreenType screenType, String layout, Theater theater) {
+    public ScreenResponseDTO(int screenId, String screenTitle, int totalSeats, ScreenType screenType, String layout, TheaterResponseDTO theater) {
         this.screenId = screenId;
         this.screenTitle = screenTitle;
         this.totalSeats = totalSeats;
@@ -65,12 +65,11 @@ public class ScreenResponseDTO {
         this.layout = layout;
     }
 
-    public Theater getTheater() {
+    public TheaterResponseDTO getTheater() {
         return theater;
     }
 
-    public void setTheater(Theater theater) {
+    public void setTheater(TheaterResponseDTO theater) {
         this.theater = theater;
     }
-
 }

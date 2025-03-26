@@ -2,10 +2,8 @@ package controller.screen;
 
 import common.AppConstant;
 import common.Message;
-import common.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.AuthenticateUtil;
 import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
 import dto.screen.ScreenResponseDTO;
@@ -15,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.ScreenService;
 import java.io.IOException;
-import java.util.Arrays;
 
 @WebServlet(name = "GetScreenByIdController", value = "/getScreenById", description = "Get Screen by ID")
 public class GetScreenController extends HttpServlet {
@@ -27,16 +24,10 @@ public class GetScreenController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            AuthenticateUtil.authorizeRole(request, Arrays.asList(Role.ROLE_THEATER_ADMIN, Role.ROLE_SUPER_ADMIN));
             int screenId = Integer.parseInt(request.getParameter("screenId"));
             ScreenResponseDTO screenResponseDTO = screenService.getScreenById(screenId);
-            if (screenResponseDTO != null) {
-                apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, screenResponseDTO);
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                apiResponse = new ApiResponse(Message.Error.NO_RECORD_FOUND, null);
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
+            apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, screenResponseDTO);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

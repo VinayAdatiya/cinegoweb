@@ -82,5 +82,6 @@ public class Message {
         public static final String SCREEN_THEATER_ID_REQUIRED = "Theater ID is required.";
         public static final String INVALID_THEATER_ID = "Invalid theater ID.";
         public static final String SCREEN_LAYOUT_TOO_LONG = "Screen layout is too long.";
+        public static final String INVALID_ADMIN_PRIVILEGED = "You dont have valid privileged to access this theater.";
     }
 }

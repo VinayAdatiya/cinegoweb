@@ -45,7 +45,7 @@ public class GetAllScreensByTheaterController extends HttpServlet {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (NumberFormatException e) {
-            apiResponse = new ApiResponse("Invalid theater ID format.", null);
+            apiResponse = new ApiResponse(Message.Error.INVALID_ID, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();

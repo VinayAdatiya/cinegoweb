@@ -33,6 +33,7 @@ public class ScreenDAOImpl implements IScreenDAO {
             preparedStatement.setString(4, screen.getLayout());
             preparedStatement.setInt(5, screen.getTheater().getTheaterId());
             preparedStatement.setInt(6, screen.getCreatedBy());
+            preparedStatement.setInt(7, screen.getUpdatedBy());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             connection.commit();
@@ -87,6 +88,36 @@ public class ScreenDAOImpl implements IScreenDAO {
         try {
             connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            screenResult = preparedStatement.executeQuery();
+            List<Screen> screens = new ArrayList<>();
+            while (screenResult.next()) {
+                Screen screen = new Screen();
+                screen.setScreenId(screenResult.getInt("screen_id"));
+                screen.setScreenTitle(screenResult.getString("screen_title"));
+                screen.setTotalSeats(screenResult.getInt("total_seats"));
+                screen.setLayout(screenResult.getString("layout"));
+                screen.setScreenType(screenTypeDAO.getScreenTypeById(screenResult.getInt("screen_type_id")));
+                screen.setTheater(theaterDAO.getTheaterById(screenResult.getInt("theater_id")));
+                screens.add(screen);
+            }
+            return screens;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(screenResult, preparedStatement, connection);
+        }
+    }
+
+    @Override
+    public List<Screen> getAllScreensByTheater(int theaterId) throws DBException {
+        String query = "SELECT * FROM screen WHERE theater_id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet screenResult = null;
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,theaterId);
             screenResult = preparedStatement.executeQuery();
             List<Screen> screens = new ArrayList<>();
             while (screenResult.next()) {

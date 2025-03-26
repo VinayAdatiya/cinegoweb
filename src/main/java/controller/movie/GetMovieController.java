@@ -15,7 +15,7 @@ import service.MovieService;
 
 import java.io.IOException;
 
-@WebServlet(name = "GetMovieController" , value = "/fetchMovie" , description = "Fetch Particular Movie by movieId")
+@WebServlet(name = "GetMovieController", value = "/fetchMovie", description = "Fetch Particular Movie by movieId")
 public class GetMovieController extends HttpServlet {
     private final MovieService movieService = new MovieService();
 
@@ -40,6 +40,9 @@ public class GetMovieController extends HttpServlet {
             }
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (ApplicationException e) {
+            apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             apiResponse = new ApiResponse("Server Error : " + e.getMessage(), null);

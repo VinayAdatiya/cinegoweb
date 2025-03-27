@@ -7,6 +7,8 @@ public class Layout {
     private int colNum;
     private List<Seat> seats;
 
+    public Layout(){}
+
     public Layout(int rowNum, int colNum, List<Seat> seats) {
         this.rowNum = rowNum;
         this.colNum = colNum;

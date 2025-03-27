@@ -40,6 +40,7 @@ public class AddScreenController extends HttpServlet {
             apiResponse = new ApiResponse(Message.Success.SCREEN_ADDED, null);
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
+            e.printStackTrace();
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {

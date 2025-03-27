@@ -1,10 +1,13 @@
 package controller.validation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Message;
 import common.utils.DatabaseUtil;
 import common.utils.ValidationUtil;
 import common.exception.ApplicationException;
 import dto.screen.ScreenRequestDTO;
+import model.Layout;
 
 public class ScreenValidator {
 
@@ -45,8 +48,17 @@ public class ScreenValidator {
             }
         }
 
-        if (screenRequestDTO.getLayout().length() > 65535) {
-            throw new ApplicationException(Message.Error.SCREEN_LAYOUT_TOO_LONG);
+        try{
+            String layoutJson = screenRequestDTO.getLayout();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Layout layout = objectMapper.readValue(layoutJson, Layout.class);
+            if(layout == null){
+                throw new ApplicationException(Message.Error.REQUIRED_FIELD_MISSING);
+            }
+        } catch (JsonProcessingException e) {
+            System.out.println("========== Error ==========");
+            e.printStackTrace();
+            throw new ApplicationException(Message.Error.INTERNAL_ERROR);
         }
     }
 }

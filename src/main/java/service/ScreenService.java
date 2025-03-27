@@ -31,7 +31,6 @@ public class ScreenService {
 
     private final IScreenDAO screenDAO = new ScreenDAOImpl();
     private final ITheaterDAO theaterDAO = new TheaterDAOImpl();
-    private final ISeatDAO seatDAO = new SeatDAOImpl();
     private final IScreenMapper screenMapper = Mappers.getMapper(IScreenMapper.class);
 
     public void addScreen(ScreenRequestDTO screenRequestDTO, int currentUserId) throws ApplicationException {
@@ -41,34 +40,6 @@ public class ScreenService {
             Screen screen = screenMapper.toScreenModel(screenRequestDTO);
             screen.setCreatedBy(currentUserId);
             screen.setUpdatedBy(currentUserId);
-
-            // Initialize seats from the layout JSON string
-            String layoutJson = screenRequestDTO.getLayout();
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                Layout layout = objectMapper.readValue(layoutJson, Layout.class);
-
-                List<Seat> seatList = layout.getSeats();
-
-                for (Seat seatData : seatList) {
-                    int row = seatData.getRowNum();
-                    int col = seatData.getColNum();
-
-                    Seat seat = new Seat();
-                    seat.setScreen(screen);
-                    seat.setRowNum(row);
-                    seat.setColNum(col);
-                    seat.setSeatCategory(seatData.getSeatCategory());
-
-                    seatDAO.addSeat(seat);
-                }
-            } catch (IOException e) {
-                throw new ApplicationException("Invalid layout JSON format: " + e.getMessage());
-            } catch (DBException e) {
-                throw new ApplicationException("Database error while initializing seats: " + e.getMessage());
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
             screenDAO.addScreen(screen);
         } else {
             throw new ApplicationException(Message.Error.INVALID_ADMIN_PRIVILEGED);

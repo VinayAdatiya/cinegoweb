@@ -1,10 +1,14 @@
 package dao.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Message;
 import common.exception.DBException;
 import dao.*;
 import config.DBConnection;
+import model.Layout;
 import model.Screen;
+import model.Seat;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ public class ScreenDAOImpl implements IScreenDAO {
 
     private final IScreenTypeDAO screenTypeDAO = new ScreenTypeDAOImpl();
     private final ITheaterDAO theaterDAO = new TheaterDAOImpl();
+    private final ISeatDAO seatDAO = new SeatDAOImpl();
 
     @Override
     public void addScreen(Screen screen) throws DBException {
@@ -26,6 +31,7 @@ public class ScreenDAOImpl implements IScreenDAO {
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
+
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, screen.getScreenTitle());
             preparedStatement.setInt(2, screen.getTotalSeats());
@@ -36,6 +42,11 @@ public class ScreenDAOImpl implements IScreenDAO {
             preparedStatement.setInt(7, screen.getUpdatedBy());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                int screenId = resultSet.getInt(1);
+                screen.setScreenId(screenId);
+                InitializeSeats(screen, connection);
+            }
             connection.commit();
         } catch (SQLException | ClassNotFoundException e) {
             try {
@@ -46,6 +57,26 @@ public class ScreenDAOImpl implements IScreenDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
+    private void InitializeSeats(Screen screen, Connection connection) throws DBException {
+        String layoutJson = screen.getLayout();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Layout layout = objectMapper.readValue(layoutJson, Layout.class);
+            int screenId = screen.getScreenId();
+            List<Seat> seatList = layout.getSeats();
+            for (Seat seatData : seatList) {
+                Seat seat = new Seat();
+                seat.setScreen(screen);
+                seat.setRowNum(seatData.getRowNum());
+                seat.setColNum(seatData.getColNum());
+                seat.setSeatCategory(seatData.getSeatCategory());
+                seatDAO.addSeat(seat, screenId, connection);
+            }
+        } catch (JsonProcessingException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR);
         }
     }
 
@@ -117,7 +148,7 @@ public class ScreenDAOImpl implements IScreenDAO {
         try {
             connection = DBConnection.INSTANCE.getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,theaterId);
+            preparedStatement.setInt(1, theaterId);
             screenResult = preparedStatement.executeQuery();
             List<Screen> screens = new ArrayList<>();
             while (screenResult.next()) {

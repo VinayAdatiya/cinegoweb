@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Message;
 import common.exception.DBException;
+import common.utils.ObjectMapperUtil;
 import dao.*;
 import config.DBConnection;
 import model.Layout;
@@ -62,9 +63,8 @@ public class ScreenDAOImpl implements IScreenDAO {
 
     private void InitializeSeats(Screen screen, Connection connection) throws DBException {
         String layoutJson = screen.getLayout();
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Layout layout = objectMapper.readValue(layoutJson, Layout.class);
+            Layout layout = ObjectMapperUtil.toObject(layoutJson, Layout.class);
             int screenId = screen.getScreenId();
             List<Seat> seatList = layout.getSeats();
             for (Seat seatData : seatList) {

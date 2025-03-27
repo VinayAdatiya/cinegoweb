@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Message;
 import common.utils.DatabaseUtil;
+import common.utils.ObjectMapperUtil;
 import common.utils.ValidationUtil;
 import common.exception.ApplicationException;
 import dto.screen.ScreenRequestDTO;
@@ -50,14 +51,11 @@ public class ScreenValidator {
 
         try{
             String layoutJson = screenRequestDTO.getLayout();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Layout layout = objectMapper.readValue(layoutJson, Layout.class);
+            Layout layout = ObjectMapperUtil.toObject(layoutJson, Layout.class);
             if(layout == null){
                 throw new ApplicationException(Message.Error.REQUIRED_FIELD_MISSING);
             }
         } catch (JsonProcessingException e) {
-            System.out.println("========== Error ==========");
-            e.printStackTrace();
             throw new ApplicationException(Message.Error.INTERNAL_ERROR);
         }
     }

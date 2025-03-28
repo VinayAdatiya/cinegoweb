@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Show {
     private int showId;
@@ -14,11 +15,12 @@ public class Show {
     private int createdBy;
     private LocalDateTime updatedOn;
     private int updatedBy;
+    private List<ShowPriceCategory> showPriceCategoryList;
 
     public Show() {
     }
 
-    public Show(int showId, Movie movie, Screen screen, LocalDate showDate, LocalTime showTime, LocalDateTime createdOn, int createdBy, LocalDateTime updatedOn, int updatedBy) {
+    public Show(int showId, Movie movie, Screen screen, LocalDate showDate, LocalTime showTime, LocalDateTime createdOn, int createdBy, LocalDateTime updatedOn, int updatedBy, List<ShowPriceCategory> showPriceCategoryList) {
         this.showId = showId;
         this.movie = movie;
         this.screen = screen;
@@ -28,6 +30,7 @@ public class Show {
         this.createdBy = createdBy;
         this.updatedOn = updatedOn;
         this.updatedBy = updatedBy;
+        this.showPriceCategoryList = showPriceCategoryList;
     }
 
     public int getShowId() {
@@ -100,5 +103,13 @@ public class Show {
 
     public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public List<ShowPriceCategory> getShowPriceCategoryList() {
+        return showPriceCategoryList;
+    }
+
+    public void setShowPriceCategoryList(List<ShowPriceCategory> showPriceCategoryList) {
+        this.showPriceCategoryList = showPriceCategoryList;
     }
 }

@@ -19,7 +19,7 @@ CREATE TABLE show_price_category
 (
     show_id          INT NOT NULL,
     seat_category_id INT NOT NULL,
-    base_price       INT NOT NULL,
+    base_price       DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (show_id) REFERENCES shows (show_id),
     FOREIGN KEY (seat_category_id) REFERENCES seat_category (seat_category_id),
     PRIMARY KEY (show_id, seat_category_id)

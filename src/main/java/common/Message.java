@@ -26,6 +26,7 @@ public class Message {
         public static final String RECORD_UPDATED = "Record updated successfully";
         public static final String RECORD_DELETED = "Record deleted successfully";
         public static final String SCREEN_ADDED = "Screen added successfully";
+        public static final String SHOW_ADDED = "Show added successfully";
     }
 
     public static class Error {
@@ -81,7 +82,11 @@ public class Message {
         public static final String SCREEN_LAYOUT_REQUIRED = "Screen layout is required.";
         public static final String SCREEN_THEATER_ID_REQUIRED = "Theater ID is required.";
         public static final String INVALID_THEATER_ID = "Invalid theater ID.";
-        public static final String SCREEN_LAYOUT_TOO_LONG = "Screen layout is too long.";
         public static final String INVALID_ADMIN_PRIVILEGED = "You dont have valid privileged to access this theater.";
+        public static final String INVALID_SHOW_PRICE_CATEGORY = "Invalid show price category list";
+        public static final String BASE_PRICE_INVALID = "Base price must be greater than 0";
+        public static final String MOVIE_NOT_EXISTS = "Movie does not exists";
+        public static final String SCREEN_NOT_EXISTS = "Screen does not exits";
+        public static final String NOT_VALID_DATE = "Date is not valid";
     }
 }

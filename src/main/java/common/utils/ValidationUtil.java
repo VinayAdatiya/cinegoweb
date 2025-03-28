@@ -8,6 +8,7 @@ public class ValidationUtil {
     private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,50}$";
     private static String ONLY_NUMBER_REGEX = "[0-9]+";
     private static String TIME_REGEX = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$";
+    private static String DATE_REGEX = "^\\d{4}-\\d{2}-\\d{2}$";
 
     public static boolean isValidEmail(String email) {
         return Pattern.matches(EMAIL_REGEX, email);
@@ -27,5 +28,9 @@ public class ValidationUtil {
 
     public static boolean isValidTime(String durationStr) {
         return durationStr.matches(TIME_REGEX);
+    }
+
+    public static boolean isValidDate(String date) {
+        return date.matches(DATE_REGEX);
     }
 }

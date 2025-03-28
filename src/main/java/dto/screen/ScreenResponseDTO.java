@@ -12,6 +12,7 @@ public class ScreenResponseDTO {
     private ScreenType screenType;
     private String layout;
     private TheaterResponseDTO theater;
+//    private List<ShowSeat> showSeatList;
 
     public ScreenResponseDTO() {
     }

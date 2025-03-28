@@ -3,14 +3,15 @@ package model;
 public class ShowPriceCategory {
     private Show show;
     private SeatCategory seatCategory;
-    private int base_price;
+    private double basePrice;
 
-    public ShowPriceCategory(){}
+    public ShowPriceCategory() {
+    }
 
-    public ShowPriceCategory(Show show, SeatCategory seatCategory, int base_price) {
+    public ShowPriceCategory(Show show, SeatCategory seatCategory, int basePrice) {
         this.show = show;
         this.seatCategory = seatCategory;
-        this.base_price = base_price;
+        this.basePrice = basePrice;
     }
 
     public Show getShow() {
@@ -29,11 +30,11 @@ public class ShowPriceCategory {
         this.seatCategory = seatCategory;
     }
 
-    public int getBase_price() {
-        return base_price;
+    public double getBasePrice() {
+        return basePrice;
     }
 
-    public void setBase_price(int base_price) {
-        this.base_price = base_price;
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 }

@@ -1,8 +1,10 @@
 package dto.show;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShowRequestDTO {
@@ -12,9 +14,20 @@ public class ShowRequestDTO {
     private LocalTime showTime;
     private int createdBy;
     private int updatedBy;
+    private List<ShowPriceCategoryDTO> showPriceCategoryDTOS;
 
     public ShowRequestDTO(){
 
+    }
+
+    public ShowRequestDTO(int movieId, int screenId, LocalDate showDate, LocalTime showTime, int createdBy, int updatedBy, List<ShowPriceCategoryDTO> showPriceCategoryDTOS) {
+        this.movieId = movieId;
+        this.screenId = screenId;
+        this.showDate = showDate;
+        this.showTime = showTime;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.showPriceCategoryDTOS = showPriceCategoryDTOS;
     }
 
     public int getMovieId() {
@@ -63,5 +76,13 @@ public class ShowRequestDTO {
 
     public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public List<ShowPriceCategoryDTO> getShowPriceCategoryDTOS() {
+        return showPriceCategoryDTOS;
+    }
+
+    public void setShowPriceCategoryDTOS(List<ShowPriceCategoryDTO> showPriceCategoryDTOS) {
+        this.showPriceCategoryDTOS = showPriceCategoryDTOS;
     }
 }

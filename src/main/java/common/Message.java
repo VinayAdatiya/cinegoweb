@@ -17,6 +17,7 @@ public class Message {
         public static final String CREW_ADDED = "Crew member added successfully.";
         public static final String CREW_FOUND = "crew members Fetched successfully.";
         public static final String MOVIES_FOUND = "Movies fetched successfully";
+        public static final String SHOWS_FOUND = "Shows fetched successfully";
         public static final String THEATERS_FOUND = "Theaters fetched successfully";
         public static final String CITIES_FOUND = "Cities fetched successfully.";
         public static final String LANGUAGES_FOUND = "Languages fetched successfully.";
@@ -27,6 +28,7 @@ public class Message {
         public static final String RECORD_DELETED = "Record deleted successfully";
         public static final String SCREEN_ADDED = "Screen added successfully";
         public static final String SHOW_ADDED = "Show added successfully";
+
     }
 
     public static class Error {

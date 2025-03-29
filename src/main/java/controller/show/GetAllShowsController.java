@@ -1,38 +1,33 @@
-package controller.screen;
+package controller.show;
 
 import common.AppConstant;
 import common.Message;
-import common.exception.ApplicationException;
+import common.exception.DBException;
 import common.utils.ObjectMapperUtil;
 import dto.ApiResponse;
-import dto.screen.ScreenResponseDTO;
-import jakarta.servlet.ServletException;
+import dto.show.ShowResponseDTO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.ScreenService;
+import service.ShowService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "GetAllScreenController", value = "/getAllScreen", description = "get all screen available in DB by Super Admin")
-public class GetAllScreenController extends HttpServlet {
+@WebServlet(name = "GetAllShowsController", value = "/getAllShows", description = "Get All Shows")
+public class GetAllShowsController extends HttpServlet {
 
-    private final ScreenService screenService = new ScreenService();
+    private final ShowService showService = new ShowService();
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            List<ScreenResponseDTO> screenResponseDTOS = screenService.getAllScreens();
-            apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, screenResponseDTOS);
+            List<ShowResponseDTO> showResponseDTOList = showService.getAllShows();
+            apiResponse = new ApiResponse(Message.Success.SHOWS_FOUND, showResponseDTOList);
             response.setStatus(HttpServletResponse.SC_OK);
-        } catch (ApplicationException e) {
-            apiResponse = new ApiResponse(e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } catch (Exception e) {
+        } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

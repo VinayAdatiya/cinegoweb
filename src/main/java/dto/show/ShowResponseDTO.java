@@ -3,7 +3,6 @@ package dto.show;
 import dto.movie.MovieDTO;
 import dto.screen.ScreenResponseDTO;
 import model.ShowSeat;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -14,10 +13,11 @@ public class ShowResponseDTO {
     private ScreenResponseDTO screen;
     private LocalDate showDate;
     private LocalTime showTime;
-    private List<ShowPriceCategoryDTO> showPriceCategoryList;
+    private List<ShowPriceCategoryDTO> showPriceCategoryDTOS;
     private List<ShowSeat> showSeatList;
 
-    public ShowResponseDTO(){}
+    public ShowResponseDTO() {
+    }
 
     public ShowResponseDTO(int showId, MovieDTO movie, ScreenResponseDTO screen, LocalDate showDate, LocalTime showTime, List<ShowPriceCategoryDTO> showPriceCategoryList, List<ShowSeat> showSeatList) {
         this.showId = showId;
@@ -25,7 +25,7 @@ public class ShowResponseDTO {
         this.screen = screen;
         this.showDate = showDate;
         this.showTime = showTime;
-        this.showPriceCategoryList = showPriceCategoryList;
+        this.showPriceCategoryDTOS = showPriceCategoryList;
         this.showSeatList = showSeatList;
     }
 
@@ -70,11 +70,11 @@ public class ShowResponseDTO {
     }
 
     public List<ShowPriceCategoryDTO> getShowPriceCategoryList() {
-        return showPriceCategoryList;
+        return showPriceCategoryDTOS;
     }
 
     public void setShowPriceCategoryList(List<ShowPriceCategoryDTO> showPriceCategoryList) {
-        this.showPriceCategoryList = showPriceCategoryList;
+        this.showPriceCategoryDTOS = showPriceCategoryList;
     }
 
     public List<ShowSeat> getShowSeatList() {

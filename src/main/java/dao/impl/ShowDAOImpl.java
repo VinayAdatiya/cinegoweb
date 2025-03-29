@@ -41,7 +41,7 @@ public class ShowDAOImpl implements IShowDAO {
                 int showId = resultSet.getInt(1);
                 show.setShowId(showId);
                 List<ShowPriceCategory> showPriceCategoryList = show.getShowPriceCategoryList();
-                showPriceCategoryDAO.addShowPriceCategory(showId, showPriceCategoryList, currentUserId, connection);
+                showPriceCategoryDAO.addShowPriceCategory(showId, showPriceCategoryList, connection);
                 InitializeShowSeats(show, currentUserId, connection);
             }
             connection.commit();
@@ -89,8 +89,7 @@ public class ShowDAOImpl implements IShowDAO {
 
     @Override
     public Show getShowById(int showId) throws DBException {
-        String query = "SELECT show_id, movie_id, screen_id, show_date, show_time, created_on, created_by, updated_on, updated_by " +
-                "FROM shows WHERE show_id = ?";
+        String query = "SELECT * FROM shows WHERE show_id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -109,6 +108,8 @@ public class ShowDAOImpl implements IShowDAO {
                 int screenId = resultSet.getInt("screen_id");
                 Screen screen = screenDAO.getScreenById(screenId);
                 show.setScreen(screen);
+                List<ShowPriceCategory> showPriceCategoryList = showPriceCategoryDAO.getShowPriceCategoriesByShow(showId);
+                show.setShowPriceCategoryList(showPriceCategoryList);
                 show.setShowDate(resultSet.getDate("show_date").toLocalDate());
                 show.setShowTime(resultSet.getTime("show_time").toLocalTime());
                 show.setCreatedOn(resultSet.getTimestamp("created_on").toLocalDateTime());
@@ -118,7 +119,6 @@ public class ShowDAOImpl implements IShowDAO {
                 return show;
             }
             return null;
-
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
@@ -138,15 +138,16 @@ public class ShowDAOImpl implements IShowDAO {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Show show = new Show();
-                show.setShowId(resultSet.getInt("show_id"));
+                int showId = resultSet.getInt("show_id");
+                show.setShowId(showId);
                 int movieId = resultSet.getInt("movie_id");
                 Movie movie = movieDAO.getMovieById(movieId);
                 show.setMovie(movie);
                 int screenId = resultSet.getInt("screen_id");
                 Screen screen = screenDAO.getScreenById(screenId);
                 show.setScreen(screen);
-                List<ShowPriceCategory> showPriceCategoryList = showPriceCategoryDAO.getShowPriceCategoriesByShow(show.getShowId());
-
+                List<ShowPriceCategory> showPriceCategoryList = showPriceCategoryDAO.getShowPriceCategoriesByShow(showId);
+                show.setShowPriceCategoryList(showPriceCategoryList);
                 show.setShowDate(resultSet.getDate("show_date").toLocalDate());
                 show.setShowTime(resultSet.getTime("show_time").toLocalTime());
                 show.setCreatedOn(resultSet.getTimestamp("created_on").toLocalDateTime());

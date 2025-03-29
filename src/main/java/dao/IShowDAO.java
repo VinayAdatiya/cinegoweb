@@ -12,10 +12,6 @@ public interface IShowDAO {
 
     List<Show> getAllShows() throws DBException;
 
-    List<Show> getAllShowsByTheater(int theaterId) throws DBException;
-
-    List<Show> getAllShowsByScreen(int screenId) throws DBException;
-
     void updateShow(Show show, int currentUserId) throws DBException;
 
     void deleteShow(int showId) throws DBException;

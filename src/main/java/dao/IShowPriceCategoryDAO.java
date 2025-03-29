@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface IShowPriceCategoryDAO {
-    void addShowPriceCategory(int showId, List<ShowPriceCategory> priceCategories, int currentUserId, Connection connection) throws DBException;
+    void addShowPriceCategory(int showId, List<ShowPriceCategory> priceCategories, Connection connection) throws DBException;
 
     void updateShowPriceCategory(int showId, List<ShowPriceCategory> showPriceCategoryList, int currentUserId, Connection connection) throws DBException;
 

@@ -1,29 +1,20 @@
 package service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Message;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import common.utils.DatabaseUtil;
 import dao.IScreenDAO;
-import dao.ISeatDAO;
 import dao.ITheaterDAO;
 import dao.impl.ScreenDAOImpl;
-import dao.impl.SeatDAOImpl;
 import dao.impl.TheaterDAOImpl;
 import dto.screen.ScreenRequestDTO;
 import dto.screen.ScreenResponseDTO;
 import mapper.IScreenMapper;
-import model.Layout;
 import model.Screen;
-import model.Seat;
-import model.SeatCategory;
 import org.mapstruct.factory.Mappers;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 

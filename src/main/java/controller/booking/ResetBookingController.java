@@ -1,59 +1,55 @@
-package controller.screen;
+package controller.booking;
 
 import common.AppConstant;
 import common.Message;
-import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.AuthenticateUtil;
 import common.utils.ObjectMapperUtil;
-import controller.validation.ScreenValidator;
+import controller.validation.BookingValidator;
 import dto.ApiResponse;
-import dto.screen.ScreenRequestDTO;
 import dto.user.UserResponseDTO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import service.ScreenService;
+import service.BookingService;
 
 import java.io.IOException;
 
-@WebServlet(name = "AddScreenController", value = "/addScreen", description = "Add Screen to Theater By Theater Admin")
-public class AddScreenController extends HttpServlet {
-    private final ScreenService screenService = new ScreenService();
+@WebServlet(name = "ResetBookingController", value = "/resetBooking", description = "Reset On Hold Booking")
+public class ResetBookingController extends HttpServlet {
+
+    private final BookingService bookingService = new BookingService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession(false);
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
+        HttpSession session = request.getSession(false);
         ApiResponse apiResponse;
         try {
-            AuthenticateUtil.authorize(request, Role.ROLE_THEATER_ADMIN);
-            ScreenRequestDTO screenRequestDTO = ObjectMapperUtil.toObject(request.getReader(), ScreenRequestDTO.class);
-            ScreenValidator.validateScreen(screenRequestDTO);
+            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int currentUserId = currentUser.getUserId();
-            screenService.addScreen(screenRequestDTO, currentUserId);
-            apiResponse = new ApiResponse(Message.Success.SCREEN_ADDED, null);
-            response.setStatus(HttpServletResponse.SC_CREATED);
+            BookingValidator.validateResetBooking(bookingId);
+            bookingService.resetBooking(bookingId, currentUserId);
+            apiResponse = new ApiResponse(Message.Success.BOOKING_EXPIRED, null);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
             e.printStackTrace();
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (NumberFormatException e) {
+            throw new ApplicationException(Message.Error.INVALID_ID);
         } catch (ApplicationException e) {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } catch (IOException e) {
-            apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            e.printStackTrace();
-            apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }
+

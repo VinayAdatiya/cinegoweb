@@ -1,7 +1,7 @@
 package service;
 
 import common.Message;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import common.utils.DatabaseUtil;
@@ -11,8 +11,6 @@ import dao.impl.TheaterDAOImpl;
 import dao.impl.UserDAOImpl;
 import dto.theater.TheaterRequestDTO;
 import dto.theater.TheaterResponseDTO;
-import dto.user.UserResponseDTO;
-import jakarta.servlet.http.HttpSession;
 import mapper.ITheaterMapper;
 import model.Theater;
 import model.User;

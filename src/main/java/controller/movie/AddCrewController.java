@@ -3,7 +3,7 @@ package controller.movie;
 import common.AppConstant;
 import common.Message;
 import common.utils.ObjectMapperUtil;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import jakarta.servlet.annotation.WebServlet;

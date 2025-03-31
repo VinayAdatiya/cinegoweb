@@ -1,6 +1,6 @@
 package dto.user;
 
-import common.Role;
+import common.enums.Role;
 import model.Address;
 
 public class UserResponseDTO {

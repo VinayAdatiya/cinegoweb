@@ -1,6 +1,6 @@
 package model;
 
-import common.Role;
+import common.enums.Role;
 
 import java.time.LocalDateTime;
 

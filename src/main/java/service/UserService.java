@@ -1,6 +1,6 @@
 package service;
 
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IUserDAO;
@@ -8,7 +8,6 @@ import dao.impl.UserDAOImpl;
 import dto.user.UserResponseDTO;
 import dto.user.UserSignUpDTO;
 import mapper.IUserMapper;
-import model.Movie;
 import model.User;
 import org.mapstruct.factory.Mappers;
 

@@ -28,7 +28,9 @@ public class Message {
         public static final String RECORD_DELETED = "Record deleted successfully";
         public static final String SCREEN_ADDED = "Screen added successfully";
         public static final String SHOW_ADDED = "Show added successfully";
-
+        public static final String BOOKING_SUCCESS = "Booking Created Successfully";
+        public static final String BOOKING_CONFIRMED = "Booking Confirmed ! Enjoy Your Movie";
+        public static final String BOOKING_EXPIRED = "Booking timing expired";
     }
 
     public static class Error {
@@ -90,5 +92,7 @@ public class Message {
         public static final String MOVIE_NOT_EXISTS = "Movie does not exists";
         public static final String SCREEN_NOT_EXISTS = "Screen does not exits";
         public static final String NOT_VALID_DATE = "Date is not valid";
+        public static final String INVALID_JSON_REQUEST = "Invalid JSON Request !!! ";
+        public static final String SERVER_ERROR = "Server Error !!! ";
     }
 }

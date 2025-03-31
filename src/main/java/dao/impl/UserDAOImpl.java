@@ -1,7 +1,7 @@
 package dao.impl;
 
 import common.Message;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IAddressDAO;
@@ -93,10 +93,9 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     public User getUserById(int userId) throws DBException {
-        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.roleid," +
+        String query = " SELECT u.user_id, u.username, u.email, u.first_name, u.last_name, u.role_id, u.phone_number," +
                 " a.address_line, a.address_line2, a.pincode, " +
-                " c.city_id, c.city_name, c.state_code," +
-                " r.role_id" +
+                " c.city_id, c.city_name, c.state_code" +
                 " FROM users u " +
                 " LEFT JOIN address a ON u.address_id = a.address_id " +
                 " LEFT JOIN city c ON a.city_id = c.city_id " +
@@ -119,7 +118,7 @@ public class UserDAOImpl implements IUserDAO {
                 user.setLastName(resultSet.getString("last_name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setRole(Role.getRole(resultSet.getInt("roleid")));
+                user.setRole(Role.getRole(resultSet.getInt("role_id")));
                 Address address = new Address();
                 address.setAddressLine1(resultSet.getString("address_line"));
                 address.setAddressLine2(resultSet.getString("address_line2"));

@@ -1,10 +1,9 @@
 package dao.impl;
 
 import common.Message;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.AuthenticateUtil;
 import dao.IAddressDAO;
 import dao.ITheaterDAO;
 import dao.IUserDAO;

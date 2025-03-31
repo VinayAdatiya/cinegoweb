@@ -1,7 +1,7 @@
 package common.utils;
 
 import common.Message;
-import common.Role;
+import common.enums.Role;
 import common.exception.ApplicationException;
 import dto.user.UserResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;

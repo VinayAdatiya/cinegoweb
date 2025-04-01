@@ -8,7 +8,6 @@ public class Message {
         public static final String LOGIN_SUCCESS = "Login Successful!";
         public static final String SIGNUP_SUCCESS = "Signup Completed Successfully!";
         public static final String LOGOUT_SUCCESS = "Logout Successful!";
-        public static final String PROFILE_UPDATED = "Profile Updated Successfully!";
         public static final String THEATER_SUCCESS = "Theater added Successfully!";
         public static final String THEATER_ADMIN_REGISTERED = "Theater Admin registered successfully";
         public static final String RECORD_FOUND = "Record retrieved Successfully";
@@ -31,6 +30,7 @@ public class Message {
         public static final String BOOKING_SUCCESS = "Booking Created Successfully";
         public static final String BOOKING_CONFIRMED = "Booking Confirmed ! Enjoy Your Movie";
         public static final String BOOKING_EXPIRED = "Booking timing expired";
+        public static final String BOOKING_CANCELLED = "Booking cancelled successfully !!!";
     }
 
     public static class Error {
@@ -89,10 +89,9 @@ public class Message {
         public static final String INVALID_ADMIN_PRIVILEGED = "You dont have valid privileged to access this theater.";
         public static final String INVALID_SHOW_PRICE_CATEGORY = "Invalid show price category list";
         public static final String BASE_PRICE_INVALID = "Base price must be greater than 0";
-        public static final String MOVIE_NOT_EXISTS = "Movie does not exists";
-        public static final String SCREEN_NOT_EXISTS = "Screen does not exits";
         public static final String NOT_VALID_DATE = "Date is not valid";
         public static final String INVALID_JSON_REQUEST = "Invalid JSON Request !!! ";
         public static final String SERVER_ERROR = "Server Error !!! ";
+        public static final String PAYMENT_METHOD_NOT_FOUND = "Invalid payment method";
     }
 }

@@ -15,4 +15,6 @@ public interface IBookingDAO {
     Booking getBookingById(int bookingId) throws DBException;
 
     void resetExpiredSeats(int bookingId, int currentUserId) throws DBException;
+
+    void cancelBooking(int bookingId, int currentUserId) throws DBException;
 }

@@ -31,10 +31,10 @@ public class ConfirmBookingController extends HttpServlet {
         HttpSession session = request.getSession(false);
         ApiResponse apiResponse;
         try {
-            BookingRequestDTO bookingRequestDTO = ObjectMapperUtil.toObject(request.getReader(), BookingRequestDTO.class);
-            BookingValidator.validateConfirmBooking(bookingRequestDTO);
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int currentUserId = currentUser.getUserId();
+            BookingRequestDTO bookingRequestDTO = ObjectMapperUtil.toObject(request.getReader(), BookingRequestDTO.class);
+            BookingValidator.validateConfirmBooking(bookingRequestDTO);
             BookingResponseDTO bookingResponseDTO = bookingService.confirmBooking(bookingRequestDTO, currentUserId);
             apiResponse = new ApiResponse(Message.Success.BOOKING_CONFIRMED, bookingResponseDTO);
             response.setStatus(HttpServletResponse.SC_OK);

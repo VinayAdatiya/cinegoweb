@@ -3,6 +3,7 @@ package dao.impl;
 import common.Message;
 import common.exception.DBException;
 import config.DBConnection;
+import dao.ISeatCategoryDAO;
 import dao.ISeatDAO;
 import model.Seat;
 import model.SeatCategory;
@@ -12,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SeatDAOImpl implements ISeatDAO {
-    public void addSeat(Seat seat,int screenId, Connection connection) throws DBException {
+
+    private final ISeatCategoryDAO seatCategoryDAO = new SeatCategoryDAOImpl();
+
+    public void addSeat(Seat seat, int screenId, Connection connection) throws DBException {
         String query = "INSERT INTO seats (screen_id , row_num , col_num ,seat_category_id) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = null;
         try {
@@ -29,7 +33,7 @@ public class SeatDAOImpl implements ISeatDAO {
         }
     }
 
-    public List<Seat> getSeatsByScreenId(int screenId) throws DBException{
+    public List<Seat> getSeatsByScreenId(int screenId) throws DBException {
         String query = "SELECT * FROM seats WHERE screen_id = ?";
         List<Seat> seats = new ArrayList<>();
         Connection connection = null;
@@ -51,6 +55,32 @@ public class SeatDAOImpl implements ISeatDAO {
                 seats.add(seat);
             }
             return seats;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
+    public Seat getSeatById(int seatId) throws DBException {
+        String query = "SELECT * FROM seats WHERE seat_id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, seatId);
+            resultSet = preparedStatement.executeQuery();
+            Seat seat = new Seat();
+            if (resultSet.next()) {
+                seat.setSeatId(resultSet.getInt("seat_id"));
+                seat.setRowNum(resultSet.getInt("row_num"));
+                seat.setColNum(resultSet.getInt("col_num"));
+                SeatCategory seatCategory = seatCategoryDAO.getSeatCategoryById(resultSet.getInt("seat_category_id"));
+                seat.setSeatCategory(seatCategory);
+            }
+            return seat;
         } catch (SQLException | ClassNotFoundException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {

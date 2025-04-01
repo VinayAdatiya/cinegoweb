@@ -14,6 +14,6 @@ public interface IBookingMapper {
     @Mapping(source = "paymentMethodId", target = "paymentMethod.paymentMethodId")
     Booking toBooking(BookingRequestDTO bookingRequestDTO);
 
-
+    @Mapping(source = "bookedShowSeats", target = "bookedShowSeats")
     BookingResponseDTO toBookingResponseDTO(Booking booking);
 }

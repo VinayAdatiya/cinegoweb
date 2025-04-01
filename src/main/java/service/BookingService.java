@@ -1,5 +1,6 @@
 package service;
 
+import common.Message;
 import common.enums.BookingStatus;
 import common.exception.ApplicationException;
 import common.exception.DBException;
@@ -13,7 +14,6 @@ import mapper.IBookingMapper;
 import model.Booking;
 import model.ShowSeat;
 import org.mapstruct.factory.Mappers;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,12 +60,16 @@ public class BookingService {
     public BookingResponseDTO getBookingById(int bookingId) throws DBException {
         Booking booking = bookingDAO.getBookingById(bookingId);
         if (booking == null) {
-            throw new ApplicationException("Booking not found");
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
         }
         return bookingMapper.toBookingResponseDTO(booking);
     }
 
     public void resetBooking(int bookingId, int currentUserId) {
         bookingDAO.resetExpiredSeats(bookingId, currentUserId);
+    }
+
+    public void cancelBooking(int bookingId, int currentUserId) {
+        bookingDAO.cancelBooking(bookingId, currentUserId);
     }
 }

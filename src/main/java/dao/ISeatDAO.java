@@ -10,4 +10,6 @@ public interface ISeatDAO {
     void addSeat(Seat seat, int screenId, Connection connection) throws DBException;
 
     List<Seat> getSeatsByScreenId(int screenId) throws DBException;
+
+    Seat getSeatById(int seatId) throws DBException;
 }

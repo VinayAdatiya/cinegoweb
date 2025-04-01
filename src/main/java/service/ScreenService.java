@@ -9,8 +9,10 @@ import dao.IScreenDAO;
 import dao.ITheaterDAO;
 import dao.impl.ScreenDAOImpl;
 import dao.impl.TheaterDAOImpl;
+import dto.ApiResponse;
 import dto.screen.ScreenRequestDTO;
 import dto.screen.ScreenResponseDTO;
+import jakarta.servlet.http.HttpServletResponse;
 import mapper.IScreenMapper;
 import model.Screen;
 import org.mapstruct.factory.Mappers;
@@ -58,9 +60,14 @@ public class ScreenService {
     public List<ScreenResponseDTO> getAllScreensByTheater(int theaterId) throws DBException {
         if (DatabaseUtil.checkRecordExists("theater", "theater_id", theaterId)) {
             List<Screen> screens = screenDAO.getAllScreensByTheater(theaterId);
-            return screens.stream()
+            List<ScreenResponseDTO> screenResponseDTOS = screens.stream()
                     .map(screenMapper::toScreenResponseDTO)
                     .collect(Collectors.toList());
+            if (!screenResponseDTOS.isEmpty()) {
+                return screenResponseDTOS;
+            } else {
+                throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+            }
         } else {
             throw new ApplicationException(Message.Error.INVALID_ID);
         }

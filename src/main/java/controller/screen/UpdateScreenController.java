@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.ScreenService;
+
 import java.io.IOException;
 
 @WebServlet(name = "UpdateScreenController", value = "/updateScreen", description = "Update Screen Info by Theater Admin")
@@ -42,10 +43,10 @@ public class UpdateScreenController extends HttpServlet {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
-            apiResponse = new ApiResponse("Invalid JSON request: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.INVALID_JSON_REQUEST + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            apiResponse = new ApiResponse("Server error: " + e.getMessage(), null);
+            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         response.getWriter().write(ObjectMapperUtil.toString(apiResponse));

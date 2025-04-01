@@ -12,7 +12,7 @@ public interface IShowSeatDAO {
 
     List<ShowSeat> getSeatsByShowId(int showId) throws DBException;
 
-    void resetShowSeatsQuery(Connection connection);
+    void resetShowSeatsQuery(List<Integer> seatIds, Connection connection);
 
     ShowSeat getShowSeatById(int showId, int seatId);
 }

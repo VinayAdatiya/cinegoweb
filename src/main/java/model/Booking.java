@@ -2,6 +2,8 @@ package model;
 
 import common.enums.BookingStatus;
 
+import java.util.List;
+
 public class Booking {
     private int bookingId;
     private Show show;
@@ -10,13 +12,14 @@ public class Booking {
     private int numberOfSeats;
     private BookingStatus bookingStatus;
     private PaymentMethod paymentMethod;
+    private List<BookedShowSeat> bookedShowSeats;
     private int createdBy;
     private int updatedBy;
 
     public Booking() {
     }
 
-    public Booking(int bookingId, Show show, User user, double grandTotal, int numberOfSeats, BookingStatus bookingStatus, PaymentMethod paymentMethod, int createdBy, int updatedBy) {
+    public Booking(int bookingId, Show show, User user, double grandTotal, int numberOfSeats, BookingStatus bookingStatus, PaymentMethod paymentMethod, List<BookedShowSeat> bookedShowSeats, int createdBy, int updatedBy) {
         this.bookingId = bookingId;
         this.show = show;
         this.user = user;
@@ -24,6 +27,7 @@ public class Booking {
         this.numberOfSeats = numberOfSeats;
         this.bookingStatus = bookingStatus;
         this.paymentMethod = paymentMethod;
+        this.bookedShowSeats = bookedShowSeats;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
     }
@@ -82,6 +86,14 @@ public class Booking {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public List<BookedShowSeat> getBookedShowSeats() {
+        return bookedShowSeats;
+    }
+
+    public void setBookedShowSeats(List<BookedShowSeat> bookedShowSeats) {
+        this.bookedShowSeats = bookedShowSeats;
     }
 
     public int getCreatedBy() {

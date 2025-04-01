@@ -10,4 +10,5 @@ public interface IBookedSeatsDAO {
     List<ShowSeat> getBookedSeatsByBookingId(int bookingId) throws DBException;
 
     void resetBookedSeats(int bookingId, Connection connection) throws DBException;
+
 }

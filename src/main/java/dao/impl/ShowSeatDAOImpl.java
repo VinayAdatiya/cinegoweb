@@ -63,13 +63,16 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
-    public void resetShowSeatsQuery(Connection connection) {
+    public void resetShowSeatsQuery(List<Integer> seats, Connection connection) {
         String resetShowSeatsQuery = "UPDATE show_seats SET available = 1, hold_until = NULL " +
-                "WHERE available = 0 AND hold_until < CURRENT_TIMESTAMP";
+                "WHERE available = 0 AND hold_until < CURRENT_TIMESTAMP AND seat_id = ?";
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(resetShowSeatsQuery);
-            preparedStatement.executeUpdate();
+            for (int seatId : seats) {
+                preparedStatement = connection.prepareStatement(resetShowSeatsQuery);
+                preparedStatement.setInt(1, seatId);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
@@ -78,7 +81,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
     }
 
     public ShowSeat getShowSeatById(int showId, int seatId) throws ApplicationException {
-        String getSeat = "SELECT * FROM show_seats WHERE show_id = ? AND seatId = ?";
+        String getSeat = "SELECT * FROM show_seats WHERE show_id = ? AND seat_id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

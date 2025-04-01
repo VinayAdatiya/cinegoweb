@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import service.BookingService;
-
 import java.io.IOException;
 
 @WebServlet(name = "CreateBookingController", value = "/createBooking", description = "Create a new booking")
@@ -30,12 +29,12 @@ public class CreateBookingController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         HttpSession session = request.getSession(false);
-
         try {
             BookingRequestDTO bookingRequestDTO = ObjectMapperUtil.toObject(request.getReader(), BookingRequestDTO.class);
-            BookingValidator.validateCreateBooking(bookingRequestDTO);
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int currentUserId = currentUser.getUserId();
+            bookingRequestDTO.setUserId(currentUserId);
+            BookingValidator.validateCreateBooking(bookingRequestDTO);
             BookingResponseDTO bookingResponseDTO = bookingService.createBooking(bookingRequestDTO, currentUserId);
             apiResponse = new ApiResponse(Message.Success.BOOKING_SUCCESS, bookingResponseDTO);
             response.setStatus(HttpServletResponse.SC_CREATED);
@@ -46,13 +45,12 @@ public class CreateBookingController extends HttpServlet {
             apiResponse = new ApiResponse(e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
-            apiResponse = new ApiResponse(Message.Error.INVALID_JSON_REQUEST, null); // Define this message
+            apiResponse = new ApiResponse(Message.Error.INVALID_JSON_REQUEST, null);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null); // Generic error
+            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-
         response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

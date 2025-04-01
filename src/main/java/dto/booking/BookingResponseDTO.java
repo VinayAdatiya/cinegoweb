@@ -2,34 +2,34 @@ package dto.booking;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import common.enums.BookingStatus;
-import model.PaymentMethod;
-import model.Show;
-import model.ShowSeat;
-import model.User;
+import model.*;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingResponseDTO {
     private int bookingId;
+    private String movieTitle;
+    public int screenId;
+    public String screenTitle;
     private Show show;
     private User user;
     private int numberOfSeats;
     private BookingStatus bookingStatus;
     private PaymentMethod paymentMethod;
-    private List<ShowSeat> showSeatList;
+    private List<BookedShowSeat> bookedShowSeats;
 
     public BookingResponseDTO() {
     }
 
-    public BookingResponseDTO(int bookingId, Show show, User user, int numberOfSeats, BookingStatus bookingStatus, PaymentMethod paymentMethod, List<ShowSeat> showSeatList) {
+    public BookingResponseDTO(int bookingId, Show show, User user, int numberOfSeats, BookingStatus bookingStatus, PaymentMethod paymentMethod, List<BookedShowSeat> bookedShowSeats) {
         this.bookingId = bookingId;
         this.show = show;
         this.user = user;
         this.numberOfSeats = numberOfSeats;
         this.bookingStatus = bookingStatus;
         this.paymentMethod = paymentMethod;
-        this.showSeatList = showSeatList;
+        this.bookedShowSeats = bookedShowSeats;
     }
 
     public int getBookingId() {
@@ -80,11 +80,11 @@ public class BookingResponseDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public List<ShowSeat> getShowSeatList() {
-        return showSeatList;
+    public List<BookedShowSeat> getBookedShowSeats() {
+        return bookedShowSeats;
     }
 
-    public void setShowSeatList(List<ShowSeat> showSeatList) {
-        this.showSeatList = showSeatList;
+    public void setBookedShowSeats(List<BookedShowSeat> bookedShowSeats) {
+        this.bookedShowSeats = bookedShowSeats;
     }
 }

@@ -13,17 +13,17 @@ public class BookingValidator {
         }
 
         if (bookingRequestDTO.getShowId() <= 0) {
-            throw new ApplicationException(Message.Error.INVALID_ID); // Define this message
+            throw new ApplicationException(Message.Error.INVALID_ID);
         }
         if (!DatabaseUtil.checkRecordExists("shows", "show_id", bookingRequestDTO.getShowId())) {
             throw new ApplicationException(Message.Error.INVALID_ID);
         }
 
         if (bookingRequestDTO.getUserId() <= 0) {
-            throw new ApplicationException(Message.Error.USER_NOT_FOUND); // Define this message
+            throw new ApplicationException(Message.Error.USER_NOT_FOUND);
         }
         if (!DatabaseUtil.checkRecordExists("users", "user_id", bookingRequestDTO.getUserId())) {
-            throw new ApplicationException(Message.Error.INVALID_ID);
+            throw new ApplicationException(Message.Error.USER_NOT_FOUND);
         }
 
         if (bookingRequestDTO.getNumberOfSeats() <= 0) {
@@ -33,6 +33,7 @@ public class BookingValidator {
         if (bookingRequestDTO.getPaymentMethodId() <= 0) {
             throw new ApplicationException(Message.Error.INVALID_ID);
         }
+
         if (!DatabaseUtil.checkRecordExists("payment_methods", "payment_method_id", bookingRequestDTO.getPaymentMethodId())) {
             throw new ApplicationException(Message.Error.INVALID_ID);
         }
@@ -56,7 +57,7 @@ public class BookingValidator {
     }
 
     public static void validateResetBooking(int bookingId) {
-        if(!DatabaseUtil.checkRecordExists("booking","booking_id",bookingId)){
+        if (!DatabaseUtil.checkRecordExists("bookings", "booking_id", bookingId)) {
             throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
         }
     }

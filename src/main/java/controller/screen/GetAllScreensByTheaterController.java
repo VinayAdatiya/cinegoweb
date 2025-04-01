@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.ScreenService;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -28,16 +29,11 @@ public class GetAllScreensByTheaterController extends HttpServlet {
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         ApiResponse apiResponse;
         try {
-            AuthenticateUtil.authorizeRole(request, Arrays.asList( Role.ROLE_THEATER_ADMIN, Role.ROLE_SUPER_ADMIN));
+            AuthenticateUtil.authorizeRole(request, Arrays.asList(Role.ROLE_THEATER_ADMIN, Role.ROLE_SUPER_ADMIN));
             int theaterId = Integer.parseInt(request.getParameter("theaterId"));
             List<ScreenResponseDTO> screens = screenService.getAllScreensByTheater(theaterId);
-            if (screens != null && !screens.isEmpty()) {
-                apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, screens);
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                apiResponse = new ApiResponse(Message.Error.NO_RECORD_FOUND, null);
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
+            apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, screens);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
             apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

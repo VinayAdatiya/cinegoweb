@@ -19,9 +19,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ResetBookingController", value = "/resetBooking", description = "Reset On Hold Booking")
 public class ResetBookingController extends HttpServlet {
-
     private final BookingService bookingService = new BookingService();
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);

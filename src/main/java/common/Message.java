@@ -91,7 +91,7 @@ public class Message {
         public static final String BASE_PRICE_INVALID = "Base price must be greater than 0";
         public static final String NOT_VALID_DATE = "Date is not valid";
         public static final String INVALID_JSON_REQUEST = "Invalid JSON Request !!! ";
-        public static final String SERVER_ERROR = "Server Error !!! ";
+        public static final String SERVER_ERROR = "Server ";
         public static final String PAYMENT_METHOD_NOT_FOUND = "Invalid payment method";
     }
 }

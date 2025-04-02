@@ -32,7 +32,12 @@ public class TheaterService {
 
     public TheaterResponseDTO getTheaterById(int theaterId) throws DBException {
         Theater theater = theaterDAO.getTheaterById(theaterId);
-        return theaterMapper.toTheaterResponseDTO(theater);
+        TheaterResponseDTO theaterResponseDTO = theaterMapper.toTheaterResponseDTO(theater);
+        if (theaterResponseDTO != null) {
+            return theaterResponseDTO;
+        } else {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
     }
 
     public List<TheaterResponseDTO> getAllTheaters() throws DBException {
@@ -42,9 +47,9 @@ public class TheaterService {
                 .collect(Collectors.toList());
     }
 
-    public void updateTheater(TheaterRequestDTO theaterRequestDTO,int currentUserId) throws ApplicationException {
+    public void updateTheater(TheaterRequestDTO theaterRequestDTO, int currentUserId) throws ApplicationException {
         Theater theater = theaterMapper.toTheaterModel(theaterRequestDTO);
-        User theaterAdmin = userDAO.authenticateUser(theater.getTheaterAdmin().getEmail(),theater.getTheaterAdmin().getPassword());
+        User theaterAdmin = userDAO.authenticateUser(theater.getTheaterAdmin().getEmail(), theater.getTheaterAdmin().getPassword());
         theater.setUpdatedBy(currentUserId);
         theater.setTheaterAdmin(theaterAdmin);
         theaterDAO.updateTheater(theater);

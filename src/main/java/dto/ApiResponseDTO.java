@@ -1,10 +1,10 @@
 package dto;
 
-public class ApiResponse {
+public class ApiResponseDTO {
     private String message;
     private Object data;
 
-    public ApiResponse(String message, Object data) {
+    public ApiResponseDTO(String message, Object data) {
         this.message = message;
         this.data = data;
     }

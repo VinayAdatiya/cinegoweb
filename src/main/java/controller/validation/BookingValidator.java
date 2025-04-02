@@ -41,6 +41,8 @@ public class BookingValidator {
         if (bookingRequestDTO.getShowSeatList() == null || bookingRequestDTO.getShowSeatList().isEmpty()) {
             throw new ApplicationException(Message.Error.INVALID_INPUT);
         }
+
+
     }
 
     public static void validateConfirmBooking(BookingRequestDTO bookingRequestDTO) throws ApplicationException {

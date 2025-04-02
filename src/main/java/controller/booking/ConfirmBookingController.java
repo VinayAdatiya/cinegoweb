@@ -6,7 +6,6 @@ import common.exception.ApplicationException;
 import common.exception.DBException;
 import common.utils.ObjectMapperUtil;
 import controller.validation.BookingValidator;
-import dto.ApiResponse;
 import dto.booking.BookingRequestDTO;
 import dto.booking.BookingResponseDTO;
 import dto.user.UserResponseDTO;
@@ -19,6 +18,8 @@ import service.BookingService;
 
 import java.io.IOException;
 
+import static common.utils.ResponseUtils.createResponse;
+
 @WebServlet(name = "ConfirmBookingController", value = "/confirmBooking", description = "Confirm an existing booking")
 public class ConfirmBookingController extends HttpServlet {
 
@@ -29,29 +30,21 @@ public class ConfirmBookingController extends HttpServlet {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         HttpSession session = request.getSession(false);
-        ApiResponse apiResponse;
         try {
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int currentUserId = currentUser.getUserId();
             BookingRequestDTO bookingRequestDTO = ObjectMapperUtil.toObject(request.getReader(), BookingRequestDTO.class);
             BookingValidator.validateConfirmBooking(bookingRequestDTO);
             BookingResponseDTO bookingResponseDTO = bookingService.confirmBooking(bookingRequestDTO, currentUserId);
-            apiResponse = new ApiResponse(Message.Success.BOOKING_CONFIRMED, bookingResponseDTO);
-            response.setStatus(HttpServletResponse.SC_OK);
+            createResponse(response, Message.Success.BOOKING_CONFIRMED, bookingResponseDTO, HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            e.printStackTrace();
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
-            apiResponse = new ApiResponse(e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
-            apiResponse = new ApiResponse(Message.Error.INVALID_JSON_REQUEST, null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            createResponse(response, Message.Error.INVALID_JSON_REQUEST + e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

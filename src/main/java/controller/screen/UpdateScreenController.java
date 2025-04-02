@@ -8,7 +8,6 @@ import common.exception.DBException;
 import common.utils.AuthenticateUtil;
 import common.utils.ObjectMapperUtil;
 import controller.validation.ScreenValidator;
-import dto.ApiResponse;
 import dto.screen.ScreenRequestDTO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import service.ScreenService;
 
 import java.io.IOException;
+
+import static common.utils.ResponseUtils.createResponse;
 
 @WebServlet(name = "UpdateScreenController", value = "/updateScreen", description = "Update Screen Info by Theater Admin")
 public class UpdateScreenController extends HttpServlet {
@@ -27,28 +28,20 @@ public class UpdateScreenController extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        ApiResponse apiResponse;
         try {
             AuthenticateUtil.authorize(request, Role.ROLE_THEATER_ADMIN);
             ScreenRequestDTO screenRequestDTO = ObjectMapperUtil.toObject(request.getReader(), ScreenRequestDTO.class);
             ScreenValidator.validateScreen(screenRequestDTO);
             screenService.updateScreen(screenRequestDTO);
-            apiResponse = new ApiResponse(Message.Success.RECORD_UPDATED, null);
-            response.setStatus(HttpServletResponse.SC_OK);
+            createResponse(response, Message.Success.RECORD_UPDATED, null, HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            e.printStackTrace();
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
-            apiResponse = new ApiResponse(e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
-            apiResponse = new ApiResponse(Message.Error.INVALID_JSON_REQUEST + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INVALID_JSON_REQUEST + e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            apiResponse = new ApiResponse(Message.Error.SERVER_ERROR + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

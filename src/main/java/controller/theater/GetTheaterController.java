@@ -4,8 +4,6 @@ import common.AppConstant;
 import common.Message;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.ObjectMapperUtil;
-import dto.ApiResponse;
 import dto.theater.TheaterResponseDTO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,36 +13,27 @@ import service.TheaterService;
 
 import java.io.IOException;
 
-@WebServlet(name = "GetTheaterController" , value = "/fetchTheater" , description = "Fetch Particular Theater By theaterId")
+import static common.utils.ResponseUtils.createResponse;
+
+@WebServlet(name = "GetTheaterController", value = "/fetchTheater", description = "Fetch Particular Theater By theaterId")
 public class GetTheaterController extends HttpServlet {
     private final TheaterService theaterService = new TheaterService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        ApiResponse apiResponse;
         try {
-            int theaterId;
-            try {
-                theaterId = Integer.parseInt(request.getParameter("theaterId"));
-            } catch (NumberFormatException e) {
-                throw new ApplicationException(Message.Error.INVALID_ID);
-            }
+            int theaterId = Integer.parseInt(request.getParameter("theaterId"));
             TheaterResponseDTO theaterResponseDTO = theaterService.getTheaterById(theaterId);
-            if (theaterResponseDTO != null) {
-                apiResponse = new ApiResponse(Message.Success.RECORD_FOUND, theaterResponseDTO);
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                apiResponse = new ApiResponse(Message.Error.NO_RECORD_FOUND, null);
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
+            createResponse(response, Message.Success.RECORD_FOUND, theaterResponseDTO, HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (NumberFormatException e) {
+            throw new ApplicationException(Message.Error.INVALID_ID);
+        } catch (ApplicationException e) {
+            createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            apiResponse = new ApiResponse("Server Error : " + e.getMessage(), null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

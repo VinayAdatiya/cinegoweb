@@ -2,9 +2,7 @@ package controller.movie;
 
 import common.AppConstant;
 import common.Message;
-import common.utils.ObjectMapperUtil;
 import common.exception.DBException;
-import dto.ApiResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,25 +12,22 @@ import service.CrewService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "FetchCrewController" , value = "/getCrewMembers" , description = "Get All Crew Members List")
+import static common.utils.ResponseUtils.createResponse;
+
+@WebServlet(name = "FetchCrewController", value = "/getCrewMembers", description = "Get All Crew Members List")
 public class FetchCrewController extends HttpServlet {
     private final CrewService crewService = new CrewService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        ApiResponse apiResponse;
         try {
             List<Crew> crewList = crewService.getAllCrew();
-            apiResponse = new ApiResponse(Message.Success.CREW_FOUND, crewList);
-            response.setStatus(HttpServletResponse.SC_OK);
+            createResponse(response, Message.Success.CREW_FOUND, crewList, HttpServletResponse.SC_OK);
         } catch (DBException e) {
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.SERVER_ERROR + e.getMessage(), null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

@@ -2,8 +2,7 @@ package controller.movie;
 
 import common.AppConstant;
 import common.Message;
-import common.utils.ObjectMapperUtil;
-import dto.ApiResponse;
+import common.exception.ApplicationException;
 import dto.movie.MovieDTO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,22 +12,22 @@ import service.MovieService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "GetAllMoviesController" , value = "/getAllMovies" , description = "Get All Movies Details")
+import static common.utils.ResponseUtils.createResponse;
+
+@WebServlet(name = "GetAllMoviesController", value = "/getAllMovies", description = "Get All Movies Details")
 public class GetAllMoviesController extends HttpServlet {
     private final MovieService movieService = new MovieService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
-        ApiResponse apiResponse;
         try {
             List<MovieDTO> movieResponseDTOs = movieService.getAllMovies();
-            apiResponse = new ApiResponse(Message.Success.MOVIES_FOUND, movieResponseDTOs);
-            response.setStatus(HttpServletResponse.SC_OK);
+            createResponse(response, Message.Success.MOVIES_FOUND, movieResponseDTOs, HttpServletResponse.SC_OK);
+        } catch (ApplicationException e) {
+            createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            apiResponse = new ApiResponse(Message.Error.INTERNAL_ERROR, null);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        response.getWriter().write(ObjectMapperUtil.toString(apiResponse));
     }
 }

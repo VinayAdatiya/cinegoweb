@@ -3,16 +3,16 @@ package model;
 import java.time.LocalDateTime;
 
 public class Screen {
-    public int screenId;
-    public String screenTitle;
-    public int totalSeats;
-    public ScreenType screenType;
-    public String layout;
-    public Theater theater;
-    public LocalDateTime createdOn;
-    public int createdBy;
-    public LocalDateTime updatedOn;
-    public int updatedBy;
+    private int screenId;
+    private String screenTitle;
+    private int totalSeats;
+    private ScreenType screenType;
+    private String layout;
+    private Theater theater;
+    private LocalDateTime createdOn;
+    private int createdBy;
+    private LocalDateTime updatedOn;
+    private int updatedBy;
 
     public Screen() {
     }

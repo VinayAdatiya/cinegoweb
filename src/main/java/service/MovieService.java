@@ -7,11 +7,14 @@ import common.exception.DBException;
 import common.utils.DatabaseUtil;
 import dao.IMovieDAO;
 import dao.impl.MovieDAOImpl;
+import dto.ApiResponseDTO;
 import dto.movie.MovieRequestDTO;
 import dto.movie.MovieDTO;
+import jakarta.servlet.http.HttpServletResponse;
 import mapper.IMovieMapper;
 import model.Movie;
 import org.mapstruct.factory.Mappers;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,9 +38,14 @@ public class MovieService {
         movieDAO.addMovie(movie);
     }
 
-    public MovieDTO getMovieById(int movieId) throws DBException {
+    public MovieDTO getMovieById(int movieId) throws ApplicationException {
         Movie movie = movieDAO.getMovieById(movieId);
-        return movieMapper.toMovieResponseDTO(movie);
+        MovieDTO movieResponseDTO = movieMapper.toMovieResponseDTO(movie);
+        if (movieResponseDTO != null) {
+            return movieResponseDTO;
+        } else {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
     }
 
     public List<MovieDTO> getAllMovies() throws DBException {
@@ -58,8 +66,7 @@ public class MovieService {
     public void deleteMovie(int movieId) throws ApplicationException {
         if (DatabaseUtil.checkRecordExists("movie", "movie_id", movieId)) {
             movieDAO.deleteMovie(movieId);
-        }
-        else{
+        } else {
             throw new ApplicationException(Message.Error.INVALID_ID);
         }
     }

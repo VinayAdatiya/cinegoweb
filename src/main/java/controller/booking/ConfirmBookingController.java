@@ -4,9 +4,7 @@ import common.AppConstant;
 import common.Message;
 import common.exception.ApplicationException;
 import common.exception.DBException;
-import common.utils.ObjectMapperUtil;
 import controller.validation.BookingValidator;
-import dto.booking.BookingRequestDTO;
 import dto.booking.BookingResponseDTO;
 import dto.user.UserResponseDTO;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,9 +31,9 @@ public class ConfirmBookingController extends HttpServlet {
         try {
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int currentUserId = currentUser.getUserId();
-            BookingRequestDTO bookingRequestDTO = ObjectMapperUtil.toObject(request.getReader(), BookingRequestDTO.class);
-            BookingValidator.validateConfirmBooking(bookingRequestDTO);
-            BookingResponseDTO bookingResponseDTO = bookingService.confirmBooking(bookingRequestDTO, currentUserId);
+            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+            BookingValidator.validateConfirmBooking(bookingId);
+            BookingResponseDTO bookingResponseDTO = bookingService.confirmBooking(bookingId, currentUserId);
             createResponse(response, Message.Success.BOOKING_CONFIRMED, bookingResponseDTO, HttpServletResponse.SC_OK);
         } catch (DBException e) {
             createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -8,6 +8,8 @@ import dao.*;
 import model.*;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,6 +223,24 @@ public class ShowDAOImpl implements IShowDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(null, preparedStatement, connection);
+        }
+    }
+
+    public void checkShowTiming(int showId) throws ApplicationException {
+        Show show = getShowById(showId);
+        if (show == null) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+
+        LocalDate showDate = show.getShowDate();
+        LocalTime showTime = show.getShowTime();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        if (showDate.isBefore(currentDate)) {
+            throw new ApplicationException(Message.Error.SHOW_ALREADY_ENDED);
+        } else if (showDate.equals(currentDate) && showTime.isBefore(currentTime)) {
+            throw new ApplicationException(Message.Error.SHOW_ALREADY_ENDED);
         }
     }
 }

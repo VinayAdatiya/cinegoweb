@@ -1,5 +1,6 @@
 package dao;
 
+import common.exception.ApplicationException;
 import common.exception.DBException;
 import model.Show;
 
@@ -15,4 +16,6 @@ public interface IShowDAO {
     void updateShow(Show show, int currentUserId) throws DBException;
 
     void deleteShow(int showId) throws DBException;
+
+    void checkShowTiming(int showId) throws ApplicationException;
 }

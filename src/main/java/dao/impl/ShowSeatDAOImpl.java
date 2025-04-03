@@ -35,6 +35,26 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
+
+    public void updateShowSeats(List<ShowSeat> showSeats, Connection connection) throws DBException {
+        String updateShowSeatQuery = "UPDATE show_seats SET available = 0, hold_until = CURRENT_TIMESTAMP + INTERVAL 3 MINUTE " +
+                "WHERE show_id = ? AND seat_id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(updateShowSeatQuery);
+            for (ShowSeat showSeat : showSeats) {
+                preparedStatement.setInt(1, showSeat.getShowId());
+                preparedStatement.setInt(2, showSeat.getSeatId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR);
+        } finally {
+            DBConnection.closeResources(null, preparedStatement, null);
+        }
+    }
+
+
     public List<ShowSeat> getSeatsByShowId(int showId) throws DBException {
         String query = "SELECT * FROM show_seats WHERE show_id = ?";
         List<ShowSeat> showSeats = new ArrayList<>();
@@ -63,13 +83,13 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
-    public void resetShowSeatsQuery(List<Integer> seats, Connection connection) {
+    public void resetShowSeatsQuery(List<Integer> seats, Connection connection) throws DBException {
         String resetShowSeatsQuery = "UPDATE show_seats SET available = 1, hold_until = NULL " +
                 "WHERE available = 0 AND hold_until < CURRENT_TIMESTAMP AND seat_id = ?";
         PreparedStatement preparedStatement = null;
         try {
+            preparedStatement = connection.prepareStatement(resetShowSeatsQuery);
             for (int seatId : seats) {
-                preparedStatement = connection.prepareStatement(resetShowSeatsQuery);
                 preparedStatement.setInt(1, seatId);
                 preparedStatement.executeUpdate();
             }
@@ -106,6 +126,25 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
+    public void confirmShowSeats(int showId, List<ShowSeat> showSeats, Connection connection) throws DBException {
+        String confirmShowSeatsQuery = "UPDATE show_seats " +
+                "SET hold_until = NULL, available = 0, is_booked = 1 " +
+                "WHERE show_id = ? AND seat_id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(confirmShowSeatsQuery);
+            for (ShowSeat showSeat : showSeats) {
+                preparedStatement.setInt(1, showId);
+                preparedStatement.setInt(2, showSeat.getSeatId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR);
+        } finally {
+            DBConnection.closeResources(null, preparedStatement, null);
         }
     }
 }

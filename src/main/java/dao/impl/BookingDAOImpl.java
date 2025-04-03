@@ -29,17 +29,9 @@ public class BookingDAOImpl implements IBookingDAO {
         String bookingQuery = "INSERT INTO bookings " +
                 "(show_id, user_id, grand_total, number_of_seats, booking_status, payment_method_id, created_by, updated_by) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        String bookedSeatsQuery = "INSERT INTO booked_seats (booking_id, seat_id) VALUES (?, ?)";
-        String updateShowSeatQuery = "UPDATE show_seats SET available = 0, hold_until = CURRENT_TIMESTAMP + INTERVAL 3 MINUTE " +
-                "WHERE show_id = ? AND seat_id = ?";
-
         Connection connection = null;
         PreparedStatement bookingPreparedStatement = null;
-        PreparedStatement bookedSeatsPreparedStatement = null;
-        PreparedStatement updateShowSeatPreparedStatement = null;
         ResultSet generatedKeys = null;
-        int generatedBookingId;
-
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
@@ -56,24 +48,14 @@ public class BookingDAOImpl implements IBookingDAO {
             bookingPreparedStatement.executeUpdate();
             generatedKeys = bookingPreparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                generatedBookingId = generatedKeys.getInt(1);
+                int generatedBookingId = generatedKeys.getInt(1);
                 booking.setBookingId(generatedBookingId);
-            } else {
-                throw new SQLException("Failed to retrieve generated booking ID.");
             }
             // 2. Reserve Seats
-            bookedSeatsPreparedStatement = connection.prepareStatement(bookedSeatsQuery);
-            updateShowSeatPreparedStatement = connection.prepareStatement(updateShowSeatQuery);
-            for (ShowSeat showSeat : showSeats) {
-                // Insert into booked_seats
-                bookedSeatsPreparedStatement.setInt(1, generatedBookingId);
-                bookedSeatsPreparedStatement.setInt(2, showSeat.getSeatId());
-                bookedSeatsPreparedStatement.executeUpdate();
-                // Update into show_seats
-                updateShowSeatPreparedStatement.setInt(1, showSeat.getShowId());
-                updateShowSeatPreparedStatement.setInt(2, showSeat.getSeatId());
-                updateShowSeatPreparedStatement.executeUpdate();
-            }
+            // Insert into booked_seats
+            bookedSeatsDAO.addBookedSeats(booking.getBookingId(), showSeats, connection);
+            // Update into show_seats
+            showSeatDAO.updateShowSeats(showSeats, connection);
             connection.commit();
             booking = getBookingById(booking.getBookingId());
             return booking;
@@ -86,23 +68,21 @@ public class BookingDAOImpl implements IBookingDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(generatedKeys, bookingPreparedStatement, connection);
-            DBConnection.closeResources(null, bookedSeatsPreparedStatement, null);
-            DBConnection.closeResources(null, updateShowSeatPreparedStatement, null);
+
         }
     }
 
     @Override
     public Booking confirmBooking(Booking booking) throws DBException {
         String updateBookingQuery = "UPDATE bookings SET booking_status = ? , is_booked = ? WHERE booking_id = ?";
-        String clearHoldUntilQuery = "UPDATE show_seats SET hold_until = NULL WHERE show_id = ? AND seat_id = ?";
         Connection connection = null;
         PreparedStatement updateBookingPreparedStatement = null;
-        PreparedStatement clearHoldUntilPreparedStatement = null;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
             int bookingId = booking.getBookingId();
             booking = getBookingById(bookingId);
+            int showId = booking.getShow().getShowId();
             // 1. Update Booking Status
             updateBookingPreparedStatement = connection.prepareStatement(updateBookingQuery);
             updateBookingPreparedStatement.setString(1, booking.getBookingStatus().toString());
@@ -111,12 +91,7 @@ public class BookingDAOImpl implements IBookingDAO {
             updateBookingPreparedStatement.executeUpdate();
             // 2. Clear hold_until for booked seats
             List<ShowSeat> showSeats = bookedSeatsDAO.getBookedSeatsByBookingId(booking.getBookingId());
-            clearHoldUntilPreparedStatement = connection.prepareStatement(clearHoldUntilQuery);
-            for (ShowSeat showSeat : showSeats) {
-                clearHoldUntilPreparedStatement.setInt(1, booking.getShow().getShowId());
-                clearHoldUntilPreparedStatement.setInt(2, showSeat.getSeatId());
-                clearHoldUntilPreparedStatement.executeUpdate();
-            }
+            showSeatDAO.confirmShowSeats(showId, showSeats, connection);
             connection.commit();
             booking = getBookingById(booking.getBookingId());
             return booking;
@@ -129,7 +104,6 @@ public class BookingDAOImpl implements IBookingDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(null, updateBookingPreparedStatement, connection);
-            DBConnection.closeResources(null, clearHoldUntilPreparedStatement, null);
         }
     }
 

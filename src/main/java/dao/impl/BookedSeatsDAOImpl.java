@@ -14,6 +14,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookedSeatsDAOImpl implements IBookedSeatsDAO {
+
+    public void addBookedSeats(int generatedBookingId, List<ShowSeat> showSeats, Connection connection) throws DBException {
+        String bookedSeatsQuery = "INSERT INTO booked_seats (booking_id, seat_id) VALUES (?, ?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(bookedSeatsQuery);
+            for (ShowSeat showSeat : showSeats) {
+                preparedStatement.setInt(1, generatedBookingId);
+                preparedStatement.setInt(2, showSeat.getSeatId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR);
+        } finally {
+            DBConnection.closeResources(null, preparedStatement, null);
+        }
+    }
+
     @Override
     public List<ShowSeat> getBookedSeatsByBookingId(int bookingId) throws DBException {
         String query = "SELECT * FROM booked_seats WHERE booking_id = ?";

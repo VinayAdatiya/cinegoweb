@@ -5,8 +5,10 @@ import common.enums.BookingStatus;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IBookingDAO;
+import dao.IShowDAO;
 import dao.IShowSeatDAO;
 import dao.impl.BookingDAOImpl;
+import dao.impl.ShowDAOImpl;
 import dao.impl.ShowSeatDAOImpl;
 import dto.booking.BookingRequestDTO;
 import dto.booking.BookingResponseDTO;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingService {
-
+    private final IShowDAO showDAO = new ShowDAOImpl();
     private final IBookingDAO bookingDAO = new BookingDAOImpl();
     private final IShowSeatDAO showSeatDAO = new ShowSeatDAOImpl();
     private final IBookingMapper bookingMapper = Mappers.getMapper(IBookingMapper.class);
@@ -29,14 +31,20 @@ public class BookingService {
         List<ShowSeat> listOfSeats = bookingRequestDTO.getShowSeatList();
         List<ShowSeat> showSeatList = new ArrayList<>();
         int showId = booking.getShow().getShowId();
+        showDAO.checkShowTiming(showId); // Validate Show is Ended or not
+        // Calculating Grand Total & Validating Each Seat is Available for booking or not
         for (ShowSeat seat : listOfSeats) {
             ShowSeat showSeat = showSeatDAO.getShowSeatById(showId, seat.getSeatId());
-            showSeatList.add(showSeat);
+            if (showSeat.isAvailable()) {
+                showSeatList.add(showSeat);
+            } else {
+                throw new ApplicationException(Message.Error.SEAT_NOT_AVAILABLE);
+            }
         }
         for (ShowSeat showSeat : showSeatList) {
             total += showSeat.getSeatPrice();
         }
-        double cinegoCommision = total * 0.10;
+        double cinegoCommision = total * 0.02;
         double cgst = total * 0.18;
         double sgst = total * 0.18;
         double grandTotal = total + cinegoCommision + cgst + sgst;
@@ -48,13 +56,25 @@ public class BookingService {
         return bookingMapper.toBookingResponseDTO(booking);
     }
 
-    public BookingResponseDTO confirmBooking(BookingRequestDTO bookingRequestDTO, int currentUserId) throws ApplicationException {
-        Booking booking = bookingMapper.toBooking(bookingRequestDTO);
-        booking.setBookingId(bookingRequestDTO.getBookingId());
+    public BookingResponseDTO confirmBooking(int bookingId, int currentUserId) throws ApplicationException {
+        Booking booking = bookingDAO.getBookingById(bookingId);
+        validateBooking(booking, currentUserId);
         booking.setBookingStatus(BookingStatus.CONFIRMED);
         booking.setUpdatedBy(currentUserId);
         booking = bookingDAO.confirmBooking(booking);
         return bookingMapper.toBookingResponseDTO(booking);
+    }
+
+    private void validateBooking(Booking booking, int currentUserId) throws ApplicationException {
+        if (booking == null) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+        if (booking.getBookingStatus() != BookingStatus.PENDING) {
+            throw new ApplicationException(Message.Error.INVALID_BOOKING_STATUS);
+        }
+        if (booking.getUser().getUserId() != currentUserId) {
+            throw new ApplicationException(Message.Error.UNAUTHORIZED_ACCESS);
+        }
     }
 
     public BookingResponseDTO getBookingById(int bookingId) throws DBException {

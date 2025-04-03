@@ -93,5 +93,11 @@ public class Message {
         public static final String INVALID_JSON_REQUEST = "Invalid JSON Request !!! ";
         public static final String SERVER_ERROR = "Server ";
         public static final String PAYMENT_METHOD_NOT_FOUND = "Invalid payment method";
+        public static final String SEAT_NOT_AVAILABLE = "The selected seats are not available. Please choose other seats.";
+        public static final String INVALID_SEAT_SELECTION = "You need to select minimum 1 seat for proceeding further !!! ";
+        public static final String SEAT_SELECTION_TOO_LARGE = "For assistance with booking large groups, please contact CineGo services.";
+        public static final String SHOW_ALREADY_ENDED = "This show has already ended and is not available for booking.";
+        public static final String INVALID_BOOKING_STATUS = "Booking cannot be confirmed. Invalid booking status.";
+        public static final String UNAUTHORIZED_ACCESS = "You are not authorized to confirm this booking.";
     }
 }

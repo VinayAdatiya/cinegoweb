@@ -13,12 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import service.BookingService;
+
 import java.io.IOException;
 
 import static common.utils.ResponseUtils.createResponse;
 
 @WebServlet(name = "CancelBookingController", value = "/cancelBooking", description = "Cancel Booking")
 public class CancelBookingController extends HttpServlet {
+
     private final BookingService bookingService = new BookingService();
 
     @Override

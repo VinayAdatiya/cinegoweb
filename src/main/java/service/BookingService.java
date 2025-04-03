@@ -18,6 +18,7 @@ import mapper.IBookingMapper;
 import model.Booking;
 import model.ShowSeat;
 import org.mapstruct.factory.Mappers;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class BookingService {
             if (showSeat.isAvailable()) {
                 showSeatList.add(showSeat);
             } else {
-                throw new ApplicationException(Message.Error.SEAT_NOT_AVAILABLE);
+                throw new ApplicationException(Message.Error.SEAT_NOT_AVAILABLE + "Seat Number :- " + seat.getSeatId());
             }
         }
         for (ShowSeat showSeat : showSeatList) {

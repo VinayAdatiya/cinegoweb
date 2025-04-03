@@ -68,6 +68,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ShowSeat showSeat = new ShowSeat();
+                showSeat.setSeatId(resultSet.getInt("show_id"));
                 showSeat.setSeatId(resultSet.getInt("seat_id"));
                 showSeat.setSeatPrice(resultSet.getDouble("seat_price"));
                 showSeat.setBooked(resultSet.getBoolean("is_booked"));
@@ -113,6 +114,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 ShowSeat showSeat = new ShowSeat();
+                showSeat.setShowId(resultSet.getInt("show_id"));
                 showSeat.setSeatId(resultSet.getInt("seat_id"));
                 showSeat.setSeatPrice(resultSet.getDouble("seat_price"));
                 showSeat.setBooked(resultSet.getBoolean("is_booked"));

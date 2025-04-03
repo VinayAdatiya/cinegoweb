@@ -74,23 +74,21 @@ public class BookingDAOImpl implements IBookingDAO {
 
     @Override
     public Booking confirmBooking(Booking booking) throws DBException {
-        String updateBookingQuery = "UPDATE bookings SET booking_status = ? , is_booked = ? WHERE booking_id = ?";
+        String updateBookingQuery = "UPDATE bookings SET booking_status = ? WHERE booking_id = ?";
         Connection connection = null;
-        PreparedStatement updateBookingPreparedStatement = null;
+        PreparedStatement preparedStatement = null;
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
             int bookingId = booking.getBookingId();
-            booking = getBookingById(bookingId);
             int showId = booking.getShow().getShowId();
             // 1. Update Booking Status
-            updateBookingPreparedStatement = connection.prepareStatement(updateBookingQuery);
-            updateBookingPreparedStatement.setString(1, booking.getBookingStatus().toString());
-            updateBookingPreparedStatement.setBoolean(2, true);
-            updateBookingPreparedStatement.setInt(3, booking.getBookingId());
-            updateBookingPreparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement(updateBookingQuery);
+            preparedStatement.setString(1, booking.getBookingStatus().getStatus());
+            preparedStatement.setInt(2, bookingId);
+            preparedStatement.executeUpdate();
             // 2. Clear hold_until for booked seats
-            List<ShowSeat> showSeats = bookedSeatsDAO.getBookedSeatsByBookingId(booking.getBookingId());
+            List<ShowSeat> showSeats = bookedSeatsDAO.getBookedSeatsByBookingId(bookingId);
             showSeatDAO.confirmShowSeats(showId, showSeats, connection);
             connection.commit();
             booking = getBookingById(booking.getBookingId());
@@ -103,7 +101,7 @@ public class BookingDAOImpl implements IBookingDAO {
             }
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
-            DBConnection.closeResources(null, updateBookingPreparedStatement, connection);
+            DBConnection.closeResources(null, preparedStatement, connection);
         }
     }
 

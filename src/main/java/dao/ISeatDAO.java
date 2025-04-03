@@ -1,5 +1,6 @@
 package dao;
 
+import common.exception.ApplicationException;
 import common.exception.DBException;
 import model.Seat;
 
@@ -12,4 +13,6 @@ public interface ISeatDAO {
     List<Seat> getSeatsByScreenId(int screenId) throws DBException;
 
     Seat getSeatById(int seatId) throws DBException;
+
+    void checkSeatType(int seatId) throws ApplicationException;
 }

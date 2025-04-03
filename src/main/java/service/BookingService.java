@@ -5,9 +5,11 @@ import common.enums.BookingStatus;
 import common.exception.ApplicationException;
 import common.exception.DBException;
 import dao.IBookingDAO;
+import dao.ISeatDAO;
 import dao.IShowDAO;
 import dao.IShowSeatDAO;
 import dao.impl.BookingDAOImpl;
+import dao.impl.SeatDAOImpl;
 import dao.impl.ShowDAOImpl;
 import dao.impl.ShowSeatDAOImpl;
 import dto.booking.BookingRequestDTO;
@@ -21,6 +23,7 @@ import java.util.List;
 
 public class BookingService {
     private final IShowDAO showDAO = new ShowDAOImpl();
+    private final ISeatDAO seatDAO = new SeatDAOImpl();
     private final IBookingDAO bookingDAO = new BookingDAOImpl();
     private final IShowSeatDAO showSeatDAO = new ShowSeatDAOImpl();
     private final IBookingMapper bookingMapper = Mappers.getMapper(IBookingMapper.class);
@@ -35,6 +38,7 @@ public class BookingService {
         // Calculating Grand Total & Validating Each Seat is Available for booking or not
         for (ShowSeat seat : listOfSeats) {
             ShowSeat showSeat = showSeatDAO.getShowSeatById(showId, seat.getSeatId());
+            seatDAO.checkSeatType(seat.getSeatId());
             if (showSeat.isAvailable()) {
                 showSeatList.add(showSeat);
             } else {

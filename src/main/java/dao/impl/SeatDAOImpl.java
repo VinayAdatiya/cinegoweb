@@ -1,6 +1,7 @@
 package dao.impl;
 
 import common.Message;
+import common.exception.ApplicationException;
 import common.exception.DBException;
 import config.DBConnection;
 import dao.ISeatCategoryDAO;
@@ -85,6 +86,13 @@ public class SeatDAOImpl implements ISeatDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
+    public void checkSeatType(int seatId) throws ApplicationException {
+        Seat seat = getSeatById(seatId);
+        if (seat.getSeatCategory().getSeatCategoryId() == 1) {
+            throw new ApplicationException(Message.Error.SEAT_NOT_AVAILABLE);
         }
     }
 }

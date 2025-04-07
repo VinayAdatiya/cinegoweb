@@ -55,7 +55,7 @@
     </context-param>
 
     <listener>
-        <listener-class>config.FlywayInitializer</listener-class>
+        <listener-class>com.cinego.config.FlywayInitializer</listener-class>
     </listener>
 
 <!--    <servlet>-->

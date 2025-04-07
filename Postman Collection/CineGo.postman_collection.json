@@ -13,7 +13,7 @@
 					"name": "Movie Metadata",
 					"item": [
 						{
-							"name": "Crew",
+							"name": "Movie Crew",
 							"item": [
 								{
 									"name": "addCrew",
@@ -93,26 +93,6 @@
 							]
 						},
 						{
-							"name": "FetchCity",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/CineGo_war_exploded/FetchCity",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo_war_exploded",
-										"FetchCity"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "getLanguages",
 							"request": {
 								"method": "GET",
@@ -175,39 +155,195 @@
 					]
 				},
 				{
-					"name": "Add Movie",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"movieTitle\": \"Test Movie\",\r\n  \"movieRating\": 7.5,\r\n  \"movieDuration\": \"02:30:00\",\r\n  \"movieReleaseDate\": \"2023-10-35\",\r\n  \"movieDescription\": \"A test movie description.\",\r\n  \"languageIds\": [1, 2],\r\n  \"genreIds\": [3, 4],\r\n  \"formatIds\": [5, 6],\r\n  \"movieCrewEntries\": [\r\n    {\r\n      \"crewId\": 1,\r\n      \"designationId\": 1,\r\n      \"characterName\": \"Character 1\"\r\n    },\r\n    {\r\n      \"crewId\": 2,\r\n      \"designationId\": 2,\r\n      \"characterName\": \"Character 2\"\r\n    }\r\n  ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Movie CRUD",
+					"item": [
+						{
+							"name": "Add Movie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/CineGo_war_exploded/addMovie",
-							"protocol": "http",
-							"host": [
-								"localhost"
 							],
-							"port": "8080",
-							"path": [
-								"CineGo_war_exploded",
-								"addMovie"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieTitle\": \"Example Movie\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/addMovie",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"addMovie"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllMovies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"packages": {},
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getAllMovies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getAllMovies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "fetchMovie",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "movieId",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/fetchMovie?movieId=16",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"fetchMovie"
+									],
+									"query": [
+										{
+											"key": "movieId",
+											"value": "16"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateMovie",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieId\" : 15,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/updateMovie",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"updateMovie"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteMovie",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/deleteMovie?movieId=15",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"deleteMovie"
+									],
+									"query": [
+										{
+											"key": "movieId",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -224,7 +360,36 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"arpan@gmail.com\",\r\n    \"password\":\"pass\"\r\n}",
+									"raw": "{\r\n    \"email\":\"vad@gmail.com\",\r\n    \"password\":\"Pass@1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Theater Admin Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"ta1@cinego.com\",\r\n    \"password\":\"Tadmin@1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -253,7 +418,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"vad@narola.email\",\r\n    \"password\":\"Pass@123\"\r\n}",
+									"raw": "{\r\n    \"email\":\"superadmin@cinego.com\",\r\n    \"password\":\"CineGo@94278\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -297,7 +462,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"username\": \"vinay\",\r\n  \"password\": \"Pass@1234\",\r\n  \"email\": \"vad@gmail.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876543210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395009\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
+									"raw": "{\r\n  \"userName\": \"vinay\",\r\n  \"password\": \"Pass@1234\",\r\n  \"email\": \"vad@gmail.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876543210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395009\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -318,6 +483,41 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Theater Admin Signup",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\": \"vinay_Ta3\",\r\n  \"password\": \"Tadmin@3\",\r\n  \"email\": \"ta3@cinego.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876903210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395007\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/addTheaterAdmin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"addTheaterAdmin"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -327,27 +527,244 @@
 			"name": "Theater",
 			"item": [
 				{
-					"name": "addTheater",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"theaterAdmin\": {\r\n    \"email\": \"ta1@cinego.com\",\r\n    \"password\": \"Tadmin@1\"\r\n  },\r\n  \"theaterName\": \"My Awesome Cinema\",\r\n  \"theaterRating\": 5,\r\n  \"theaterAddress\": {\r\n    \"addressLine1\": \"456 Oak Avenue\",\r\n    \"addressLine2\": \"Suite 201\",\r\n    \"pincode\": 123456,\r\n    \"city\": {\r\n      \"cityId\": 2\r\n    }\r\n  }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Theater CRUD",
+					"item": [
+						{
+							"name": "addTheater",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"theaterAdmin\": {\r\n    \"email\": \"ta3@cinego.com\",\r\n    \"password\": \"Tadmin@3\"\r\n  },\r\n  \"theaterName\": \"RajMul\",\r\n  \"theaterRating\": 5,\r\n  \"theaterAddress\": {\r\n    \"addressLine1\": \"456 Oak Avenue\",\r\n    \"addressLine2\": \"201\",\r\n    \"pincode\": 789654,\r\n    \"city\": {\r\n      \"cityId\": 2\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/addTheater",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"addTheater"
+									]
 								}
-							}
+							},
+							"response": []
 						},
+						{
+							"name": "GetAllTheaters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"packages": {},
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getAllTheaters",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getAllTheaters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "fetchTheater",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "movieId",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/fetchTheater?theaterId=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"fetchTheater"
+									],
+									"query": [
+										{
+											"key": "theaterId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateTheater",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"theaterAdmin\": {\r\n    \"email\": \"ta3@cinego.com\",\r\n    \"password\": \"Tadmin@3\"\r\n  },\r\n  \"theaterId\":3,\r\n  \"theaterName\": \"Rajhans Multiplex\",\r\n  \"theaterRating\": 5,\r\n  \"theaterAddress\": {\r\n    \"addressId\": 41,\r\n    \"addressLine1\": \"Adajan Gam\",\r\n    \"addressLine2\": \"Pal-Hazira Road\",\r\n    \"pincode\": 395009,\r\n    \"city\": {\r\n      \"cityId\": 4\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/updateTheater",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"updateTheater"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteTheater",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/deleteTheater?theaterId=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"deleteTheater"
+									],
+									"query": [
+										{
+											"key": "theaterId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Super Admin Functionality",
+			"item": [
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>Movie ID</th>\r",
+									"        <th>Movie Title</th>\r",
+									"        <th>Movie Rating</th>\r",
+									"        <th>Movie Duration</th>\r",
+									"        <th>Movie Release Date</th>\r",
+									"        <th>Movie Description</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response.data}}\r",
+									"        <tr>\r",
+									"            <td>{{movieId}}</td>\r",
+									"            <td>{{movieTitle}}</td>\r",
+									"            <td>{{movieRating}}</td>\r",
+									"            <td>{{movieDuration.[0]}}</td>\r",
+									"            <td>{{movieReleaseDate.[0]}}</td>\r",
+									"            <td>{{movieDescription}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/CineGo_war_exploded/addTheater",
+							"raw": "http://localhost:8080/CineGo_war_exploded/getAllUsers",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -355,14 +772,14 @@
 							"port": "8080",
 							"path": [
 								"CineGo_war_exploded",
-								"addTheater"
+								"getAllUsers"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "addTheaterAdmin",
+					"name": "Theater Admin Signup",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -374,7 +791,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"vinay_Ta\",\r\n  \"password\": \"Tadmin@1\",\r\n  \"email\": \"ta1@cinego.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876543210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395007\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
+							"raw": "{\r\n  \"userName\": \"vinay_Ta4\",\r\n  \"password\": \"Tadmin@4\",\r\n  \"email\": \"ta4@cinego.com\",\r\n  \"firstName\": \"vinay\",\r\n  \"lastName\": \"adatiya\",\r\n  \"phoneNumber\": \"9876903210\",\r\n  \"address\": {\r\n    \"addressLine1\": \"123 Sample\",\r\n    \"addressLine2\": \"Near\",\r\n    \"pincode\": \"395007\",\r\n    \"city\":{\r\n        \"cityId\":4\r\n    }\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -395,6 +812,621 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Add Theater",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"theaterAdmin\": {\r\n    \"email\": \"ta4@cinego.com\",\r\n    \"password\": \"Tadmin@4\"\r\n  },\r\n  \"theaterName\": \"My Awesome Cinema\",\r\n  \"theaterRating\": 5,\r\n  \"theaterAddress\": {\r\n    \"addressLine1\": \"456 Oak Avenue\",\r\n    \"addressLine2\": \"Suite 201\",\r\n    \"pincode\": 123456,\r\n    \"city\": {\r\n      \"cityId\": 2\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/addTheater",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"addTheater"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "FetchCity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/fetchCities",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"fetchCities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Create Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"showId\": 15,\r\n    \"numberOfSeats\": 2,\r\n    \"paymentMethodId\": 2,\r\n    \"showSeatList\": [\r\n        {\r\n            \"seatId\": 19\r\n        },\r\n        {\r\n            \"seatId\": 20\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/createBooking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"createBooking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/confirmBooking?bookingId=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"confirmBooking"
+							],
+							"query": [
+								{
+									"key": "bookingId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/resetBooking?bookingId=9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"resetBooking"
+							],
+							"query": [
+								{
+									"key": "bookingId",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/cancelBooking?bookingId=8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"cancelBooking"
+							],
+							"query": [
+								{
+									"key": "bookingId",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo_war_exploded/getBooking?bookingId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo_war_exploded",
+								"getBooking"
+							],
+							"query": [
+								{
+									"key": "bookingId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Screen",
+			"item": [
+				{
+					"name": "Screen CRUD",
+					"item": [
+						{
+							"name": "Add Screen",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"screenTitle\": \"Screen 2\",\r\n    \"totalSeats\": 10,\r\n    \"screenType\": {\r\n        \"screenTypeId\": 2\r\n    },\r\n    \"layout\": \"{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seats\\\":[{\\\"rowNum\\\":1,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":1,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":1,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":1}},{\\\"rowNum\\\":2,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":2,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}}]}\",\r\n    \"theater\": {\r\n        \"theaterId\": 2\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/addScreen",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"addScreen"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Screen",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getAllScreen",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getAllScreen"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Screen By Theater",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getAllScreensByTheater?theaterId=4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getAllScreensByTheater"
+									],
+									"query": [
+										{
+											"key": "theaterId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Screen",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "movieId",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getScreenById?screenId=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getScreenById"
+									],
+									"query": [
+										{
+											"key": "screenId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Screen",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieId\" : 15,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/updateScreen",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"updateScreen"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Screen",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/deleteScreen?screenId=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"deleteScreen"
+									],
+									"query": [
+										{
+											"key": "screenId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Show",
+			"item": [
+				{
+					"name": "Show CRUD",
+					"item": [
+						{
+							"name": "Add Show",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"movieId\": 16,\r\n  \"screenId\": 8,\r\n  \"showDate\": \"2025-04-12\",\r\n  \"showTime\": \"16:30:00\",\r\n  \"showPriceCategoryDTOS\": [\r\n    {\r\n      \"seatCategoryId\": 1,\r\n      \"price\": 1\r\n    },\r\n    {\r\n      \"seatCategoryId\": 2,\r\n      \"price\": 250.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 3,\r\n      \"price\": 350.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 4,\r\n      \"price\": 450.00\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/addShow",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"addShow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Show By ShowId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `\r",
+											"<style type=\"text/css\">\r",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+											"    .tftable tr {background-color:#ffffff;}\r",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+											"    .tftable tr:hover {background-color:#e0ffff;}\r",
+											"</style>\r",
+											"\r",
+											"<table class=\"tftable\" border=\"1\">\r",
+											"    <tr>\r",
+											"        <th>Show ID</th>\r",
+											"        <th>Movie Title</th>\r",
+											"        <th>Screen Title</th>\r",
+											"        <th>Show Date</th>\r",
+											"        <th>Show Time</th>\r",
+											"        <th>Seat Price</th>\r",
+											"        <th>Available</th>\r",
+											"        <th>Booked</th>\r",
+											"    </tr>\r",
+											"    \r",
+											"    <tr>\r",
+											"        <td>{{response.data.showId}}</td>\r",
+											"        <td>{{response.data.movie.movieTitle}}</td>\r",
+											"        <td>{{response.data.screen.screenTitle}}</td>\r",
+											"        <td>{{response.showDate.[0]}}</td>\r",
+											"        <td>{{response.showTime.[0]}}</td>\r",
+											"        <td>{{response.data.showSeatList.[0].seatPrice}}</td>\r",
+											"        <td>{{response.data.showSeatList.[0].available}}</td>\r",
+											"        <td>{{response.data.showSeatList.[0].booked}}</td>\r",
+											"    </tr>\r",
+											"</table>\r",
+											"`;\r",
+											"\r",
+											"function constructVisualizerPayload() {\r",
+											"    return { response: pm.response.json() }\r",
+											"}\r",
+											"\r",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getShow?showId=15",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getShow"
+									],
+									"query": [
+										{
+											"key": "showId",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Show",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/getAllShows",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"getAllShows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Show",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo_war_exploded/deleteShow?showId=9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo_war_exploded",
+										"deleteShow"
+									],
+									"query": [
+										{
+											"key": "showId",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

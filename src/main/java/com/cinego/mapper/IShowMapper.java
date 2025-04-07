@@ -13,5 +13,8 @@ public interface IShowMapper {
     @Mapping(source = "showPriceCategoryDTOS", target = "showPriceCategoryList")
     Show toModel(ShowRequestDTO showRequestDTO);
 
+    @Mapping(source = "screen", target = "screen")
+    @Mapping(source = "screen.theater.theaterId", target = "screen.theaterId")
+    @Mapping(source = "screen.theater.theaterName", target = "screen.theaterName")
     ShowResponseDTO toDTO(Show show);
 }

@@ -6,6 +6,7 @@ import com.cinego.config.DBConnection;
 import com.cinego.dao.IShowSeatDAO;
 import com.cinego.common.exception.DBException;
 import com.cinego.common.utils.DateTimeUtil;
+import com.cinego.model.SeatCategory;
 import com.cinego.model.ShowSeat;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
-
+    @Override
     public void updateShowSeats(List<ShowSeat> showSeats, Connection connection) throws DBException {
         String updateShowSeatQuery = "UPDATE show_seats SET available = 0, hold_until = CURRENT_TIMESTAMP + INTERVAL 3 MINUTE " +
                 "WHERE show_id = ? AND seat_id = ?";
@@ -54,9 +55,19 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
-
+    @Override
     public List<ShowSeat> getSeatsByShowId(int showId) throws DBException {
-        String query = "SELECT * FROM show_seats WHERE show_id = ?";
+        String query = "SELECT " +
+                "   ss.*, " +
+                "   s.row_num, " +
+                "   s.col_num, " +
+                "   s.seat_category_id " +
+                "FROM " +
+                "   show_seats ss " +
+                "JOIN " +
+                "   seats s ON ss.seat_id = s.seat_id " +
+                "WHERE " +
+                "   ss.show_id = ?";
         List<ShowSeat> showSeats = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -68,12 +79,23 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ShowSeat showSeat = new ShowSeat();
-                showSeat.setSeatId(resultSet.getInt("show_id"));
+                showSeat.setShowId(resultSet.getInt("show_id"));
                 showSeat.setSeatId(resultSet.getInt("seat_id"));
                 showSeat.setSeatPrice(resultSet.getDouble("seat_price"));
                 showSeat.setBooked(resultSet.getBoolean("is_booked"));
                 showSeat.setAvailable(resultSet.getBoolean("available"));
+                showSeat.setCreatedOn(DateTimeUtil.toLocalDateTime(resultSet.getTimestamp("created_on")));
+                showSeat.setCreatedBy(resultSet.getInt("created_by"));
                 showSeat.setUpdatedOn(DateTimeUtil.toLocalDateTime(resultSet.getTimestamp("updated_on")));
+                showSeat.setUpdatedBy(resultSet.getInt("updated_by"));
+
+                showSeat.setRowNum(resultSet.getInt("row_num"));
+                showSeat.setColNum(resultSet.getInt("col_num"));
+
+                SeatCategory seatCategory = new SeatCategory();
+                seatCategory.setSeatCategoryId(resultSet.getInt("seat_category_id"));
+                showSeat.setSeatCategory(seatCategory);
+
                 showSeats.add(showSeat);
             }
             return showSeats;
@@ -84,6 +106,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
+    @Override
     public void resetShowSeatsQuery(List<Integer> seats, Connection connection) throws DBException {
         String resetShowSeatsQuery = "UPDATE show_seats SET available = 1, hold_until = NULL " +
                 "WHERE available = 0 AND hold_until < CURRENT_TIMESTAMP AND seat_id = ?";
@@ -101,6 +124,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
+    @Override
     public ShowSeat getShowSeatById(int showId, int seatId) throws ApplicationException {
         String getSeat = "SELECT * FROM show_seats WHERE show_id = ? AND seat_id = ?";
         Connection connection = null;
@@ -131,6 +155,7 @@ public class ShowSeatDAOImpl implements IShowSeatDAO {
         }
     }
 
+    @Override
     public void confirmShowSeats(int showId, List<ShowSeat> showSeats, Connection connection) throws DBException {
         String confirmShowSeatsQuery = "UPDATE show_seats " +
                 "SET hold_until = NULL, available = 0, is_booked = 1 " +

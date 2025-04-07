@@ -13,9 +13,14 @@ public class ShowSeat {
     private LocalDateTime updatedOn;
     private int updatedBy;
 
-    public ShowSeat(){}
+    private int rowNum;
+    private int colNum;
+    private SeatCategory seatCategory;
 
-    public ShowSeat(int showId, int seatId, double seatPrice, boolean isBooked, boolean available, LocalDateTime createdOn, int createdBy, LocalDateTime updatedOn, int updatedBy) {
+    public ShowSeat() {
+    }
+
+    public ShowSeat(int showId, int seatId, double seatPrice, boolean isBooked, boolean available, LocalDateTime createdOn, int createdBy, LocalDateTime updatedOn, int updatedBy, int rowNum, int colNum, SeatCategory seatCategory) {
         this.showId = showId;
         this.seatId = seatId;
         this.seatPrice = seatPrice;
@@ -25,6 +30,9 @@ public class ShowSeat {
         this.createdBy = createdBy;
         this.updatedOn = updatedOn;
         this.updatedBy = updatedBy;
+        this.rowNum = rowNum;
+        this.colNum = colNum;
+        this.seatCategory = seatCategory;
     }
 
     public int getShowId() {
@@ -97,5 +105,29 @@ public class ShowSeat {
 
     public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public int getRowNum() {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum) {
+        this.rowNum = rowNum;
+    }
+
+    public int getColNum() {
+        return colNum;
+    }
+
+    public void setColNum(int colNum) {
+        this.colNum = colNum;
+    }
+
+    public SeatCategory getSeatCategory() {
+        return seatCategory;
+    }
+
+    public void setSeatCategory(SeatCategory seatCategory) {
+        this.seatCategory = seatCategory;
     }
 }

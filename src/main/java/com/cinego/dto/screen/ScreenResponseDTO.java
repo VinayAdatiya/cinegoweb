@@ -2,7 +2,6 @@ package com.cinego.dto.screen;
 
 import com.cinego.model.ScreenType;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.cinego.dto.theater.TheaterResponseDTO;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScreenResponseDTO {
@@ -11,19 +10,20 @@ public class ScreenResponseDTO {
     private int totalSeats;
     private ScreenType screenType;
     private String layout;
-    private TheaterResponseDTO theater;
-//    private List<ShowSeat> showSeatList;
+    private int theaterId;
+    private String theaterName;
 
     public ScreenResponseDTO() {
     }
 
-    public ScreenResponseDTO(int screenId, String screenTitle, int totalSeats, ScreenType screenType, String layout, TheaterResponseDTO theater) {
+    public ScreenResponseDTO(int screenId, String screenTitle, int totalSeats, ScreenType screenType, String layout, int theaterId, String theaterName) {
         this.screenId = screenId;
         this.screenTitle = screenTitle;
         this.totalSeats = totalSeats;
         this.screenType = screenType;
         this.layout = layout;
-        this.theater = theater;
+        this.theaterId = theaterId;
+        this.theaterName = theaterName;
     }
 
     public int getScreenId() {
@@ -66,11 +66,19 @@ public class ScreenResponseDTO {
         this.layout = layout;
     }
 
-    public TheaterResponseDTO getTheater() {
-        return theater;
+    public int getTheaterId() {
+        return theaterId;
     }
 
-    public void setTheater(TheaterResponseDTO theater) {
-        this.theater = theater;
+    public void setTheaterId(int theaterId) {
+        this.theaterId = theaterId;
+    }
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
     }
 }

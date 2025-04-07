@@ -2,7 +2,7 @@ package com.cinego.dto.show;
 
 import com.cinego.dto.movie.MovieDTO;
 import com.cinego.dto.screen.ScreenResponseDTO;
-import com.cinego.model.ShowSeat;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -14,18 +14,18 @@ public class ShowResponseDTO {
     private LocalDate showDate;
     private LocalTime showTime;
     private List<ShowPriceCategoryDTO> showPriceCategoryDTOS;
-    private List<ShowSeat> showSeatList;
+    private List<ShowSeatResponseDTO> showSeatList;
 
     public ShowResponseDTO() {
     }
 
-    public ShowResponseDTO(int showId, MovieDTO movie, ScreenResponseDTO screen, LocalDate showDate, LocalTime showTime, List<ShowPriceCategoryDTO> showPriceCategoryList, List<ShowSeat> showSeatList) {
+    public ShowResponseDTO(int showId, MovieDTO movie, ScreenResponseDTO screen, LocalDate showDate, LocalTime showTime, List<ShowPriceCategoryDTO> showPriceCategoryDTOS, List<ShowSeatResponseDTO> showSeatList) {
         this.showId = showId;
         this.movie = movie;
         this.screen = screen;
         this.showDate = showDate;
         this.showTime = showTime;
-        this.showPriceCategoryDTOS = showPriceCategoryList;
+        this.showPriceCategoryDTOS = showPriceCategoryDTOS;
         this.showSeatList = showSeatList;
     }
 
@@ -77,11 +77,11 @@ public class ShowResponseDTO {
         this.showPriceCategoryDTOS = showPriceCategoryList;
     }
 
-    public List<ShowSeat> getShowSeatList() {
+    public List<ShowSeatResponseDTO> getShowSeatList() {
         return showSeatList;
     }
 
-    public void setShowSeatList(List<ShowSeat> showSeatList) {
+    public void setShowSeatList(List<ShowSeatResponseDTO> showSeatList) {
         this.showSeatList = showSeatList;
     }
 }

@@ -6,7 +6,9 @@ import com.cinego.dao.IShowSeatDAO;
 import com.cinego.dao.impl.ShowSeatDAOImpl;
 import com.cinego.dto.show.ShowRequestDTO;
 import com.cinego.dto.show.ShowResponseDTO;
+import com.cinego.dto.show.ShowSeatResponseDTO;
 import com.cinego.mapper.IShowMapper;
+import com.cinego.mapper.IShowSeatMapper;
 import com.cinego.model.Show;
 import com.cinego.model.ShowPriceCategory;
 import com.cinego.model.ShowSeat;
@@ -26,6 +28,7 @@ public class ShowService {
     private final IShowDAO showDAO = new ShowDAOImpl();
     private final IShowMapper showMapper = Mappers.getMapper(IShowMapper.class);
     private final IShowPriceCategoryMapper showPriceCategoryMapper = Mappers.getMapper(IShowPriceCategoryMapper.class);
+    private final IShowSeatMapper showSeatMapper = Mappers.getMapper(IShowSeatMapper.class);
     private final IShowSeatDAO showSeatDAO = new ShowSeatDAOImpl();
 
     public void addShow(ShowRequestDTO showRequestDTO, int currentUserId) throws ApplicationException, DBException {
@@ -43,7 +46,10 @@ public class ShowService {
         ShowResponseDTO showResponseDTO = showMapper.toDTO(show);
         showResponseDTO.setShowPriceCategoryList(showPriceCategoryDTOS);
         List<ShowSeat> showSeats = showSeatDAO.getSeatsByShowId(showId);
-        showResponseDTO.setShowSeatList(showSeats);
+        List<ShowSeatResponseDTO> showSeatResponseDTOS = showSeats.stream()
+                .map(showSeatMapper::toDTO)
+                .collect(Collectors.toList());
+        showResponseDTO.setShowSeatList(showSeatResponseDTOS);
         return showResponseDTO;
     }
 

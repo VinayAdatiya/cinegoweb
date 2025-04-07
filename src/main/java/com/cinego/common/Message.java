@@ -31,6 +31,7 @@ public class Message {
         public static final String BOOKING_CONFIRMED = "Booking Confirmed ! Enjoy Your Movie";
         public static final String BOOKING_EXPIRED = "Booking timing expired";
         public static final String BOOKING_CANCELLED = "Booking cancelled successfully !!!";
+        public static final String PAYMENT_METHODS_FOUND = "Payments Methods fetched successfully";
     }
 
     public static class Error {

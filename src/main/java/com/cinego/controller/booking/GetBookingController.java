@@ -28,6 +28,7 @@ public class GetBookingController extends HttpServlet {
             BookingResponseDTO bookingResponseDTO = bookingService.getBookingById(bookingId);
             createResponse(response, Message.Success.RECORD_FOUND, bookingResponseDTO, HttpServletResponse.SC_OK);
         } catch (DBException e) {
+            e.printStackTrace();
             createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (NumberFormatException e) {
             throw new ApplicationException(Message.Error.INVALID_ID);

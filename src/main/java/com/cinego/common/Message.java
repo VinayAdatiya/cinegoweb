@@ -101,4 +101,16 @@ public class Message {
         public static final String INVALID_BOOKING_STATUS = "Booking cannot be confirmed. Invalid booking status.";
         public static final String UNAUTHORIZED_ACCESS = "You are not authorized to confirm this booking.";
     }
+
+    public static final class CORSConstants {
+        public static final String HEADER_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+        public static final String HEADER_ALLOW_METHODS = "Access-Control-Allow-Methods";
+        public static final String HEADER_ALLOW_HEADERS = "Access-Control-Allow-Headers";
+        public static final String HEADER_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
+
+        public static final String VALUE_ALLOW_ALL = "Origin";
+        public static final String VALUE_ALLOW_METHODS = "GET, POST, PUT, DELETE, OPTIONS";
+        public static final String VALUE_ALLOW_HEADERS = "Content-Type, Authorization";
+        public static final String VALUE_ALLOW_CREDENTIALS = "true";
+    }
 }

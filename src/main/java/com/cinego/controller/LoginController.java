@@ -26,11 +26,12 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
+        HttpSession session = request.getSession(true);
+        response.setHeader("Set-Cookie", "JSESSIONID=" + session.getId() + "; Path=/; HttpOnly");
         try {
             User userRequest = ObjectMapperUtil.toObject(request.getReader(), User.class);
             LoginValidator.validateLogin(userRequest);
             UserResponseDTO userResponseDTO = userService.authenticateUser(userRequest.getEmail(), userRequest.getPassword());
-            HttpSession session = request.getSession();
             session.setAttribute("user", userResponseDTO);
             ResponseUtils.createResponse(response, Message.Success.LOGIN_SUCCESS, userResponseDTO.getRole().getRoleId(), HttpServletResponse.SC_OK);
         } catch (DBException e) {

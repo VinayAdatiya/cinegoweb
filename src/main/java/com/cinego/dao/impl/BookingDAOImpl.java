@@ -1,6 +1,5 @@
 package com.cinego.dao.impl;
 
-import com.cinego.common.utils.DateTimeUtil;
 import com.cinego.config.DBConnection;
 import com.cinego.common.Message;
 import com.cinego.common.enums.BookingStatus;
@@ -15,9 +14,6 @@ import java.util.stream.Collectors;
 
 public class BookingDAOImpl implements IBookingDAO {
 
-    private final IShowDAO showDAO = new ShowDAOImpl();
-    private final IUserDAO userDAO = new UserDAOImpl();
-    private final IPaymentMethodDAO paymentMethodDAO = new PaymentMethodDAOImpl();
     private final IBookedSeatsDAO bookedSeatsDAO = new BookedSeatsDAOImpl();
     private final IShowSeatDAO showSeatDAO = new ShowSeatDAOImpl();
     private final ISeatDAO seatDAO = new SeatDAOImpl();

@@ -101,13 +101,15 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: "FetchCity",
+            url: "fetchCities",
             type: "GET",
-            success: function (data) {
+            success: function (response) {
+                console.log(response);
                 let cityDropdown = $('#cityId');
                 cityDropdown.empty();
                 cityDropdown.append('<option value="">Select City</option>');
-                $.each(data, function (index, city) {
+                $.each(response.data, function (index, city) {
+                    console.log(city);
                     cityDropdown.append('<option value="' + city.cityId + '">' + city.cityName + '</option>');
                 });
             },

@@ -406,3 +406,6 @@ CREATE TABLE booked_seats
     FOREIGN KEY (booking_id) REFERENCES bookings (booking_id),
     FOREIGN KEY (seat_id) REFERENCES seats (seat_id)
 );
+
+ALTER TABLE show_seats
+    ADD COLUMN hold_until TIMESTAMP NULL AFTER available;

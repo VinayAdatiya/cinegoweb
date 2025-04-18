@@ -1,7 +1,19 @@
 package com.cinego.model;
 
+import jakarta.persistence.*;
+import java.util.Objects;
+
+
+@Entity
+@Table(name = "crew_designation")
 public class CrewDesignation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "designation_id")
     private int designationId;
+
+    @Column(name = "designation_title")
     private String designationName;
 
     public CrewDesignation() {
@@ -18,6 +30,19 @@ public class CrewDesignation {
                 "designationId=" + designationId +
                 ", designationName='" + designationName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CrewDesignation that = (CrewDesignation) o;
+        return designationId == that.designationId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(designationId);
     }
 
     public int getDesignationId() {

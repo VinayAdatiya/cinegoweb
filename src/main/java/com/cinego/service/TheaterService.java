@@ -15,6 +15,7 @@ import com.cinego.mapper.ITheaterMapper;
 import com.cinego.model.Theater;
 import com.cinego.model.User;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,16 @@ public class TheaterService {
 
     public TheaterResponseDTO getTheaterById(int theaterId) throws DBException {
         Theater theater = theaterDAO.getTheaterById(theaterId);
+        TheaterResponseDTO theaterResponseDTO = theaterMapper.toTheaterResponseDTO(theater);
+        if (theaterResponseDTO != null) {
+            return theaterResponseDTO;
+        } else {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+    }
+
+    public TheaterResponseDTO getTheaterByAdminId(int theaterAdminId) throws DBException {
+        Theater theater = theaterDAO.getTheaterByAdminId(theaterAdminId);
         TheaterResponseDTO theaterResponseDTO = theaterMapper.toTheaterResponseDTO(theater);
         if (theaterResponseDTO != null) {
             return theaterResponseDTO;

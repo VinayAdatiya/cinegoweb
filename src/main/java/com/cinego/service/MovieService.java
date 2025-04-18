@@ -33,6 +33,8 @@ public class MovieService {
         Movie movie = movieMapper.toMovieModel(movieRequestDTO);
         movie.setMoviePosterPath(posterPath);
         movie.setCreatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
+        movie.setUpdatedBy(Role.ROLE_SUPER_ADMIN.getRoleId());
+        movie.getMovieCrewEntries().forEach(System.out::println);
         movieDAO.addMovie(movie);
     }
 

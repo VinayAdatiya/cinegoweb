@@ -11,6 +11,8 @@ public interface ITheaterDAO {
 
     Theater getTheaterById(int theaterId) throws DBException;
 
+    Theater getTheaterByAdminId(int theaterAdminId) throws DBException;
+
     List<Theater> getAllTheaters() throws DBException;
 
     void updateTheater(Theater theater) throws DBException;

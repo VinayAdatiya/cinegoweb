@@ -1,7 +1,16 @@
 package com.cinego.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "formats")
 public class Format {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "format_id")
     private int formatId;
+
+    @Column(name = "format_name")
     private String formatName;
 
     public Format() {

@@ -6,6 +6,8 @@ import com.cinego.common.utils.ValidationUtil;
 import com.cinego.common.exception.ApplicationException;
 import com.cinego.dto.movie.MovieRequestDTO;
 import com.cinego.common.utils.DatabaseUtil;
+
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_TITLE_REQUIRED);
         }
 
-        if(!ValidationUtil.isValidLength(movieRequestDTO.getMovieTitle(), 30)){
+        if (!ValidationUtil.isValidLength(movieRequestDTO.getMovieTitle(), 30)) {
             throw new ApplicationException(Message.Error.MOVIE_TITLE_TOO_LONG);
         }
 
@@ -34,7 +36,7 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_DURATION_REQUIRED);
         } else {
             String durationStr = movieRequestDTO.getMovieDuration().toString();
-            if (ValidationUtil.isValidTime(durationStr)) {
+            if (!ValidationUtil.isValidTime(durationStr)) {
                 throw new ApplicationException(Message.Error.MOVIE_DURATION_INVALID);
             }
         }

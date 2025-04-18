@@ -3,30 +3,83 @@ package com.cinego.model;
 import com.cinego.common.Message;
 import com.cinego.common.exception.DBException;
 import com.cinego.common.utils.DateTimeUtil;
+import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "movie")
 public class Movie {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
     private int movieId;
+
+    @Column(name = "movie_title")
     private String movieTitle;
+
+    @Column(name = "movie_rating")
     private Float movieRating;
+
+    @Column(name = "movie_duration")
     private LocalTime movieDuration;
+
+    @Column(name = "movie_release_date")
     private LocalDate movieReleaseDate;
+
+    @Column(name = "movie_description")
     private String movieDescription;
+
+    @Column(name = "movie_poster_path")
     private String moviePosterPath;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "movie_languages",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
     private List<Language> languages;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "movie_genres",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
     private List<Genre> genres;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "movie_formats",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "format_id")
+    )
     private List<Format> formats;
-    private List<MovieCrew> movieCrewEntries;
+
+    @OneToMany(mappedBy = "movie", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MovieCrew> movieCrewEntries = new ArrayList<>();
+
+    @Column(name = "created_by")
     private int createdBy;
+
+    @Column(name = "created_on", nullable = false, insertable = false)
     private LocalDateTime createdOn;
+
+    @Column(name = "updated_by")
     private int updatedBy;
+
+    @UpdateTimestamp
+    @Column(name = "updated_on")
     private LocalDateTime updatedOn;
 
     public Movie() {

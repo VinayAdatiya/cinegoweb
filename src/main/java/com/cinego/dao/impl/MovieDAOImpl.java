@@ -1,21 +1,23 @@
 package com.cinego.dao.impl;
 
 import com.cinego.common.Message;
+import com.cinego.common.exception.ApplicationException;
 import com.cinego.common.exception.DBException;
 import com.cinego.config.DBConnection;
+import com.cinego.config.JPAConfig;
 import com.cinego.dao.*;
-import com.cinego.model.Crew;
-import com.cinego.model.CrewDesignation;
-import com.cinego.model.Movie;
-import com.cinego.model.MovieCrew;
+import com.cinego.model.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieDAOImpl implements IMovieDAO {
     private final ILanguageDAO languageDAO = new LanguageDAOImpl();
@@ -25,115 +27,155 @@ public class MovieDAOImpl implements IMovieDAO {
     private final ICrewDesignationDAO crewDesignationDAO = new CrewDesignationDAOImpl();
 
     @Override
-    public void addMovie(Movie movie) throws DBException {
-        String query = "INSERT INTO movie " +
-                "(movie_title, movie_rating, movie_duration, movie_release_date, " +
-                "movie_description, movie_poster_path , created_by) " + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.INSTANCE.getConnection();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, movie.getMovieTitle());
-            preparedStatement.setFloat(2, movie.getMovieRating());
-            preparedStatement.setTime(3, movie.getSqlMovieDuration());
-            preparedStatement.setDate(4, movie.getSqlMovieReleaseDate());
-            preparedStatement.setString(5, movie.getMovieDescription());
-            preparedStatement.setString(6, movie.getMoviePosterPath());
-            preparedStatement.setInt(7, movie.getCreatedBy());
-            preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                int movieId = resultSet.getInt(1);
-                addMovieLanguages(movieId, movie.getLanguageIds(), connection);
-                addMovieGenres(movieId, movie.getGenreIds(), connection);
-                addMovieFormats(movieId, movie.getFormatIds(), connection);
-                addMovieCrew(movieId, movie.getMovieCrewEntries(), connection);
-            } else {
-                throw new SQLException("Failed to retrieve generated movie ID.");
+    public void addMovie(Movie movie) throws ApplicationException {
+        EntityTransaction transaction = null;
+        try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
+            transaction = em.getTransaction();
+            transaction.begin();
+            processMovieCollections(em, movie);
+            List<MovieCrew> managedMovieCrew = processMovieCrew(em, movie);
+            movie.setMovieCrewEntries(managedMovieCrew);
+            em.persist(movie);
+            transaction.commit();
+        } catch (jakarta.persistence.EntityNotFoundException error) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
             }
-            connection.commit();
-        } catch (SQLException | ClassNotFoundException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException error) {
-                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND, error);
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
             }
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
-        } finally {
-            DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
+    }
+
+    private void processMovieCollections(EntityManager em, Movie movie) {
+        movie.setLanguages(handleLanguages(em, movie.getLanguages()));
+        movie.setGenres(handleGenres(em, movie.getGenres()));
+        movie.setFormats(handleFormats(em, movie.getFormats()));
+    }
+
+    private List<Language> handleLanguages(EntityManager em, List<Language> languages) {
+        if (languages != null && !languages.isEmpty()) {
+            return languages.stream().map(lang -> em.getReference(Language.class, lang.getLanguageId())).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Genre> handleGenres(EntityManager em, List<Genre> genres) {
+        if (genres != null && !genres.isEmpty()) {
+            return genres.stream().map(genre -> em.getReference(Genre.class, genre.getGenreId())).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Format> handleFormats(EntityManager em, List<Format> formats) {
+        if (formats != null && !formats.isEmpty()) {
+            return formats.stream().map(format -> em.getReference(Format.class, format.getFormatId())).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private List<MovieCrew> processMovieCrew(EntityManager em, Movie movie) {
+        List<MovieCrew> movieCrewEntries = movie.getMovieCrewEntries();
+        List<MovieCrew> managedMovieCrew = new ArrayList<>();
+        if (movieCrewEntries != null && !movieCrewEntries.isEmpty()) {
+            for (MovieCrew movieCrew : movieCrewEntries) {
+                if (movieCrew.getCrew() != null && movieCrew.getCrew().getCrewId() != 0) {
+                    movieCrew.setCrew(em.getReference(Crew.class, movieCrew.getCrew().getCrewId()));
+                    movieCrew.setCrewId(movieCrew.getCrew().getCrewId());
+                } else {
+                    movieCrew.setCrew(null);
+                }
+                if (movieCrew.getCrewDesignation() != null && movieCrew.getCrewDesignation().getDesignationId() != 0) {
+                    movieCrew.setCrewDesignation(em.getReference(CrewDesignation.class, movieCrew.getCrewDesignation().getDesignationId()));
+                    movieCrew.setDesignationId(movieCrew.getCrewDesignation().getDesignationId());
+                } else {
+                    movieCrew.setCrewDesignation(null);
+                }
+                managedMovieCrew.add(movieCrew);
+            }
+        }
+        return managedMovieCrew;
     }
 
     @Override
     public Movie getMovieById(int movieId) throws DBException {
-        String query = "SELECT * FROM movie WHERE movie_id = ?";
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet movieResult = null;
-        try {
-            connection = DBConnection.INSTANCE.getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, movieId);
-            movieResult = preparedStatement.executeQuery();
-            if (movieResult.next()) {
-                Movie movie = new Movie();
-                movie.setMovieId(movieResult.getInt("movie_id"));
-                movie.setMovieTitle(movieResult.getString("movie_title"));
-                movie.setMovieRating(movieResult.getFloat("movie_rating"));
-                movie.setMovieDuration(movieResult.getTime("movie_duration").toLocalTime());
-                movie.setMovieReleaseDate(movieResult.getDate("movie_release_date").toLocalDate());
-                movie.setMovieDescription(movieResult.getString("movie_description"));
-                movie.setMoviePosterPath(movieResult.getString("movie_poster_path"));
-                movie.setLanguages(languageDAO.getLanguagesByMovieId(movieId, connection));
-                movie.setGenres(genreDAO.getGenresByMovieId(movieId, connection));
-                movie.setFormats(formatDAO.getFormatsByMovieId(movieId, connection));
-                movie.setMovieCrewEntries(getMovieCrew(movieId, connection));
-                return movie;
-            }
-            return null;
-        } catch (SQLException | ClassNotFoundException e) {
+        try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
+            String select_movie = "SELECT DISTINCT m FROM Movie m WHERE m.movieId = :movieIdParam";
+            Movie movie = em.createQuery(select_movie, Movie.class)
+                    .setParameter("movieIdParam", movieId)
+                    .getSingleResult();
+
+            String fetch_languages = "SELECT l FROM Movie m JOIN m.languages l WHERE m.movieId = :movieIdParam";
+            List<Language> languageList = em.createQuery(fetch_languages, Language.class)
+                    .setParameter("movieIdParam", movieId)
+                    .getResultList();
+            movie.setLanguages(languageList);
+
+            String fetch_genres = "SELECT g FROM Movie m JOIN m.genres g WHERE m.movieId = :movieIdParam";
+            List<Genre> genreList = em.createQuery(fetch_genres, Genre.class)
+                    .setParameter("movieIdParam", movieId)
+                    .getResultList();
+            movie.setGenres(genreList);
+
+            String fetch_formats = "SELECT f FROM Movie m JOIN m.formats f WHERE m.movieId = :movieIdParam";
+            List<Format> formatList = em.createQuery(fetch_formats, Format.class)
+                    .setParameter("movieIdParam", movieId)
+                    .getResultList();
+            movie.setFormats(formatList);
+
+            String fetchMovieCrew = "SELECT mc FROM Movie m " +
+                    "JOIN m.movieCrewEntries mc " +
+                    "JOIN mc.crew " +
+                    "JOIN mc.crewDesignation " +
+                    "WHERE m.movieId = :movieIdParam";
+            List<MovieCrew> movieCrewList = em.createQuery(fetchMovieCrew, MovieCrew.class).setParameter("movieIdParam", movieId).getResultList();
+            movie.setMovieCrewEntries(movieCrewList);
+            return movie;
+        } catch (NoResultException nre) {
+            throw new DBException(Message.Error.NO_RECORD_FOUND);
+        } catch (Exception e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
-        } finally {
-            DBConnection.closeResources(movieResult, preparedStatement, connection);
         }
     }
 
-
     @Override
     public List<Movie> getAllMovies() throws DBException {
-        String query = "SELECT * FROM movie";
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.INSTANCE.getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            List<Movie> movies = new ArrayList<>();
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                int movieId = resultSet.getInt("movie_id");
-                movie.setMovieId(movieId);
-                movie.setMovieTitle(resultSet.getString("movie_title"));
-                movie.setMovieRating(resultSet.getFloat("movie_rating"));
-                movie.setMovieDuration(resultSet.getTime("movie_duration").toLocalTime());
-                movie.setMovieReleaseDate(resultSet.getDate("movie_release_date").toLocalDate());
-                movie.setMovieDescription(resultSet.getString("movie_description"));
-                movie.setMoviePosterPath(resultSet.getString("movie_poster_path"));
-                movie.setLanguages(languageDAO.getLanguagesByMovieId(movieId, connection));
-                movie.setGenres(genreDAO.getGenresByMovieId(movieId, connection));
-                movie.setFormats(formatDAO.getFormatsByMovieId(movieId, connection));
-                movie.setMovieCrewEntries(getMovieCrew(movieId, connection));
-                movies.add(movie);
+        try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
+            String selectAllMovies = "SELECT m FROM Movie m";
+            List<Movie> movies = em.createQuery(selectAllMovies, Movie.class).getResultList();
+            for (Movie movie : movies) {
+                String fetch_languages = "SELECT l FROM Movie m JOIN m.languages l WHERE m.movieId = :movieIdParam";
+                List<Language> languageList = em.createQuery(fetch_languages, Language.class)
+                        .setParameter("movieIdParam", movie.getMovieId())
+                        .getResultList();
+                movie.setLanguages(languageList);
+
+                String fetch_genres = "SELECT g FROM Movie m JOIN m.genres g WHERE m.movieId = :movieIdParam";
+                List<Genre> genreList = em.createQuery(fetch_genres, Genre.class)
+                        .setParameter("movieIdParam", movie.getMovieId())
+                        .getResultList();
+                movie.setGenres(genreList);
+
+                String fetch_formats = "SELECT f FROM Movie m JOIN m.formats f WHERE m.movieId = :movieIdParam";
+                List<Format> formatList = em.createQuery(fetch_formats, Format.class)
+                        .setParameter("movieIdParam", movie.getMovieId())
+                        .getResultList();
+                movie.setFormats(formatList);
+
+                String fetchMovieCrew = "SELECT mc FROM Movie m " +
+                        "JOIN m.movieCrewEntries mc " +
+                        "JOIN mc.crew " +
+                        "JOIN mc.crewDesignation " +
+                        "WHERE m.movieId = :movieIdParam";
+                List<MovieCrew> movieCrewList = em.createQuery(fetchMovieCrew, MovieCrew.class).setParameter("movieIdParam", movie.getMovieId()).getResultList();
+                movie.setMovieCrewEntries(movieCrewList);
             }
             return movies;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
-        } finally {
-            DBConnection.closeResources(resultSet, preparedStatement, connection);
         }
     }
 
@@ -169,10 +211,7 @@ public class MovieDAOImpl implements IMovieDAO {
 
     @Override
     public void updateMovie(Movie movie) throws DBException {
-        String query = "UPDATE movie " +
-                "SET movie_title = ?, movie_rating = ?, movie_duration = ?, movie_release_date = ?, " +
-                "movie_description = ? , movie_poster_path = ? , updated_by = ? " +
-                "WHERE movie_id = ?";
+        String query = "UPDATE movie " + "SET movie_title = ?, movie_rating = ?, movie_duration = ?, movie_release_date = ?, " + "movie_description = ? , movie_poster_path = ? , updated_by = ? " + "WHERE movie_id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -207,12 +246,7 @@ public class MovieDAOImpl implements IMovieDAO {
     }
 
     private void deleteMovieMetadata(int movieId, Connection connection) throws DBException {
-        String[] queries = {
-                "DELETE FROM movie_languages WHERE movie_id = ?",
-                "DELETE FROM movie_genres WHERE movie_id = ?",
-                "DELETE FROM movie_formats WHERE movie_id = ?",
-                "DELETE FROM movie_crew WHERE movie_id = ?"
-        };
+        String[] queries = {"DELETE FROM movie_languages WHERE movie_id = ?", "DELETE FROM movie_genres WHERE movie_id = ?", "DELETE FROM movie_formats WHERE movie_id = ?", "DELETE FROM movie_crew WHERE movie_id = ?"};
 
         PreparedStatement preparedStatement = null;
         try {

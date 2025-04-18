@@ -1,7 +1,16 @@
 package com.cinego.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "languages")
 public class Language {
+    @Id
+    @Column(name = "language_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int languageId;
+
+    @Column(name = "language_name")
     private String languageName;
 
     public Language() {

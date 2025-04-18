@@ -1,7 +1,7 @@
 package com.cinego.dao;
 
 import com.cinego.common.exception.DBException;
-import com.cinego.model.Movie;
+import com.cinego.model.*;
 
 import java.util.List;
 

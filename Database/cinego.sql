@@ -347,8 +347,8 @@ CREATE TABLE show_price_category
 
 CREATE TABLE show_seats
 (
-    show_id    INT            NOT NULL AUTO_INCREMENT,
-    seat_id    INT            NOT NULL AUTO_INCREMENT,
+    show_id    INT            NOT NULL,
+    seat_id    INT            NOT NULL,
     seat_price DECIMAL(10, 2) NOT NULL,
     is_booked  BIT            NOT NULL DEFAULT 0,
     available  BIT            NOT NULL DEFAULT 1,

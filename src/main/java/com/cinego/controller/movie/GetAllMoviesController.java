@@ -26,8 +26,10 @@ public class GetAllMoviesController extends HttpServlet {
             List<MovieDTO> movieResponseDTOs = movieService.getAllMovies();
             ResponseUtils.createResponse(response, Message.Success.MOVIES_FOUND, movieResponseDTOs, HttpServletResponse.SC_OK);
         } catch (ApplicationException e) {
+            e.printStackTrace();
             ResponseUtils.createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
+            e.printStackTrace();
             ResponseUtils.createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

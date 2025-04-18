@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
+    <persistence-unit name="PERSISTENCE">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.cinego.model.Movie</class>
+        <class>com.cinego.model.Language</class>
+        <class>com.cinego.model.Genre</class>
+        <class>com.cinego.model.Format</class>
+        <class>com.cinego.model.MovieCrew</class>
+        <!--        <class>com.cinego.model.User</class>-->
+        <!--        <class>com.cinego.model.Address</class>-->
+        <!--        <class>com.cinego.model.City</class>-->
+        <!--        <class>com.cinego.model.State</class>-->
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cinego"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="password123#"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

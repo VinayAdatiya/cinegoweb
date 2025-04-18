@@ -7,6 +7,7 @@ import com.cinego.common.exception.ApplicationException;
 import com.cinego.dto.movie.MovieRequestDTO;
 import com.cinego.common.utils.DatabaseUtil;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_TITLE_TOO_LONG);
         }
 
-        if (movieRequestDTO.getMovieRating() == null || movieRequestDTO.getMovieRating() < 0 || movieRequestDTO.getMovieRating() > 10) {
+        if (movieRequestDTO.getMovieRating() == null || movieRequestDTO.getMovieRating().compareTo(BigDecimal.ZERO) < 0 || movieRequestDTO.getMovieRating().compareTo(BigDecimal.TEN) > 0) {
             throw new ApplicationException(Message.Error.MOVIE_RATING_INVALID);
         }
 
@@ -36,7 +37,7 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_DURATION_REQUIRED);
         } else {
             String durationStr = movieRequestDTO.getMovieDuration().toString();
-            if (!ValidationUtil.isValidTime(durationStr)) {
+            if (ValidationUtil.isValidTime(durationStr)) {
                 throw new ApplicationException(Message.Error.MOVIE_DURATION_INVALID);
             }
         }

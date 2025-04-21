@@ -219,7 +219,7 @@ public class MovieDAOImpl implements IMovieDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, movie.getMovieTitle());
-            preparedStatement.setFloat(2, movie.getMovieRating());
+            preparedStatement.setBigDecimal(2, movie.getMovieRating());
             preparedStatement.setTime(3, movie.getSqlMovieDuration());
             preparedStatement.setDate(4, movie.getSqlMovieReleaseDate());
             preparedStatement.setString(5, movie.getMovieDescription());

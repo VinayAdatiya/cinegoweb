@@ -6,6 +6,7 @@ import com.cinego.common.utils.DateTimeUtil;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -27,19 +28,21 @@ public class Movie {
     @Column(name = "movie_title")
     private String movieTitle;
 
-    @Column(name = "movie_rating")
-    private Float movieRating;
+    @Column(name = "movie_rating", precision = 1, scale = 3)
+    private BigDecimal movieRating;
 
-    @Column(name = "movie_duration")
+    @Column(name = "movie_duration", columnDefinition = "TIME")
     private LocalTime movieDuration;
 
-    @Column(name = "movie_release_date")
+    @Column(name = "movie_release_date", columnDefinition = "DATE")
     private LocalDate movieReleaseDate;
 
-    @Column(name = "movie_description")
+    @Lob
+    @Column(name = "movie_description", columnDefinition = "TEXT")
     private String movieDescription;
 
-    @Column(name = "movie_poster_path")
+    @Lob
+    @Column(name = "movie_poster_path", columnDefinition = "TEXT")
     private String moviePosterPath;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -72,20 +75,20 @@ public class Movie {
     @Column(name = "created_by")
     private int createdBy;
 
-    @Column(name = "created_on", nullable = false, insertable = false)
+    @Column(name = "created_on", nullable = false, insertable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdOn;
 
     @Column(name = "updated_by")
     private int updatedBy;
 
     @UpdateTimestamp
-    @Column(name = "updated_on")
+    @Column(name = "updated_on", insertable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedOn;
 
     public Movie() {
     }
 
-    public Movie(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries, int createdBy, LocalDateTime createdOn, int updatedBy, LocalDateTime updatedOn) {
+    public Movie(int movieId, String movieTitle, BigDecimal movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries, int createdBy, LocalDateTime createdOn, int updatedBy, LocalDateTime updatedOn) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;
@@ -140,11 +143,11 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public Float getMovieRating() {
+    public BigDecimal getMovieRating() {
         return movieRating;
     }
 
-    public void setMovieRating(Float movieRating) {
+    public void setMovieRating(BigDecimal movieRating) {
         this.movieRating = movieRating;
     }
 

@@ -34,12 +34,15 @@ public class AddMovieController extends HttpServlet {
             movieService.addMovie(movieRequestDTO);
             createResponse(response, Message.Success.MOVIE_ADDED, null, HttpServletResponse.SC_CREATED);
         } catch (DBException e) {
+            e.printStackTrace();
             createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (ApplicationException e) {
+            e.printStackTrace();
             createResponse(response, e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (IOException e) {
             createResponse(response, Message.Error.INVALID_JSON_REQUEST + e.getMessage(), null, HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
+            e.printStackTrace();
             createResponse(response, Message.Error.INTERNAL_ERROR, null, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

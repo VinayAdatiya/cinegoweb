@@ -2,8 +2,10 @@ package com.cinego.controller.theater;
 
 import com.cinego.common.AppConstant;
 import com.cinego.common.Message;
+import com.cinego.common.enums.Role;
 import com.cinego.common.exception.ApplicationException;
 import com.cinego.common.exception.DBException;
+import com.cinego.common.utils.AuthenticateUtil;
 import com.cinego.common.utils.ResponseUtils;
 import com.cinego.dto.theater.TheaterResponseDTO;
 import com.cinego.dto.user.UserResponseDTO;
@@ -25,6 +27,7 @@ public class GetTheaterByAdminId extends HttpServlet {
         response.setContentType(AppConstant.CONTENT_TYPE_JSON);
         response.setCharacterEncoding(AppConstant.CHAR_ENCODE_UTF8);
         try {
+            AuthenticateUtil.authorize(request, Role.ROLE_THEATER_ADMIN);
             HttpSession session = request.getSession(false);
             UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("user");
             int theaterAdminId = currentUser.getUserId();

@@ -8,6 +8,7 @@ import com.cinego.model.Language;
 import com.cinego.model.MovieCrew;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class MovieRequestDTO {
     private int movieId;
     private String movieTitle;
-    private Float movieRating;
+    private BigDecimal movieRating;
     private LocalTime movieDuration;
     private LocalDate movieReleaseDate;
     private String movieDescription;
@@ -31,7 +32,7 @@ public class MovieRequestDTO {
 
     }
 
-    public MovieRequestDTO(int movieId, String movieTitle, Float movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
+    public MovieRequestDTO(int movieId, String movieTitle, BigDecimal movieRating, LocalTime movieDuration, LocalDate movieReleaseDate, String movieDescription, String moviePosterPath, List<Language> languages, List<Genre> genres, List<Format> formats, List<MovieCrew> movieCrewEntries) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieRating = movieRating;
@@ -77,11 +78,11 @@ public class MovieRequestDTO {
         this.movieTitle = movieTitle;
     }
 
-    public Float getMovieRating() {
+    public BigDecimal getMovieRating() {
         return movieRating;
     }
 
-    public void setMovieRating(Float movieRating) {
+    public void setMovieRating(BigDecimal movieRating) {
         this.movieRating = movieRating;
     }
 

@@ -93,7 +93,7 @@
 							]
 						},
 						{
-							"name": "getLanguages",
+							"name": "Get Languages",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -113,7 +113,7 @@
 							"response": []
 						},
 						{
-							"name": "getFormats",
+							"name": "Get Formats",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -133,7 +133,7 @@
 							"response": []
 						},
 						{
-							"name": "getGenres",
+							"name": "Get Genres",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -182,7 +182,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"movieTitle\": \"Example Movie\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"movieTitle\": \"Avengers\",\r\n    \"movieRating\": 8.0,\r\n    \"movieDuration\": \"01:30:00\",\r\n    \"movieReleaseDate\": \"2012-05-04\",\r\n    \"movieDescription\": \"Earth's mightiest heroes must come together and learn to fight as a team in order to stop Loki and his alien army from enslaving humanity.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Avengers.jfif\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -205,7 +205,7 @@
 							"response": []
 						},
 						{
-							"name": "GetAllMovies",
+							"name": "Get All Movies",
 							"event": [
 								{
 									"listen": "test",
@@ -247,7 +247,7 @@
 							"response": []
 						},
 						{
-							"name": "fetchMovie",
+							"name": "Fetch Movie",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -265,7 +265,7 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:8080/CineGo/fetchMovie?movieId=16",
+									"raw": "http://localhost:8080/CineGo/fetchMovie?movieId=65",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -278,7 +278,7 @@
 									"query": [
 										{
 											"key": "movieId",
-											"value": "16"
+											"value": "65"
 										}
 									]
 								}
@@ -286,7 +286,7 @@
 							"response": []
 						},
 						{
-							"name": "updateMovie",
+							"name": "Update Movie",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -298,7 +298,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"movieId\" : 15,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"movieId\" : 43,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Wade Wilson\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -321,12 +321,12 @@
 							"response": []
 						},
 						{
-							"name": "deleteMovie",
+							"name": "Delete Movie",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/CineGo/deleteMovie?movieId=15",
+									"raw": "http://localhost:8080/CineGo/deleteMovie?movieId=44",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -339,7 +339,7 @@
 									"query": [
 										{
 											"key": "movieId",
-											"value": "15"
+											"value": "44"
 										}
 									]
 								}
@@ -533,7 +533,7 @@
 					"name": "Theater CRUD",
 					"item": [
 						{
-							"name": "addTheater",
+							"name": "Add Theater",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -568,7 +568,7 @@
 							"response": []
 						},
 						{
-							"name": "GetAllTheaters",
+							"name": "Get All Theaters",
 							"event": [
 								{
 									"listen": "test",
@@ -610,7 +610,7 @@
 							"response": []
 						},
 						{
-							"name": "fetchTheater",
+							"name": "Fetch Theater By Id",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -649,7 +649,7 @@
 							"response": []
 						},
 						{
-							"name": "updateTheater",
+							"name": "Update Theater",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -684,7 +684,7 @@
 							"response": []
 						},
 						{
-							"name": "deleteTheater",
+							"name": "Delete Theater",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -704,6 +704,26 @@
 											"key": "theaterId",
 											"value": "3"
 										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Theater By Admin Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo/getTheaterByAdminId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo",
+										"getTheaterByAdminId"
 									]
 								}
 							},
@@ -1032,246 +1052,261 @@
 			"name": "Screen",
 			"item": [
 				{
-					"name": "Screen CRUD",
-					"item": [
+					"name": "Add Screen",
+					"event": [
 						{
-							"name": "Add Screen",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"screenTitle\": \"Screen 2\",\r\n    \"totalSeats\": 10,\r\n    \"screenType\": {\r\n        \"screenTypeId\": 2\r\n    },\r\n    \"layout\": \"{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seats\\\":[{\\\"rowNum\\\":1,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":1,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":1,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":1}},{\\\"rowNum\\\":2,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":2,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}}]}\",\r\n    \"theater\": {\r\n        \"theaterId\": 2\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/CineGo/addScreen",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"addScreen"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get All Screen",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/CineGo/getAllScreen",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"getAllScreen"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get All Screen By Theater",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/CineGo/getAllScreensByTheater?theaterId=4",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"getAllScreensByTheater"
-									],
-									"query": [
-										{
-											"key": "theaterId",
-											"value": "4"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Fetch Screen",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "movieId",
-											"value": "1",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "http://localhost:8080/CineGo/getScreenById?screenId=2",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"getScreenById"
-									],
-									"query": [
-										{
-											"key": "screenId",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update Screen",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"movieId\" : 15,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/CineGo/updateScreen",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"updateScreen"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Screen",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/CineGo/deleteScreen?screenId=3",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"CineGo",
-										"deleteScreen"
-									],
-									"query": [
-										{
-											"key": "screenId",
-											"value": "3"
-										}
-									]
-								}
-							},
-							"response": []
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"screenTitle\": \"Screen 2\",\r\n    \"totalSeats\": 10,\r\n    \"screenType\": {\r\n        \"screenTypeId\": 2\r\n    },\r\n    \"layout\": \"{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seats\\\":[{\\\"rowNum\\\":1,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":1,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":1,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":1,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":1}},{\\\"rowNum\\\":2,\\\"colNum\\\":1,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":2,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":3}},{\\\"rowNum\\\":2,\\\"colNum\\\":3,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}},{\\\"rowNum\\\":2,\\\"colNum\\\":4,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":4}},{\\\"rowNum\\\":2,\\\"colNum\\\":5,\\\"seatCategory\\\":{\\\"seatCategoryId\\\":2}}]}\",\r\n    \"theater\": {\r\n        \"theaterId\": 2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo/addScreen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"addScreen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Screen",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getAllScreen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getAllScreen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Screen By Theater",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getAllScreensByTheater?theaterId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getAllScreensByTheater"
+							],
+							"query": [
+								{
+									"key": "theaterId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Screen",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "movieId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getScreenById?screenId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getScreenById"
+							],
+							"query": [
+								{
+									"key": "screenId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Screen",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movieId\" : 15,\r\n    \"movieTitle\": \"Deadpool\",\r\n    \"movieRating\": 7.5,\r\n    \"movieDuration\": \"02:30:00\",\r\n    \"movieReleaseDate\": \"2023-10-27\",\r\n    \"movieDescription\": \"A sample movie description.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Deadpool.jpg\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/CineGo/updateScreen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"updateScreen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Screen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/deleteScreen?screenId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"deleteScreen"
+							],
+							"query": [
+								{
+									"key": "screenId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Screen Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getAllScreenTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getAllScreenTypes"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1454,6 +1489,57 @@
 							"path": [
 								"CineGo",
 								"getAllPaymentMethod"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Seat",
+			"item": [
+				{
+					"name": "Get All Seat Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getAllSeatCategories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getAllSeatCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seat Categories By Screen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/getSeatCategoryByScreen?screenId=9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"getSeatCategoryByScreen"
+							],
+							"query": [
+								{
+									"key": "screenId",
+									"value": "9"
+								}
 							]
 						}
 					},

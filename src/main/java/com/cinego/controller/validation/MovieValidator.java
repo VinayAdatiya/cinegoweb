@@ -37,7 +37,7 @@ public class MovieValidator {
             throw new ApplicationException(Message.Error.MOVIE_DURATION_REQUIRED);
         } else {
             String durationStr = movieRequestDTO.getMovieDuration().toString();
-            if (ValidationUtil.isValidTime(durationStr)) {
+            if (!ValidationUtil.isValidTime(durationStr)) {
                 throw new ApplicationException(Message.Error.MOVIE_DURATION_INVALID);
             }
         }

@@ -4,7 +4,9 @@ import com.cinego.common.Message;
 import com.cinego.common.enums.Role;
 import com.cinego.common.exception.ApplicationException;
 import com.cinego.dao.IScreenDAO;
+import com.cinego.dao.IScreenTypeDAO;
 import com.cinego.dao.impl.ScreenDAOImpl;
+import com.cinego.dao.impl.ScreenTypeDAOImpl;
 import com.cinego.dao.impl.TheaterDAOImpl;
 import com.cinego.dto.screen.ScreenRequestDTO;
 import com.cinego.dto.screen.ScreenResponseDTO;
@@ -13,6 +15,7 @@ import com.cinego.model.Screen;
 import com.cinego.common.exception.DBException;
 import com.cinego.common.utils.DatabaseUtil;
 import com.cinego.dao.ITheaterDAO;
+import com.cinego.model.ScreenType;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -22,6 +25,7 @@ public class ScreenService {
 
     private final IScreenDAO screenDAO = new ScreenDAOImpl();
     private final ITheaterDAO theaterDAO = new TheaterDAOImpl();
+    private final IScreenTypeDAO screenTypeDAO = new ScreenTypeDAOImpl();
     private final IScreenMapper screenMapper = Mappers.getMapper(IScreenMapper.class);
 
     public void addScreen(ScreenRequestDTO screenRequestDTO, int currentUserId) throws ApplicationException {
@@ -43,6 +47,14 @@ public class ScreenService {
             throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
         }
         return screenMapper.toScreenResponseDTO(screen);
+    }
+
+    public List<ScreenType> getAllScreenType() {
+        List<ScreenType> screenTypes = screenTypeDAO.getAllScreenType();
+        if (screenTypes == null || screenTypes.isEmpty()) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+        return screenTypes;
     }
 
     public List<ScreenResponseDTO> getAllScreens() throws DBException {

@@ -211,6 +211,7 @@ public class ScreenDAOImpl implements IScreenDAO {
         try {
             connection = DBConnection.INSTANCE.getConnection();
             connection.setAutoCommit(false);
+            seatDAO.deleteSeatsByScreen(screenId, connection);
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, screenId);
             preparedStatement.executeUpdate();

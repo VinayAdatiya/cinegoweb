@@ -100,6 +100,7 @@ public class Message {
         public static final String SHOW_ALREADY_ENDED = "This show has already ended and is not available for booking.";
         public static final String INVALID_BOOKING_STATUS = "Booking cannot be confirmed. Invalid booking status.";
         public static final String UNAUTHORIZED_ACCESS = "You are not authorized to confirm this booking.";
+        public static final String SHOW_SCHEDULED_ON_SCREEN = "Cannot delete screen. Shows are currently scheduled for this screen.";
     }
 
     public static final class CORSConstants {

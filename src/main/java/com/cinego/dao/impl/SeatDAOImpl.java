@@ -9,6 +9,7 @@ import com.cinego.common.exception.DBException;
 import com.cinego.dao.ISeatCategoryDAO;
 import com.cinego.model.Seat;
 
+import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +98,26 @@ public class SeatDAOImpl implements ISeatDAO {
         Seat seat = getSeatById(seatId);
         if (seat.getSeatCategory().getSeatCategoryId() == 1) {
             throw new ApplicationException(Message.Error.SEAT_NOT_AVAILABLE);
+        }
+    }
+
+    @Override
+    public void deleteSeatsByScreen(int screenId, Connection connection) throws DBException {
+        String query = "DELETE FROM seats WHERE screen_id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, screenId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException error) {
+                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            }
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(null, preparedStatement, null);
         }
     }
 }

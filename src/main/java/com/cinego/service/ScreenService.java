@@ -91,6 +91,9 @@ public class ScreenService {
     }
 
     public void deleteScreen(int screenId) throws ApplicationException {
+        if (DatabaseUtil.checkRecordExists("shows", "screen_id", screenId)) {
+            throw new ApplicationException(Message.Error.SHOW_SCHEDULED_ON_SCREEN);
+        }
         if (DatabaseUtil.checkRecordExists("screen", "screen_id", screenId)) {
             screenDAO.deleteScreen(screenId);
         } else {

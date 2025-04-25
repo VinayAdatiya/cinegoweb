@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.sidebar .tab {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 12px 20px;
+    transition: background 0.3s, padding-left 0.3s;
+    font-weight: 400;
+}
+
+.sidebar .tab:hover {
+    background: #34495e;
+    padding-left: 25px;
+}
+
+.sidebar .tab.active {
+    background: #94d5f6;
+    font-weight: 600;
+    padding-left: 25px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    text-decoration: none;
+}
+
+.content {
+    margin-left: 270px;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+button {
+    font-family: 'Poppins', sans-serif;
+    padding: 10px 15px;
+    border: none;
+    background: #1abc9c;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #16a085;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.sidebar-footer button {
+    margin: 0 5px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}

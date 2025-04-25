@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Super Admin Dashboard</title>
+
+    <link rel="stylesheet" href="super-admin-sidebar.css"/>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            color: #333;
+        }
+
+        .content {
+            padding: 30px;
+            margin-left: 250px;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .box {
+            flex: 1 1 250px;
+            padding: 25px;
+            background: linear-gradient(to right, #ffffff, #f9f9f9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 8px solid #007bff;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .box h3 {
+            font-size: 36px;
+            margin: 0 0 10px;
+            color: #222;
+        }
+
+        .box p {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .box::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+        }
+
+        .box.users {
+            border-left-color: #dc3545;
+        }
+
+        .box.users::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/1077/1077063.png');
+        }
+
+        .box.crew {
+            border-left-color: #17a2b8;
+        }
+
+        .box.crew::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3135/3135715.png');
+        }
+
+        .box.theaters {
+            border-left-color: #28a745;
+        }
+
+        .box.theaters::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/25/25694.png');
+        }
+
+        .box.movies {
+            border-left-color: #ffc107;
+        }
+
+        .box.movies::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/1828/1828961.png');
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="sidebar-container"></div>
+
+<div class="content">
+    <h2>Dashboard</h2>
+
+    <div class="dashboard-boxes">
+        <div class="box users">
+            <h3 id="userCount">0</h3>
+            <p>Users</p>
+        </div>
+        <div class="box crew">
+            <h3 id="crewCount">0</h3>
+            <p>Crew Members</p>
+        </div>
+        <div class="box theaters">
+            <h3 id="theaterCount">0</h3>
+            <p>Theaters</p>
+        </div>
+        <div class="box movies">
+            <h3 id="movieCount">0</h3>
+            <p>Movies</p>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="super-admin-sidebar.js"></script>
+<script src="../config.js"></script>
+<script>
+    function fetchAndDisplayCounts() {
+        $.ajax({
+            url: `${CONFIG.baseURL}/getAllUsers`,
+            method: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: res => $('#userCount').text(res.data.length)
+        });
+        $.ajax({
+            url: `${CONFIG.baseURL}/getCrewMembers`,
+            method: "GET",
+            success: res => $('#crewCount').text(res.data.length)
+        });
+        $.ajax({
+            url: `${CONFIG.baseURL}/getAllTheaters`,
+            method: "GET",
+            success: res => $('#theaterCount').text(res.data.length)
+        });
+        $.ajax({
+            url: `${CONFIG.baseURL}/getAllMovies`,
+            method: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: res => $('#movieCount').text(res.data.length)
+        });
+    }
+
+    $(document).ready(fetchAndDisplayCounts);
+</script>
+
+</body>
+</html>

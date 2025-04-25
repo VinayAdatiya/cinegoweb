@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theater Admin Sidebar</title>
+    <link rel="stylesheet" href="theater-admin-sidebar.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #sidebar-container {
+            width: 210px;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #sidebar-container h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #sidebar-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #sidebar-container ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #34495e;
+        }
+
+        #sidebar-container ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        #sidebar-container ul li a:hover {
+            background-color: #34495e;
+            padding-left: 10px;
+            transition: padding-left 0.3s;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 30px 40px;
+            width: calc(100% - 250px);
+            box-sizing: border-box;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 1px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        form label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        form input,
+        form select {
+            padding: 12px 14px;
+            font-size: 15px;
+            border: 1px solid #dcdfe3;
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form input:focus,
+        form select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+        }
+
+        form button {
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        form button:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        #formMessage {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="sidebar-container"></div>
+<div class="content">
+    <h2>Update Theater Details</h2>
+    <form id="theater-form">
+        <input type="hidden" id="theaterId"/>
+        <input type="hidden" id="addressId"/>
+
+        <label>Theater Name:</label>
+        <input type="text" id="theaterName"/>
+
+        <label>Theater Rating:</label>
+        <input type="number" id="theaterRating" min="1" max="5"/>
+
+        <label>Address Line 1:</label>
+        <input type="text" id="addressLine1"/>
+
+        <label>Address Line 2:</label>
+        <input type="text" id="addressLine2"/>
+
+        <label>Pincode:</label>
+        <input type="text" id="pincode"/>
+
+        <label>City:</label>
+        <select id="city"></select>
+
+        <label>Admin Email:</label>
+        <input type="email" id="adminEmail"/>
+
+        <label>Admin Password:</label>
+        <input type="password" id="adminPassword"/>
+
+        <button type="submit">Update</button>
+
+        <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../config.js"></script>
+<div id="popup-message" style="display: none;"></div>
+<script src="theater-admin-sidebar.js"></script>
+<script src="../common.js"></script>
+<script type="module" src="../TheaterAdmin/my-theater.js"></script>
+
+</body>
+</html>

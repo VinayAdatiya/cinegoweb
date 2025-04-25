@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theater Admin Dashboard</title>
+    <link rel="stylesheet" href="theater-admin-sidebar.css">
+</head>
+<body>
+<div id="sidebar-container"></div>
+
+<div class="content">
+    <h1>Welcome to the Theater Admin Dashboard</h1>
+    <p>Manage your movies, users, shows, and screens easily through the sidebar.</p>
+</div>
+
+<script src="theater-admin-sidebar.js"></script>
+<script src="../config.js"></script>
+<script>
+    let theaterData = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch(`${CONFIG.baseURL}/getTheaterByAdminId`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Failed to fetch theater");
+                return response.json();
+            })
+            .then(data => {
+                theaterData = data;
+                localStorage.setItem('theaterId', data.data.theaterId);
+                console.log("Fetched theater:", theaterData);
+            })
+            .catch(error => {
+                console.error("Error fetching theater:", error);
+            });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+#popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(52, 152, 219, 0.95);
+    color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-10px); }
+}

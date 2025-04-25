@@ -4,116 +4,173 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <!-- Bootstrap's Latest compiled and minified CSS -->
+    <title>CineGo Login</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- JQuery CDN -->
+    <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- Bootstrap's Latest compiled and minified JavaScript -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <title>CineGo Login</title>
+
+    <!-- Custom Styles -->
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background-color: #f8f9fa;
+            background: url("images/movie-booking-login.jpg") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .login-card {
-            width: 350px;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            width: 360px;
+            padding: 2.5rem;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-card h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #d63447;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 6px;
+        }
+
+        .btn-primary {
+            background-color: #d63447;
+            border-color: #d63447;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #b82338;
+            border-color: #b82338;
         }
 
         .signup-link {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
         }
+
+        .signup-link a {
+            color: #d63447;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        #formMessage {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
 <body>
 <div class="login-card">
-    <h1 class="text-center mb-4">CineGo</h1>
+    <h1>CineGo</h1>
     <form id="loginForm">
         <div class="form-group">
             <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+            <input type="email" class="form-control" id="email" placeholder="Enter email">
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" placeholder="Password">
         </div>
-<!--        <div class="form-group form-check">-->
-<!--            <input type="checkbox" class="form-check-input" id="remember">-->
-<!--            <label class="form-check-label" for="remember">Remember me</label>-->
-<!--        </div>-->
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
     </form>
     <div class="signup-link">
-        <p>
-            New user?
-            <a href="SignUp.html">Sign up</a>
-        </p>
+        <p>New user? <a href="SignUp.html">Sign up</a></p>
     </div>
+
+    <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
 </div>
-</body>
+
+<script src="config.js"></script>
 <script>
     $(document).ready(function () {
         $("#loginForm").submit(function (event) {
-
-            // Prevents form from auto submission while reload
             event.preventDefault();
 
             let userData = {
                 email: $('#email').val(),
                 password: $('#password').val()
             };
-            // console.log(userData);
             $.ajax({
                 type: "POST",
-                url: "login",
+                url: `${CONFIG.baseURL}/login`,
                 contentType: "application/json",
                 data: JSON.stringify(userData),
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (response) {
-                    alert(response.message);
+                    localStorage.setItem('roleId', response.data);
                     if (response.data) {
                         let redirectUrl;
                         switch (response.data) {
                             case 1:
-                                redirectUrl = "SuperAdminHome.html";
+                                redirectUrl = "SuperAdmin/super-admin-home.html";
                                 break;
                             case 2:
-                                redirectUrl = "TheatreAdminHome.html";
+                                redirectUrl = "TheaterAdmin/theater-admin-home.html";
                                 break;
                             case 3:
-                                redirectUrl = "HomePage.html";
+                                redirectUrl = "User/user-home.html";
                                 break;
                             default:
                                 redirectUrl = "HomePage.html";
                         }
                         window.location.href = redirectUrl;
                     }
-                    console.log("Registered Successfully !!!");
                 },
                 error: function (xhr) {
                     try {
                         let response = JSON.parse(xhr.responseText);
-                        alert("SignUp Failed :- " + response.message);
+                        showMessage("Login Failed :- " + response.message, false);
                     } catch (e) {
-                        alert("Signup Failed !!! ")
+                        showMessage("Login Failed !!!", false);
                     }
                 }
             });
         });
     });
+
+    function showMessage(message, isSuccess) {
+        const formMessage = $('#formMessage');
+        formMessage
+            .text(message)
+            .removeClass('text-success text-danger')
+            .addClass(isSuccess ? 'text-success' : 'text-danger')
+            .fadeIn();
+    }
 </script>
+</body>
+
 </html>

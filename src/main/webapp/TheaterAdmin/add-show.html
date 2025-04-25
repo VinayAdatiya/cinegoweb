@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Show</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    label, select, input { margin: 8px 0; display: block; }
+    .seat-category { margin-bottom: 10px; }
+    .form-section { margin-bottom: 20px; }
+    .seat-category {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .seat-category label {
+      margin-right: 10px; /* space between label and input */
+    }
+
+    .seat-category input {
+      width: 100px; /* adjust width as needed */
+    }
+
+  </style>
+</head>
+<body>
+
+<h2>Create Show</h2>
+
+<form id="showForm">
+  <div class="form-section">
+    <label for="movieSelect">Movie:</label>
+    <select id="movieSelect" required></select>
+  </div>
+
+  <div class="form-section">
+    <label for="screenSelect">Screen:</label>
+    <select id="screenSelect" required></select>
+  </div>
+
+  <div class="form-section">
+    <label for="showDate">Show Date:</label>
+    <input type="date" id="showDate" required>
+  </div>
+
+  <div class="form-section">
+    <label for="showTime">Show Time:</label>
+    <input type="time" id="showTime" required>
+  </div>
+
+  <div class="form-section">
+    <label>Seat Prices:</label>
+    <div id="seatPrices"></div>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+<script src="../config.js"></script>
+<script src="../common.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="add-show.js"></script>
+</body>
+</html>

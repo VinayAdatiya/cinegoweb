@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Management</title>
+    <link rel="stylesheet" href="super-admin-sidebar.css">
+    <link rel="stylesheet" href="pop-up.css">
+    <style>
+        body {
+            overflow: auto !important;
+            height: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f4f4f4;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .header h2 {
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .add-btn:hover {
+            background: #2980b9;
+        }
+
+        .container {
+            margin-left: 225px;
+            padding: 20px;
+        }
+
+        .view-btn {
+            background-color: #1abc9c;
+        }
+
+        .update-btn {
+            background-color: #f39c12;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="sidebar-container"></div>
+
+<div class="container">
+    <div class="header">
+        <h2>Movie Management</h2>
+        <button id="addMovieBtn" class="add-btn" onclick="openForm()">+ Add New Movie</button>
+    </div>
+    <div id="movieModal"
+         style="display:none; position:fixed; top:5%; left:10%; width:80%; height:90%; background:#fff; border:1px solid #ccc; padding:10px; z-index:1000; overflow:auto;">
+        <button onclick="closeModal()" style="float:right;">Close</button>
+        <iframe id="movieFormFrame" src="" width="100%" height="90%" style="border:none;"></iframe>
+    </div>
+
+    <table id="moviesTable" border="0" style="width:100%; margin-top:20px; border-collapse:collapse;">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Movie Name</th>
+            <th>Ratings</th>
+            <th>Release Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="moviesBody"></tbody>
+    </table>
+
+    <div id="movieDetailModal"
+         style="display:none; position:fixed; top:10%; left:20%; width:60%; background:#fff; border:1px solid #ccc; padding:20px; z-index:1001; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+        <button onclick="closeDetails()" style="float:right;">Close</button>
+        <h3>Movie Details</h3>
+        <div id="movieDetailsContent"></div>
+    </div>
+</div>
+<div id="popup-message" style="display: none;"></div>
+<script src="../config.js"></script>
+<script src="super-admin-sidebar.js"></script>
+<script src="../common.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="movie.js"></script>
+</body>
+</html>

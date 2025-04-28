@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Screen Layout</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Form Layout */
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        /* Labels */
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Input Fields */
+        .form-control {
+            border-radius: 4px;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }
+
+        /* Screen Type and Theater Dropdowns */
+        .form-select {
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        .seat-type-item {
+            display: flex;
+            align-items: center;
+            margin: 4px;
+            cursor: pointer;
+        }
+
+        .seat-type-item.selected {
+            font-weight: bold;
+            border: 2px solid #000;
+            padding: 5px;
+        }
+
+        .seat-type-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            margin-right: 8px;
+        }
+
+
+        #seatLayout {
+            display: grid;
+            gap: 4px;
+            padding: 10px;
+        }
+
+        /* Seat Palette */
+        .seat-palette .btn {
+            border-radius: 4px;
+            padding: 12px 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seat-palette .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Container for Seat Layout */
+        #seatLayout {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(10, 50px); /* Default 10 columns */
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #ddd;
+            background-color: #f9f9f9;
+            justify-content: center;
+        }
+
+        /* Seat styling */
+        .seat {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Highlight seat type palette on selection */
+        .seat-palette .btn.selected {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 768px) {
+            .seat-palette .btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            #seatLayout {
+                grid-template-columns: repeat(6, 50px);
+            }
+
+            .form-control, .form-select {
+                font-size: 12px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #seatLayout {
+                grid-template-columns: repeat(4, 50px);
+            }
+        }
+
+        /* Submit button styling */
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Text Alignment */
+        .text-center {
+            text-align: center;
+        }
+
+        .fw-bold {
+            font-weight: bold;
+        }
+
+        .row {
+            display: flex;
+            justify-content: flex-start; /* Align items to the left */
+            margin-bottom: 8px; /* Add some space between rows */
+        }
+
+    </style>
+</head>
+<body class="container py-4">
+<form id="screenForm">
+    <div class="mb-3">
+        <label for="screenTitle" class="form-label">Screen Title</label>
+        <input type="text" class="form-control" id="screenTitle" required>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="rowNum" class="form-label">Rows</label>
+            <input type="number" class="form-control" id="rowNum" min="1" required>
+        </div>
+        <br/>
+        <div class="col">
+            <label for="colNum" class="form-label">Columns</label>
+            <input type="number" class="form-control" id="colNum" min="1" required>
+        </div>
+        <br/>
+        <div class="col">
+            <label for="totalSeats" class="form-label">Total Seats</label>
+            <input type="number" class="form-control" id="totalSeats" readonly>
+        </div>
+        <br/>
+    </div>
+
+    <div class="mb-3">
+        <label for="screenType" class="form-label">Screen Type</label>
+        <select class="form-select" id="screenType" required></select>
+    </div>
+
+    <div class="mb-3">
+        <label for="theater" class="form-label">Theater</label>
+        <input type="text" class="form-control" id="theaterName" disabled>
+        <input type="hidden" id="theaterId" name="theaterId">
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Select Seat Type:</label>
+        <div class="d-flex flex-wrap gap-2 seat-palette" id="seatPalette"></div>
+    </div>
+
+    <div class="text-center fw-bold my-2">SCREEN</div>
+
+    <div id="seatLayout" class="seat-grid"></div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>
+<script src="../config.js"></script>
+<script type="module" src="add-screen.js"></script>
+</body>
+</html>

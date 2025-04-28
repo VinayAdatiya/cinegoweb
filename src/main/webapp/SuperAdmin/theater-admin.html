@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theater Admin Management</title>
+    <link rel="stylesheet" href="super-admin-sidebar.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f4f4f4;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .header h2 {
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        .add-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .add-btn:hover {
+            background: #2980b9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            width: 40%;
+            max-height: 80vh;
+            overflow-y: auto;
+            margin: 5% auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #000;
+        }
+
+        .close {
+            float: right;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background: #2ecc71;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+
+        #formMessage {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar-container"></div>
+
+<div class="container">
+    <div class="header">
+        <h2>Theater Admin Management</h2>
+        <button class="add-btn" onclick="openForm()">+ Add New Theater</button>
+    </div>
+</div>
+
+<div id="theaterAdminModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeForm()">&times;</span>
+        <h3>Add New Theater Admin</h3>
+        <form id="theaterAdminForm">
+            <label>Username: <input type="text" id="userName" ></label>
+            <label>Password: <input type="password" id="password" ></label>
+            <label>Email: <input type="email" id="email" ></label>
+            <label>First Name: <input type="text" id="firstName" ></label>
+            <label>Last Name: <input type="text" id="lastName" ></label>
+            <label>Contact: <input type="tel" id="phoneNumber" maxlength="10"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"></label>
+            <label>Address Line 1: <input type="text" id="addressLine1" ></label>
+            <label>Address Line 2: <input type="text" id="addressLine2"></label>
+            <label>Pincode: <input type="tel" id="pincode"  maxlength="6"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"></label>
+            <label>City: <select id="city"></select></label>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
+    </div>
+</div>
+
+<script src="../config.js"></script>
+<script src="../common.js"></script>
+<script src="super-admin-sidebar.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById('theaterAdminForm').addEventListener('submit', submitTheaterAdmin);
+    });
+
+    function openForm() {
+        $("#theaterAdminModal").show();
+        fetchCities();
+    }
+
+    function closeForm() {
+        $("#theaterAdminModal").hide();
+        document.getElementById('theaterAdminForm').reset();
+        clearForm();
+    }
+
+    function clearForm() {
+        document.getElementById('theaterAdminForm').reset();
+    }
+
+    function fetchCities() {
+        $.ajax({
+            url: `${CONFIG.baseURL}/fetchCities`,
+            type: 'GET',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (result) {
+                let cityDropdown = $('#city');
+                cityDropdown.empty();
+                cityDropdown.append('<option value="">Select City</option>');
+
+                $.each(result.data, function (index, city) {
+                    cityDropdown.append('<option value="' + city.cityId + '">' + city.cityName + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching cities:', error);
+            }
+        });
+    }
+
+
+    async function submitTheaterAdmin(e) {
+        e.preventDefault();
+        console.log("submitTheaterAdmin function triggered");
+
+        let formData = {
+            userName: document.getElementById('userName').value,
+            password: document.getElementById('password').value,
+            email: document.getElementById('email').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            address: {
+                addressLine1: document.getElementById('addressLine1').value,
+                addressLine2: document.getElementById('addressLine2').value,
+                pincode: document.getElementById('pincode').value,
+                city: {cityId: Number(document.getElementById('city').value)}
+            }
+        };
+
+        console.log("Submitting:", formData);
+
+        try {
+            let response = await fetch(`${CONFIG.baseURL}/addTheaterAdmin`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(formData)
+            });
+
+            console.log("API Response:", response);
+
+            if (response.ok) {
+                alert('Theater Admin added successfully!');
+                closeForm();
+                clearForm();
+            } else {
+                let errorText;
+                try {
+                    errorText = await response.json();
+                } catch {
+                    errorText = await response.text();
+                }
+                showMessage(errorText.message || errorText)
+                console.error('Error:', errorText);
+            }
+        } catch (error) {
+            console.error('Request failed:', error);
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

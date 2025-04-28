@@ -45,7 +45,7 @@ public class Movie {
     @Column(name = "movie_poster_path", columnDefinition = "TEXT")
     private String moviePosterPath;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_languages",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -53,7 +53,7 @@ public class Movie {
     )
     private List<Language> languages;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -61,7 +61,7 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_formats",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -69,7 +69,12 @@ public class Movie {
     )
     private List<Format> formats;
 
-    @OneToMany(mappedBy = "movie", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "movie",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     private List<MovieCrew> movieCrewEntries = new ArrayList<>();
 
     @Column(name = "created_by")

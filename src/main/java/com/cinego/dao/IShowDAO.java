@@ -13,6 +13,8 @@ public interface IShowDAO {
 
     List<Show> getShowByTheaterId(int theaterId) throws DBException;
 
+    List<Show> getShowByMovieId(int movieId) throws DBException;
+
     List<Show> getAllShows() throws DBException;
 
     void updateShow(Show show, int currentUserId) throws DBException;
@@ -20,4 +22,5 @@ public interface IShowDAO {
     void deleteShow(int showId) throws DBException;
 
     void checkShowTiming(int showId) throws ApplicationException;
+
 }

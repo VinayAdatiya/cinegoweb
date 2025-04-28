@@ -173,6 +173,46 @@ public class ShowDAOImpl implements IShowDAO {
         }
     }
 
+    public List<Show> getShowByMovieId(int movieId) throws DBException {
+        String query = "SELECT s.* " +
+                "FROM shows s " +
+                "WHERE movie_id = ?;";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Show> shows = new ArrayList<>();
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, movieId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Show show = new Show();
+                int showId = resultSet.getInt("show_id");
+                show.setShowId(showId);
+                int screenId = resultSet.getInt("screen_id");
+                Screen screen = screenDAO.getScreenById(screenId);
+                show.setScreen(screen);
+                show.setMovie(new Movie());
+                show.getMovie().setMovieId(movieId);
+                List<ShowPriceCategory> showPriceCategoryList = showPriceCategoryDAO.getShowPriceCategoriesByShow(showId);
+                show.setShowPriceCategoryList(showPriceCategoryList);
+                show.setShowDate(resultSet.getDate("show_date").toLocalDate());
+                show.setShowTime(resultSet.getTime("show_time").toLocalTime());
+                show.setCreatedOn(resultSet.getTimestamp("created_on").toLocalDateTime());
+                show.setCreatedBy(resultSet.getInt("created_by"));
+                show.setUpdatedOn(resultSet.getTimestamp("updated_on").toLocalDateTime());
+                show.setUpdatedBy(resultSet.getInt("updated_by"));
+                shows.add(show);
+            }
+            return shows;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
     @Override
     public List<Show> getAllShows() throws DBException {
         String query = "SELECT * FROM shows;";

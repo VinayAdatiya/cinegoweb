@@ -136,7 +136,8 @@ function deleteScreen(screenId) {
                 loadAndDisplayScreens();
             },
             error: function (xhr, status, error) {
-                console.error('Error deleting screen:', error);
+                let response = JSON.parse(xhr.responseText);
+                showPopupMessage(response.message);
             }
         });
     }

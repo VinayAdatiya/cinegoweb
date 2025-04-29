@@ -162,6 +162,8 @@
             border-radius: 10px;
             font-family: 'Merriweather', serif;
             box-sizing: border-box;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         #screenFormModal label {
@@ -278,11 +280,10 @@
         </div>
     </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../config.js"></script>
 <script src="theater-admin-sidebar.js"></script>
 <script src="../common.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="screen.js"></script>
 <script>
     window.addEventListener('screen-added', function (event) {

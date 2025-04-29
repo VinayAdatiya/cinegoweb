@@ -1,9 +1,15 @@
 async function populateDropdown(url, selectElement, idField, nameField) {
+    const placeholderOption = document.createElement('option');
+    placeholderOption.value = '';
+    placeholderOption.textContent = 'Select';
+    selectElement.appendChild(placeholderOption);
+
     const res = await fetch(url, {
         credentials: 'include'
     });
     const result = await res.json();
     const data = result.data;
+
     data.forEach(item => {
         const option = document.createElement('option');
         option.value = item[idField];
@@ -93,10 +99,10 @@ document.getElementById('showForm').addEventListener('submit', (e) => {
             },
             success: function () {
                 closeForm();
-                const screenCreatedEvent = new CustomEvent('show-added', {
+                const showCreatedEvent = new CustomEvent('show-added', {
                     detail: {message: 'Show created successfully!'}
                 });
-                window.parent.dispatchEvent(screenCreatedEvent);
+                window.parent.dispatchEvent(showCreatedEvent);
             },
             error: function (xhr, status, error) {
                 console.error("Error adding show:", error);

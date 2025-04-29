@@ -14,7 +14,6 @@ function loadSidebar() {
             <button id="logout-btn" title="Logout">Logout</button>
             </div>    
         </div>
-        </div>
     `;
 
     const sidebarContainer = document.getElementById("sidebar-container");

@@ -124,7 +124,9 @@ function deleteMovie(movieId) {
 }
 
 function fetchMovieData(movieId) {
-    fetch(`http://localhost:8080/CineGo/fetchMovie?movieId=${movieId}`)
+    fetch(`${CONFIG.baseURL}/fetchMovie?movieId=${movieId}`, {
+        credentials: 'include'
+    })
         .then(response => response.json())
         .then(data => {
             sendMovieDataToIframe(data);

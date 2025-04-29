@@ -60,11 +60,20 @@ function closeForm() {
     if (modal) modal.style.display = "none";
 }
 
+async function prefillTheaterInfo() {
+    const theater = await loadTheaterInfo();
+    if (theater) {
+        $('#theaterName').val(theater.theaterName);        // Fill the disabled input
+        $('#theaterId').val(theater.theaterId);      // Fill the hidden ID
+    } else {
+        alert('Failed to load theater information.');
+    }
+}
 
-$(document).ready(function () {
+$(document).ready(async function () {
     loadSeatPalette();
     loadScreenTypes();
-    loadTheaterInfo();
+    await prefillTheaterInfo();
     setupSeatGridInput();
     setupScreenFormSubmission();
 });

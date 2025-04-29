@@ -113,6 +113,7 @@
 </div>
 
 <script src="config.js"></script>
+<script src="common.js"></script>
 <script>
     $(document).ready(function () {
         $("#loginForm").submit(function (event) {
@@ -161,15 +162,6 @@
             });
         });
     });
-
-    function showMessage(message, isSuccess) {
-        const formMessage = $('#formMessage');
-        formMessage
-            .text(message)
-            .removeClass('text-success text-danger')
-            .addClass(isSuccess ? 'text-success' : 'text-danger')
-            .fadeIn();
-    }
 </script>
 </body>
 

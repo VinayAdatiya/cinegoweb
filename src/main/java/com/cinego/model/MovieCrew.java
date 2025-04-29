@@ -52,14 +52,6 @@ public class MovieCrew {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MovieCrew movieCrew = (MovieCrew) o;
-        return Objects.equals(movie, movieCrew.movie) && Objects.equals(crew, movieCrew.crew) && Objects.equals(crewDesignation, movieCrew.crewDesignation) && Objects.equals(characterName, movieCrew.characterName);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(movie, crew, crewDesignation, characterName);
     }

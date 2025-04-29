@@ -1,5 +1,6 @@
 package com.cinego.dao;
 
+import com.cinego.common.exception.ApplicationException;
 import com.cinego.common.exception.DBException;
 import com.cinego.model.*;
 
@@ -14,5 +15,5 @@ public interface IMovieDAO {
 
     void updateMovie(Movie movie) throws DBException;
 
-    void deleteMovie(int movieId) throws DBException;
+    void deleteMovie(int movieId) throws ApplicationException;
 }

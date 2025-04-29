@@ -53,6 +53,26 @@ public class ShowService {
         return showResponseDTO;
     }
 
+    public List<ShowResponseDTO> getShowByTheaterId(int theaterId) throws ApplicationException {
+        List<Show> shows = showDAO.getShowByTheaterId(theaterId);
+        if (shows.isEmpty()) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+        return shows.stream()
+                .map(showMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ShowResponseDTO> getShowByMovie(int movieId) {
+        List<Show> shows = showDAO.getShowByMovieId(movieId);
+        if (shows.isEmpty()) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+        return shows.stream()
+                .map(showMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<ShowResponseDTO> getAllShows() throws DBException {
         List<Show> shows = showDAO.getAllShows();
         return shows.stream()

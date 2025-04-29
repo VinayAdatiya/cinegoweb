@@ -182,7 +182,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"movieTitle\": \"Avengers\",\r\n    \"movieRating\": 8.0,\r\n    \"movieDuration\": \"01:30:00\",\r\n    \"movieReleaseDate\": \"2012-05-04\",\r\n    \"movieDescription\": \"Earth's mightiest heroes must come together and learn to fight as a team in order to stop Loki and his alien army from enslaving humanity.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\Avengers.jfif\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 1\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 2\r\n            },\r\n            \"characterName\": \"Main Character\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"movieTitle\": \"RRR\",\r\n    \"movieRating\": 7.0,\r\n    \"movieDuration\": \"02:30:20\",\r\n    \"movieReleaseDate\": \"2024-07-23\",\r\n    \"movieDescription\": \"A fearless revolutionary and an officer in the British force, who once shared a deep bond, decide to join forces and chart out an inspirational path of freedom against the despotic rulers.\",\r\n    \"moviePosterPath\": \"C:\\\\Users\\\\avinay\\\\Desktop\\\\Sample Posters\\\\RRR.jfif\",\r\n    \"languages\": [\r\n        {\r\n            \"languageId\": 1\r\n        },\r\n        {\r\n            \"languageId\": 2\r\n        }\r\n    ],\r\n    \"genres\": [\r\n        {\r\n            \"genreId\": 3\r\n        },\r\n        {\r\n            \"genreId\": 4\r\n        }\r\n    ],\r\n    \"formats\": [\r\n        {\r\n            \"formatId\": 1\r\n        },\r\n        {\r\n            \"formatId\": 2\r\n        }\r\n    ],\r\n    \"movieCrewEntries\": [\r\n        {\r\n            \"crew\": {\r\n                \"crewId\": 2\r\n            },\r\n            \"crewDesignation\": {\r\n                \"designationId\": 3\r\n            },\r\n            \"characterName\": \"Charan\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -265,7 +265,7 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:8080/CineGo/fetchMovie?movieId=65",
+									"raw": "http://localhost:8080/CineGo/fetchMovie?movieId=94",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -278,7 +278,7 @@
 									"query": [
 										{
 											"key": "movieId",
-											"value": "65"
+											"value": "94"
 										}
 									]
 								}
@@ -326,7 +326,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/CineGo/deleteMovie?movieId=44",
+									"raw": "http://localhost:8080/CineGo/deleteMovie?movieId=93",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -339,7 +339,7 @@
 									"query": [
 										{
 											"key": "movieId",
-											"value": "44"
+											"value": "93"
 										}
 									]
 								}
@@ -523,6 +523,26 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/CineGo/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"CineGo",
+								"logout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1268,7 +1288,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/CineGo/deleteScreen?screenId=3",
+							"raw": "http://localhost:8080/CineGo/deleteScreen?screenId=8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1281,7 +1301,7 @@
 							"query": [
 								{
 									"key": "screenId",
-									"value": "3"
+									"value": "8"
 								}
 							]
 						}
@@ -1323,7 +1343,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"movieId\": 16,\r\n  \"screenId\": 8,\r\n  \"showDate\": \"2025-04-12\",\r\n  \"showTime\": \"16:30:00\",\r\n  \"showPriceCategoryDTOS\": [\r\n    {\r\n      \"seatCategoryId\": 1,\r\n      \"price\": 1\r\n    },\r\n    {\r\n      \"seatCategoryId\": 2,\r\n      \"price\": 250.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 3,\r\n      \"price\": 350.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 4,\r\n      \"price\": 450.00\r\n    }\r\n  ]\r\n}",
+									"raw": "{\r\n  \"movieId\": 95,\r\n  \"screenId\": 7,\r\n  \"showDate\": \"2025-04-29\",\r\n  \"showTime\": \"16:30:00\",\r\n  \"showPriceCategoryDTOS\": [\r\n    {\r\n      \"seatCategoryId\": 1,\r\n      \"price\": 1\r\n    },\r\n    {\r\n      \"seatCategoryId\": 2,\r\n      \"price\": 250.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 3,\r\n      \"price\": 350.00\r\n    },\r\n    {\r\n      \"seatCategoryId\": 4,\r\n      \"price\": 450.00\r\n    }\r\n  ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1461,6 +1481,58 @@
 										{
 											"key": "showId",
 											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Show By Theater",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo/getShowByTheater?theaterId=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo",
+										"getShowByTheater"
+									],
+									"query": [
+										{
+											"key": "theaterId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Show By Movie",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/CineGo/getShowByMovie?movieId=95",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"CineGo",
+										"getShowByMovie"
+									],
+									"query": [
+										{
+											"key": "movieId",
+											"value": "95"
 										}
 									]
 								}

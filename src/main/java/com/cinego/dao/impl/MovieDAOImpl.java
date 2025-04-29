@@ -13,7 +13,6 @@ import jakarta.persistence.NoResultException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +26,23 @@ public class MovieDAOImpl implements IMovieDAO {
     private final ICrewDesignationDAO crewDesignationDAO = new CrewDesignationDAOImpl();
 
     @Override
-    public void addMovie(Movie movie) throws ApplicationException {
+    public void addMovie(Movie movie) throws DBException {
+        EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager();
         EntityTransaction transaction = null;
-        try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
+        try {
             transaction = em.getTransaction();
             transaction.begin();
             processMovieCollections(em, movie);
-            List<MovieCrew> managedMovieCrew = processMovieCrew(em, movie);
-            movie.setMovieCrewEntries(managedMovieCrew);
+            List<MovieCrew> movieCrewEntries = movie.getMovieCrewEntries();
+            movie.setMovieCrewEntries(new ArrayList<>());
             em.persist(movie);
+            processMovieCrew(em, movie, movieCrewEntries);
             transaction.commit();
-        } catch (jakarta.persistence.EntityNotFoundException error) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            throw new ApplicationException(Message.Error.NO_RECORD_FOUND, error);
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+            rollbackTransaction(transaction);
+            throw new DBException(Message.Error.INTERNAL_ERROR);
+        } finally {
+            closeEntityManager(em);
         }
     }
 
@@ -58,28 +54,32 @@ public class MovieDAOImpl implements IMovieDAO {
 
     private List<Language> handleLanguages(EntityManager em, List<Language> languages) {
         if (languages != null && !languages.isEmpty()) {
-            return languages.stream().map(lang -> em.getReference(Language.class, lang.getLanguageId())).collect(Collectors.toList());
+            return languages.stream()
+                    .map(lang -> em.getReference(Language.class, lang.getLanguageId()))
+                    .collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
     private List<Genre> handleGenres(EntityManager em, List<Genre> genres) {
         if (genres != null && !genres.isEmpty()) {
-            return genres.stream().map(genre -> em.getReference(Genre.class, genre.getGenreId())).collect(Collectors.toList());
+            return genres.stream()
+                    .map(genre -> em.getReference(Genre.class, genre.getGenreId()))
+                    .collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
     private List<Format> handleFormats(EntityManager em, List<Format> formats) {
         if (formats != null && !formats.isEmpty()) {
-            return formats.stream().map(format -> em.getReference(Format.class, format.getFormatId())).collect(Collectors.toList());
+            return formats.stream()
+                    .map(format -> em.getReference(Format.class, format.getFormatId()))
+                    .collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
-    private List<MovieCrew> processMovieCrew(EntityManager em, Movie movie) {
-        List<MovieCrew> movieCrewEntries = movie.getMovieCrewEntries();
-        List<MovieCrew> managedMovieCrew = new ArrayList<>();
+    private void processMovieCrew(EntityManager em, Movie movie, List<MovieCrew> movieCrewEntries) {
         if (movieCrewEntries != null && !movieCrewEntries.isEmpty()) {
             for (MovieCrew movieCrew : movieCrewEntries) {
                 if (movieCrew.getCrew() != null && movieCrew.getCrew().getCrewId() != 0) {
@@ -94,36 +94,29 @@ public class MovieDAOImpl implements IMovieDAO {
                 } else {
                     movieCrew.setCrewDesignation(null);
                 }
-                managedMovieCrew.add(movieCrew);
+                movieCrew.setMovie(movie);
+                movieCrew.setMovieId(movie.getMovieId());
+                em.persist(movieCrew);
             }
         }
-        return managedMovieCrew;
     }
 
     @Override
     public Movie getMovieById(int movieId) throws DBException {
         try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
             String select_movie = "SELECT DISTINCT m FROM Movie m WHERE m.movieId = :movieIdParam";
-            Movie movie = em.createQuery(select_movie, Movie.class)
-                    .setParameter("movieIdParam", movieId)
-                    .getSingleResult();
+            Movie movie = em.createQuery(select_movie, Movie.class).setParameter("movieIdParam", movieId).getSingleResult();
 
             String fetch_languages = "SELECT l FROM Movie m JOIN m.languages l WHERE m.movieId = :movieIdParam";
-            List<Language> languageList = em.createQuery(fetch_languages, Language.class)
-                    .setParameter("movieIdParam", movieId)
-                    .getResultList();
+            List<Language> languageList = em.createQuery(fetch_languages, Language.class).setParameter("movieIdParam", movieId).getResultList();
             movie.setLanguages(languageList);
 
             String fetch_genres = "SELECT g FROM Movie m JOIN m.genres g WHERE m.movieId = :movieIdParam";
-            List<Genre> genreList = em.createQuery(fetch_genres, Genre.class)
-                    .setParameter("movieIdParam", movieId)
-                    .getResultList();
+            List<Genre> genreList = em.createQuery(fetch_genres, Genre.class).setParameter("movieIdParam", movieId).getResultList();
             movie.setGenres(genreList);
 
             String fetch_formats = "SELECT f FROM Movie m JOIN m.formats f WHERE m.movieId = :movieIdParam";
-            List<Format> formatList = em.createQuery(fetch_formats, Format.class)
-                    .setParameter("movieIdParam", movieId)
-                    .getResultList();
+            List<Format> formatList = em.createQuery(fetch_formats, Format.class).setParameter("movieIdParam", movieId).getResultList();
             movie.setFormats(formatList);
 
             String fetchMovieCrew = "SELECT mc FROM Movie m " +
@@ -170,42 +163,14 @@ public class MovieDAOImpl implements IMovieDAO {
                         "JOIN mc.crew " +
                         "JOIN mc.crewDesignation " +
                         "WHERE m.movieId = :movieIdParam";
-                List<MovieCrew> movieCrewList = em.createQuery(fetchMovieCrew, MovieCrew.class).setParameter("movieIdParam", movie.getMovieId()).getResultList();
+                List<MovieCrew> movieCrewList = em.createQuery(fetchMovieCrew, MovieCrew.class)
+                        .setParameter("movieIdParam", movie.getMovieId())
+                        .getResultList();
                 movie.setMovieCrewEntries(movieCrewList);
             }
             return movies;
         } catch (Exception e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
-        }
-    }
-
-    private List<MovieCrew> getMovieCrew(int movieId, Connection connection) throws DBException {
-        List<MovieCrew> movieCrewList = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
-        ResultSet movieCrewSet = null;
-        String query = "SELECT crew_id, designation_id, character_name FROM movie_crew WHERE movie_id = ?";
-
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, movieId);
-            movieCrewSet = preparedStatement.executeQuery();
-            while (movieCrewSet.next()) {
-                int crewId = movieCrewSet.getInt("crew_id");
-                int designationId = movieCrewSet.getInt("designation_id");
-                String characterName = movieCrewSet.getString("character_name");
-                Crew crew = crewDAO.getCrewById(crewId, connection);
-                CrewDesignation crewDesignation = crewDesignationDAO.getDesignationById(designationId, connection);
-                MovieCrew movieCrew = new MovieCrew();
-                movieCrew.setCrew(crew);
-                movieCrew.setCrewDesignation(crewDesignation);
-                movieCrew.setCharacterName(characterName);
-                movieCrewList.add(movieCrew);
-            }
-            return movieCrewList;
-        } catch (SQLException e) {
-            throw new DBException(Message.Error.INTERNAL_ERROR, e);
-        } finally {
-            DBConnection.closeResources(movieCrewSet, preparedStatement, null);
         }
     }
 
@@ -263,27 +228,31 @@ public class MovieDAOImpl implements IMovieDAO {
     }
 
     @Override
-    public void deleteMovie(int movieId) throws DBException {
-        String query = "DELETE FROM movie WHERE movie_id = ?";
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public void deleteMovie(int movieId) throws ApplicationException {
+        EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            connection = DBConnection.INSTANCE.getConnection();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, movieId);
-            deleteMovieMetadata(movieId, connection);
-            preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException | ClassNotFoundException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException error) {
-                throw new DBException(Message.Error.INTERNAL_ERROR, error);
+            transaction = em.getTransaction();
+            transaction.begin();
+            Movie movie = em.find(Movie.class, movieId);
+            if (movie != null) {
+                List<MovieCrew> crewToDelete = new ArrayList<>(movie.getMovieCrewEntries());
+                for (MovieCrew movieCrew : crewToDelete) {
+                    em.remove(movieCrew);
+                }
+                em.remove(movie);
+            } else {
+                throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
             }
-            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+            transaction.commit();
+        } catch (ApplicationException e) {
+            rollbackTransaction(transaction);
+            throw new ApplicationException(Message.Error.INTERNAL_ERROR);
+        } catch (Exception e) {
+            rollbackTransaction(transaction);
+            throw new DBException(Message.Error.INTERNAL_ERROR);
         } finally {
-            DBConnection.closeResources(null, preparedStatement, connection);
+            closeEntityManager(em);
         }
     }
 
@@ -335,6 +304,18 @@ public class MovieDAOImpl implements IMovieDAO {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         } finally {
             DBConnection.closeResources(null, preparedStatement, null);
+        }
+    }
+
+    private void rollbackTransaction(EntityTransaction transaction) {
+        if (transaction != null && transaction.isActive()) {
+            transaction.rollback();
+        }
+    }
+
+    private void closeEntityManager(EntityManager em) {
+        if (em != null && em.isOpen()) {
+            em.close();
         }
     }
 }

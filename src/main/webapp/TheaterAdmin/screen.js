@@ -1,16 +1,10 @@
 import {fetchScreenById, fetchScreensByTheaterId} from './screen-info.js';
 import {getSeatColors, renderSeatLegend} from './seat-pallete.js';
 
-// $(document).ready(() => {
-//     renderSeatLegend();
-// });
 document.addEventListener('DOMContentLoaded', () => {
     renderSeatLegend();
 });
 
-// function clearTable(tableSelector) {
-//     $(`${tableSelector} tbody`).empty();
-// }
 function clearTable(tableSelector) {
     const table = document.querySelector(`${tableSelector} tbody`);
     if (table) {

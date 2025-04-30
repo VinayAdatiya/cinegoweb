@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Management</title>
+    <title>Movies Management</title>
     <link rel="stylesheet" href="theater-admin-sidebar.css">
     <link rel="stylesheet" href="../pop-up.css">
     <style>
@@ -31,7 +31,58 @@
         .container {
             margin-left: 225px;
             padding: 20px;
-            font-family: 'Merriweather', serif;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            border-radius: 8px;
+            padding: 0;
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .close:focus {
+            color: black;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f9fc;
+            padding: 10px;
         }
 
         h1 {
@@ -40,8 +91,23 @@
             color: #333;
         }
 
+        .view-btn {
+            padding: 8px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background-color: #1abc9c;
+        }
+
+        .view-btn:hover {
+            background-color: #335f9e;
+        }
+
+        /* Modal Styles */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -64,14 +130,8 @@
         }
 
         @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .close-btn {
@@ -96,8 +156,7 @@
             border-radius: 10px;
         }
 
-
-        #showTable {
+        #moviesTable {
             width: 100%;
             font-family: 'Merriweather', serif;
             border-collapse: collapse;
@@ -108,99 +167,75 @@
             border: none;
         }
 
-        #showTable thead {
+        #moviesTable thead {
             background-color: transparent;
             color: black;
             font-weight: bold;
             border: none;
         }
 
-        #showTable th,
-        #showTable td {
+        #moviesTable th,
+        #moviesTable td {
             padding: 12px 16px;
             border: none;
             background: transparent;
             text-align: center;
             vertical-align: middle;
         }
-        .th-spacing {
-            padding: 10px 20px;
+        .movie-detail p {
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
 
-        .action-btn {
-            margin: 0 5px;
-            padding: 13px 18px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
+        .movie-detail img {
+            display: block;
+            margin-top: 20px;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        .delete-btn {
-            background-color: #e74c3c;
-        }
-        #formMessage {
-            margin-top: 1rem;
-            font-weight: bold;
-            padding-left: 500px;
-        }
+
     </style>
 </head>
 <body>
-<div id="sidebar-container"></div>
 <div id="popup-message" style="display: none;"></div>
+<div id="sidebar-container"></div>
 <div class="container">
     <div class="header">
-        <h2>Show Management</h2>
-        <button class="add-btn" id="openFormBtn">+ Add New Show</button>
-    </div>
-    <div id="addShowModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeForm()">&times;</span>
-            <iframe id="addShowIframe" src="" style="width:100%; height:90vh; border:none;"></iframe>
-        </div>
+        <h2>Movies Management</h2>
     </div>
 
-    <table id="showTable">
+    <table id="moviesTable">
         <thead>
         <tr>
-            <th></th>
-            <th class="th-spacing">Movie Title</th>
-            <th class="th-spacing">Movie Rating</th>
-            <th class="th-spacing">Screen Title</th>
-            <th class="th-spacing">Screen Type</th>
-            <th class="th-spacing">Show Date</th>
-            <th class="th-spacing">Show Time</th>
-            <th class="th-spacing">Action</th>
+            <th>#</th>
+            <th>Title</th>
+            <th>Rating</th>
+            <th>Release Date</th>
+            <th>Action</th>
         </tr>
         </thead>
-        <tbody id="showBody">
+        <tbody id="moviesBody">
         </tbody>
     </table>
-    <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
+
+    <div id="movieDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMovieModal()">&times;</span>
+            <div id="movieDetailsContent"></div>
+        </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../config.js"></script>
 <script src="../common.js"></script>
 <script src="theater-admin-sidebar.js"></script>
-<script src="show.js"></script>
+<script src="movies.js"></script>
 <script>
-
-    window.addEventListener('show-added', function (event) {
-        console.log(event.detail.message);
-
-        const modal = document.getElementById('addShowModal');
-        const iframe = document.getElementById('addShowIframe');
-
-        if (iframe) iframe.src = "";
-        if (modal) modal.style.display = "none";
-
-        showPopupMessage("Show created successfully!");
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000);
-    });
-
+    function closeMovieModal() {
+        document.getElementById("movieDetailModal").style.display = "none";
+    }
 </script>
 </body>
 </html>

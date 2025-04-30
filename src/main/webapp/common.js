@@ -14,7 +14,7 @@ function showPopupMessage(message) {
 
     setTimeout(() => {
         popup.style.display = "none";
-    }, 3000);
+    }, 5000);
 }
 
 function showMessage(message, isSuccess) {

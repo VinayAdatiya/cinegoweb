@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Showtimes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        table th {
+            color: white;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        table tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+        td button {
+            padding: 8px 14px;
+            background-color: #5f6368;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        td button:hover {
+            background-color: #4b5357;
+        }
+
+        td span {
+            font-weight: 500;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 600px) {
+            table, tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+
+            td {
+                border: none;
+                margin-bottom: 20px;
+                background: #f9f9f9;
+                padding: 12px;
+                border-radius: 6px;
+            }
+
+            table th {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th colspan="2" style="text-align: center; font-size: 1.8rem; padding: 10px; width: 100%; background-color: #6a2a3c; color: white;">
+                Available Shows
+            </th>
+        </tr>
+        </thead>
+        <tbody id="show-table-body">
+        </tbody>
+    </table>
+
+</div>
+
+<script src="../config.js"></script>
+<script src="shows.js"></script>
+</body>
+</html>

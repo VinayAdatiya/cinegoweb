@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theater Admin Management</title>
     <link rel="stylesheet" href="super-admin-sidebar.css">
+    <link rel="stylesheet" href="pop-up.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .header {
@@ -132,7 +133,7 @@
         <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
     </div>
 </div>
-
+<div id="popup-message" style="display: none;"></div>
 <script src="../config.js"></script>
 <script src="../common.js"></script>
 <script src="super-admin-sidebar.js"></script>
@@ -215,7 +216,7 @@
             console.log("API Response:", response);
 
             if (response.ok) {
-                alert('Theater Admin added successfully!');
+                showPopupMessage('Theater Admin added successfully!');
                 closeForm();
                 clearForm();
             } else {

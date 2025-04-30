@@ -34,7 +34,7 @@ function loadSidebar() {
                 xhrFields: {withCredentials: true},
                 success: function () {
                     localStorage.clear();
-                    window.location.href = "../login.html";
+                    window.location.href = "../Login.html";
                 },
                 error: function (xhr) {
                     console.log(xhr.messageerror);

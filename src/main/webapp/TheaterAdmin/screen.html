@@ -296,7 +296,9 @@
         if (modal) modal.style.display = "none";
 
         showPopupMessage("Screen created successfully!");
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
     });
 
 </script>

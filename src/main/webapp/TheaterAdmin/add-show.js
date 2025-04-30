@@ -29,7 +29,7 @@ async function populateSeatCategories(screenId) {
     const result = await res.json();
     const categories = result.data;
     const seatPricesContainer = document.getElementById('seatPrices');
-
+    seatPricesContainer.innerHTML = '';
     seatPricesContainer.style.display = 'flex';
     seatPricesContainer.style.flexWrap = 'wrap';
     seatPricesContainer.style.justifyContent = 'space-between';

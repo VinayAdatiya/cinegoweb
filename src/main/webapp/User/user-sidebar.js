@@ -3,9 +3,8 @@ function loadUserSidebar() {
         <div class="sidebar">
             <h2>User</h2>
             <a href="user-home.html" class="tab">Dashboard</a>
-            <a href="BookTickets.html" class="tab">Book Tickets</a>
-            <a href="MyBookings.html" class="tab">My Bookings</a>
-            <a href="Profile.html" class="tab">Profile</a>
+            <a href="movies.html" class="tab">Book Tickets</a>
+            <a href="my-bookings.html" class="tab">My Bookings</a>
             
              <div class="sidebar-footer">
                 <p id="user-display" style="font-size: 14px; color: #ccc; margin: -10px 0 10px 0;">Loading user...</p>
@@ -32,7 +31,7 @@ function loadUserSidebar() {
                 xhrFields: {withCredentials: true},
                 success: function () {
                     localStorage.clear();
-                    window.location.href = "../login.html";
+                    window.location.href = "../Login.html";
                 },
                 error: function (xhr) {
                     console.log(xhr.message);

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Layout</title>
+    <style>
+        .screen {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .seat-row {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .seat-row {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .seat {
+            width: 80px;
+            height: 60px;
+            border: 1px solid #ccc;
+            margin: 4px;
+            text-align: center;
+            padding: 4px;
+            font-size: 12px;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .seat.booked {
+            background-color: #999;
+            color: #fff;
+        }
+
+        .seat.available:hover {
+            background-color: #cce5ff;
+        }
+
+        .seat.selected {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 40%;
+            text-align: center;
+        }
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        #confirmBookingBtn,
+        #cancelBookingBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #confirmBookingBtn {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+
+        #confirmBookingBtn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        #cancelBookingBtn {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+
+        #cancelBookingBtn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+        body {
+            background-color: #e15151;
+            margin: 0;
+            font-family: 'Merriweather', serif;
+        }
+        #submitBooking {
+            margin-top: 2px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #6a2a3c;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        #submitBooking:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div id="seatCategories" class="seat-category-list"></div>
+<div class="screen">
+    <h4>Screen</h4>
+    <div id="seatLayout"></div>
+</div>
+<div id="paymentMethodContainer">
+    <label for="paymentMethodSelect"><strong>Select Payment Method:</strong></label>
+    <select id="paymentMethodSelect"></select>
+</div>
+<button id="submitBooking">Book Now</button>
+<div id="responseModal" class="modal">
+    <div class="modal-content">
+        <p id="modalMessage"></p>
+        <div id="modalActions" style="margin-top: 10px;">
+            <button id="confirmBookingBtn">Confirm Booking</button>
+            <button id="cancelBookingBtn">Cancel Booking</button>
+        </div>
+        <div  style="margin-top: 20px;">
+            <span id="closeModal" style="cursor:pointer;">Back</span>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../config.js"></script>
+<script src="book-show.js"></script>
+</body>
+</html>

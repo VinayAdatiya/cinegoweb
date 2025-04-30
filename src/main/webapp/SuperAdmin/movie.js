@@ -47,7 +47,9 @@ function renderTable(movies) {
     tbody.innerHTML = "";
 
     movies.forEach((movie, index) => {
-        const releaseDate = movie.movieReleaseDate.join('-');
+        const [year, month, day] = movie.movieReleaseDate;
+        const releaseDate = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
+        console.log(releaseDate);
 
         const row = `
             <tr>

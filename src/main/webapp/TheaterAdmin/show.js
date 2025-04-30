@@ -32,7 +32,8 @@ function fetchAllShows() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error fetching movies:', error);
+            let response = JSON.parse(xhr.responseText);
+            showMessage(response.message, false);
         }
     });
 }
@@ -42,6 +43,10 @@ function renderTable(shows) {
     const tbody = document.getElementById("showBody");
     let rows = "";
 
+    if (!shows || !shows.length) {
+        tbody.innerHTML = `<tr><td colspan="8" align="center">No shows found</td></tr>`;
+        return;
+    }
     shows.forEach((show, index) => {
         console.log(show);
         const showDate = show.showDate.join('-');

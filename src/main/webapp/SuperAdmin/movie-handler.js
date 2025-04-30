@@ -5,9 +5,6 @@ let castCount = 0;
 let crewMembers = [];
 let designations = [];
 
-// $('#rating').on('input', function () {
-//     $('#ratingValue').text(parseFloat($(this).val()).toFixed(1));
-// });
 document.getElementById('rating').addEventListener('input', function () {
     document.getElementById('ratingValue').textContent = parseFloat(this.value).toFixed(1);
 });
@@ -20,12 +17,6 @@ $(document).ready(() => {
     }
     loadAndRenderData();
 
-    // Remove cast row
-    // $('#castContainer').on('click', '.removeBtn', function () {
-    //     $(this).closest('.cast-row').remove();
-    // });
-    //
-    // $('#addCastBtn').click(() => createCastRow());
     document.getElementById('castContainer').addEventListener('click', function(e) {
         if (e.target && e.target.classList.contains('removeBtn')) {
             let castRow = e.target.closest('.cast-row');
@@ -249,7 +240,6 @@ function buildMovieData() {
 }
 
 function populateFormWithMovieData(movie) {
-    // Set basic fields
     $('input[name="movieTitle"]').val(movie.movieTitle);
     $('#rating').val(movie.movieRating);
     $('#ratingValue').text(movie.movieRating);

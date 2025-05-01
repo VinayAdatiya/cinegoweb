@@ -1,6 +1,3 @@
-// $(document).ready(function () {
-//     fetchAllMovies();
-// });
 window.onload = function () {
     fetchAllMovies();
 };

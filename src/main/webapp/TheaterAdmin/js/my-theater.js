@@ -1,5 +1,5 @@
 import {loadTheaterInfo} from './theater-info.js';
-import {fetchCitiesWithSelected} from "../cityUtils.js";
+import {fetchCitiesWithSelected} from "../../cityUtils.js";
 
 
 $(document).ready(() => {

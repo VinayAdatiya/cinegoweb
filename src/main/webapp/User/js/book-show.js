@@ -225,7 +225,7 @@ document.getElementById("submitBooking").addEventListener("click", async () => {
 
     if (booking == null || booking?.error) {
         alert("Booking Failed! Please retry!");
-        window.location.href = './movies.html';
+        window.location.href = '../movies.html';
     } else {
         const bookingId = booking?.bookingId;
         const formatDate = (arr) => `${arr[2]}/${arr[1]}/${arr[0]}`;
@@ -349,7 +349,7 @@ async function cancelBooking(bookingId) {
         const result = await response.json();
         alert(`Booking cancelled. ${result.message || ''}`);
         document.getElementById("responseModal").style.display = "none";
-        window.location.href = './movies.html';
+        window.location.href = '../movies.html';
     } catch (error) {
         alert("Failed to cancel booking: " + error.message);
     }

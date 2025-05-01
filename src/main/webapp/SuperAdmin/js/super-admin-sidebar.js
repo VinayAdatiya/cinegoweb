@@ -2,12 +2,12 @@ function loadSidebar() {
     const sidebarHTML = `
         <div class="sidebar">
             <h2>SuperAdmin</h2>
-            <a href="super-admin-home.html" class="tab">Dashboard</a>
-            <a href="user.html" class="tab">User</a>
-            <a href="crew.html" class="tab">Crew</a>
-            <a href="theater-admin.html" class="tab">Theater Admin</a>
-            <a href="theater.html" class="tab">Theater</a>
-            <a href="movie.html" class="tab">Movie</a>
+            <a href="./super-admin-home.html" class="tab">Dashboard</a>
+            <a href="./user.html" class="tab">User</a>
+            <a href="./crew.html" class="tab">Crew</a>
+            <a href="./theater-admin.html" class="tab">Theater Admin</a>
+            <a href="./theater.html" class="tab">Theater</a>
+            <a href="./movie.html" class="tab">Movie</a>
          
             <div class="sidebar-footer">
             <p id="user-display" style="font-size: 14px; color: #ccc; margin: -10px 0 10px 0;">Loading user...</p>

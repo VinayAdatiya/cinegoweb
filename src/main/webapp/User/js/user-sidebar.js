@@ -2,9 +2,9 @@ function loadUserSidebar() {
     const sidebarHTML = `
         <div class="sidebar">
             <h2>User</h2>
-            <a href="user-home.html" class="tab">Dashboard</a>
-            <a href="movies.html" class="tab">Book Tickets</a>
-            <a href="my-bookings.html" class="tab">My Bookings</a>
+            <a href="./user-home.html" class="tab">Dashboard</a>
+            <a href="./movies.html" class="tab">Book Tickets</a>
+            <a href="./my-bookings.html" class="tab">My Bookings</a>
             
              <div class="sidebar-footer">
                 <p id="user-display" style="font-size: 14px; color: #ccc; margin: -10px 0 10px 0;">Loading user...</p>

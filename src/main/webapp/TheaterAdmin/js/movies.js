@@ -83,5 +83,8 @@ async function viewMovieDetails(movieId) {
     `;
 
     document.getElementById("movieDetailModal").style.display = "block";
+}
 
+function closeMovieModal() {
+    document.getElementById("movieDetailModal").style.display = "none";
 }

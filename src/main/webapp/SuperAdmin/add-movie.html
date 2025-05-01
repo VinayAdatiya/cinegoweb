@@ -37,7 +37,6 @@
     </style>
 </head>
 <body>
-<div id="formMessage" class="text-center mt-3" style="display:none;"></div>
 <h2>Create Movie</h2>
 <form id="movieForm">
     <label>Movie Title: </label>
@@ -100,11 +99,13 @@
     <div id="castContainer"></div>
 
     <br>
+    <div id="formMessage" class="text-center mt-3" style="display:none;"></div>
+    <br>
     <button type="submit">Submit</button>
 </form>
 <script src="../config.js"></script>
 <script src="../common.js"></script>
-<script src="movie-handler.js"></script>
+<script src="js/movie-handler.js"></script>
 <script>
     document.addEventListener('movieAddedSuccessfully', () => {
         console.log('movieAddedSuccessfully event received');

@@ -349,7 +349,7 @@ async function cancelBooking(bookingId) {
         const result = await response.json();
         alert(`Booking cancelled. ${result.message || ''}`);
         document.getElementById("responseModal").style.display = "none";
-        window.location.href = '../movies.html';
+        window.location.href = './movies.html';
     } catch (error) {
         alert("Failed to cancel booking: " + error.message);
     }

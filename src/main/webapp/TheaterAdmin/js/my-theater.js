@@ -1,71 +1,91 @@
 import {loadTheaterInfo} from './theater-info.js';
 import {fetchCitiesWithSelected} from "../../cityUtils.js";
 
-
-$(document).ready(() => {
+document.addEventListener('DOMContentLoaded', () => {
     loadTheaterInfo().then(data => {
+        const setValue = (selector, value) => {
+            const element = document.querySelector(selector);
+            if (element) element.value = value || '';
+        };
+
         if (!data) {
-            $('#theaterName').val('No theater found');
+            setValue('#theaterName', 'No theater found');
             return;
         }
 
-        $('#theaterId').val(data.theaterId || '');
-        $('#theaterName').val(data.theaterName || '');
-        $('#theaterRating').val(data.theaterRating || '');
+        setValue('#theaterId', data.theaterId);
+        setValue('#theaterName', data.theaterName);
+        setValue('#theaterRating', data.theaterRating);
 
         const address = data.theaterAddress || {};
-        $('#addressId').val(address.addressId || '');
-        $('#addressLine1').val(address.addressLine1 || '');
-        $('#addressLine2').val(address.addressLine2 || '');
-        $('#pincode').val(address.pincode || '');
+        setValue('#addressId', address.addressId);
+        setValue('#addressLine1', address.addressLine1);
+        setValue('#addressLine2', address.addressLine2);
+        setValue('#pincode', address.pincode);
 
         const admin = data.theaterAdmin || {};
-        $('#adminEmail').val(admin.email || '');
+        setValue('#adminEmail', admin.email);
 
         const cityId = address?.city?.cityId;
         fetchCitiesWithSelected(cityId);
     });
 });
 
-$('#theater-form').on('submit', function (e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#theater-form');
 
-    const payload = {
-        theaterAdmin: {
-            email: $('#adminEmail').val(),
-            password: $('#adminPassword').val()
-        },
-        theaterId: parseInt($('#theaterId').val(), 10),
-        theaterName: $('#theaterName').val(),
-        theaterRating: parseInt($('#theaterRating').val(), 10),
-        theaterAddress: {
-            addressId: parseInt($('#addressId').val(), 10),
-            addressLine1: $('#addressLine1').val(),
-            addressLine2: $('#addressLine2').val(),
-            pincode: parseInt($('#pincode').val(), 10),
-            city: {
-                cityId: parseInt($('#city').val(), 10)
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSubmit();
+    });
+
+    const handleSubmit = async () => {
+        const getValue = (id) => document.querySelector(id)?.value || '';
+        const toInt = (val) => parseInt(val, 10) || 0;
+
+        const payload = {
+            theaterAdmin: {
+                email: getValue('#adminEmail'),
+                password: getValue('#adminPassword')
+            },
+            theaterId: toInt(getValue('#theaterId')),
+            theaterName: getValue('#theaterName'),
+            theaterRating: toInt(getValue('#theaterRating')),
+            theaterAddress: {
+                addressId: toInt(getValue('#addressId')),
+                addressLine1: getValue('#addressLine1'),
+                addressLine2: getValue('#addressLine2'),
+                pincode: toInt(getValue('#pincode')),
+                city: {
+                    cityId: toInt(getValue('#city'))
+                }
             }
+        };
+
+        console.log('Submitting payload:', payload);
+
+        try {
+            const response = await fetch(`${CONFIG.baseURL}/updateTheater`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                showMessage(result.message || `Error ${response.status}: ${response.statusText}`);
+                return;
+            }
+
+            showPopupMessage(result.message || 'Theater updated successfully!');
+        } catch (error) {
+            console.error("Error updating theater:", error);
+            showMessage('An unexpected error occurred while updating the theater.');
         }
     };
-
-    console.log('Submitting payload:', payload);
-
-    $.ajax({
-        url: `${CONFIG.baseURL}/updateTheater`,
-        method: 'PUT',
-        contentType: 'application/json',
-        xhrFields: {
-            withCredentials: true
-        },
-        data: JSON.stringify(payload),
-        success: function (response) {
-            showPopupMessage('Theater updated successfully!');
-        },
-        error: function (xhr, status, error) {
-            console.error("Error updating theater:", error);
-            let response = JSON.parse(xhr.responseText);
-            showMessage(response.message);
-        }
-    });
 });
+

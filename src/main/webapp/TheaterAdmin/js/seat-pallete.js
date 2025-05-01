@@ -11,30 +11,48 @@ export function getSeatColors() {
 }
 
 export function loadSeatPalette() {
-    $.get(`${CONFIG.baseURL}/getAllSeatCategories`, function (response) {
-        const seatCategories = response.data;
-        const palette = $('#seatPalette').empty().css({
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-        });
+    fetch(`${CONFIG.baseURL}/getAllSeatCategories`)
+        .then(response => response.json())
+        .then(data => {
+            const seatCategories = data.data;
+            const palette = document.querySelector('#seatPalette');
+            palette.innerHTML = '';
+            Object.assign(palette.style, {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+            });
 
-        seatCategories.forEach((cat, index) => {
-            const color = colours[index % colours.length];
-            const btn = $(`<button type="button" class="btn seat-type" data-type="${cat.seatCategoryId}" style="background-color:${color}; margin: 4px;">${cat.seatType}</button>`);
-            palette.append(btn);
-            seatColors[cat.seatCategoryId] = color;
-        });
+            seatCategories.forEach((cat, index) => {
+                const color = colours[index % colours.length];
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.classList.add('btn', 'seat-type');
+                btn.dataset.type = cat.seatCategoryId;
+                btn.style.backgroundColor = color;
+                btn.style.margin = '4px';
+                btn.textContent = cat.seatType;
 
-        $('.seat-type').click(function () {
-            $('.seat-type').removeClass('selected');
-            $(this).addClass('selected');
-            currentCategory = $(this).data('type');
-        });
+                palette.appendChild(btn);
+                seatColors[cat.seatCategoryId] = color;
+            });
 
-        $('.seat-type').first().click();
-    });
+            const seatButtons = document.querySelectorAll('.seat-type');
+            seatButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    seatButtons.forEach(button => button.classList.remove('selected'));
+                    this.classList.add('selected');
+                    currentCategory = this.dataset.type;
+                });
+            });
+
+            if (seatButtons.length > 0) {
+                seatButtons[0].click();
+            }
+        })
+        .catch(error => console.error('Error loading seat categories:', error));
 }
+
 
 export function renderSeatLegend(containerId = '#seatLegend') {
     const container = $(containerId).empty().css({

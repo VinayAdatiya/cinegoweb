@@ -3,27 +3,49 @@ import { getCurrentCategory, getSeatColors } from './seat-pallete.js';
 let isDragging = false;
 
 export function setupSeatGridInput() {
-    $('#rowNum, #colNum').on('input', function () {
-        const rows = parseInt($('#rowNum').val());
-        const cols = parseInt($('#colNum').val());
+    const rowNumInput = document.querySelector('#rowNum');
+    const colNumInput = document.querySelector('#colNum');
+    const totalSeatsInput = document.querySelector('#totalSeats');
+
+    rowNumInput.addEventListener('input', function () {
+        const rows = parseInt(rowNumInput.value);
+        const cols = parseInt(colNumInput.value);
+
         if (!isNaN(rows) && !isNaN(cols) && rows > 0 && cols > 0) {
-            $('#totalSeats').val(rows * cols);
+            totalSeatsInput.value = rows * cols;
             generateSeats(rows, cols);
         } else {
-            $('#totalSeats').val(0);
+            totalSeatsInput.value = 0;
+        }
+    });
+
+    colNumInput.addEventListener('input', function () {
+        const rows = parseInt(rowNumInput.value);
+        const cols = parseInt(colNumInput.value);
+
+        if (!isNaN(rows) && !isNaN(cols) && rows > 0 && cols > 0) {
+            totalSeatsInput.value = rows * cols;
+            generateSeats(rows, cols);
+        } else {
+            totalSeatsInput.value = 0;
         }
     });
 }
 
 export function generateSeats(rows, cols) {
-    const container = $('#seatLayout').empty().css({
-        gridTemplateColumns: `repeat(${cols}, 44px)`
-    });
+    const container = document.querySelector('#seatLayout');
+    container.innerHTML = '';
+    container.style.gridTemplateColumns = `repeat(${cols}, 44px)`;
 
     for (let r = 1; r <= rows; r++) {
         for (let c = 1; c <= cols; c++) {
-            const seat = $(`<div class="seat" data-row="${r}" data-col="${c}" data-type="0"></div>`);
-            seat.css({
+            const seat = document.createElement('div');
+            seat.className = 'seat';
+            seat.dataset.row = r;
+            seat.dataset.col = c;
+            seat.dataset.type = '0';
+
+            Object.assign(seat.style, {
                 backgroundColor: '#e0e0e0',
                 border: '1px solid #aaa',
                 width: '40px',
@@ -31,27 +53,33 @@ export function generateSeats(rows, cols) {
                 cursor: 'pointer'
             });
 
-            seat.on('mousedown', () => {
+            seat.addEventListener('mousedown', () => {
                 isDragging = true;
-                setSeatType(seat);
+                setSeatType(seat); // Now passing a native DOM element
             });
-            seat.on('mouseenter', () => {
+
+            seat.addEventListener('mouseenter', () => {
                 if (isDragging) setSeatType(seat);
             });
-            seat.on('mouseup', () => isDragging = false);
 
-            container.append(seat);
+            seat.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            container.appendChild(seat);
         }
     }
 
-    $(document).on('mouseup', () => isDragging = false);
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
 }
 
-function setSeatType($seat) {
+function setSeatType(seatElement) {
     const type = getCurrentCategory();
     const colors = getSeatColors();
     if (!type) return;
 
-    $seat.attr('data-type', type);
-    $seat.css('background-color', colors[type] || '#ccc');
+    seatElement.setAttribute('data-type', type);
+    seatElement.style.backgroundColor = colors[type] || '#ccc';
 }

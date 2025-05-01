@@ -79,16 +79,27 @@ async function fetchMovieData(movieId) {
         const response = await fetch(`${CONFIG.baseURL}/fetchMovie?movieId=${movieId}`, {
             credentials: 'include'
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
         return data.data;
+
     } catch (error) {
         console.error('Error fetching movie data:', error);
+        return null;
     }
 }
 
+
 async function viewMovieDetails(movieId) {
     const movie = await fetchMovieData(movieId);
-    console.log(movie);
+    if (!movie) {
+        alert('Could not load movie. Please try again later.');
+        return;
+    }
     const container = document.getElementById("movieDetailsContent");
 
     const languages = movie.languages.map(l => l.languageName).join(', ');

@@ -43,7 +43,6 @@ function loadSidebar() {
             });
         });
 
-        // Fetch current user details
         $.ajax({
             type: "GET",
             url: `${CONFIG.baseURL}/getCurrentUser`,
@@ -59,7 +58,6 @@ function loadSidebar() {
             },
             error: function (xhr) {
                 let response = JSON.parse(xhr.responseText);
-                alert(response.message);
                 console.log("No User Found !!!");
             }
         });

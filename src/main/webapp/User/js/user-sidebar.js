@@ -56,7 +56,6 @@ function loadUserSidebar() {
             },
             error: function (xhr) {
                 let response = JSON.parse(xhr.responseText);
-                alert(response.message);
                 console.log("No User Found !!!");
             }
         });

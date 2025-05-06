@@ -174,6 +174,81 @@ public class BookingDAOImpl implements IBookingDAO {
         }
     }
 
+    public List<Booking> getBookingByUser(int userId) throws DBException {
+        String query = "SELECT b.*, " +
+                "   s.show_date, s.show_time, " +
+                "   m.movie_title, m.movie_duration, " +
+                "   sc.screen_id, sc.screen_title, " +
+                "   st.screen_type, " +
+                "   th.theater_id, th.theater_name, " +
+                "   u.user_id, u.username, " +
+                "   pm.payment_method " +
+                "FROM bookings b " +
+                "JOIN shows s ON b.show_id = s.show_id " +
+                "JOIN movie m ON s.movie_id = m.movie_id " +
+                "JOIN screen sc ON s.screen_id = sc.screen_id " +
+                "JOIN screen_types st ON sc.screen_type_id = st.screen_type_id " +
+                "JOIN theater th ON sc.theater_id = th.theater_id " +
+                "JOIN users u ON b.user_id = u.user_id " +
+                "JOIN payment_methods pm ON b.payment_method_id = pm.payment_method_id " +
+                "WHERE u.user_id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Booking> bookings = new ArrayList<>();
+        try {
+            connection = DBConnection.INSTANCE.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Booking booking = new Booking();
+                booking.setBookingId(resultSet.getInt("booking_id"));
+                Show show = new Show();
+                show.setShowId(resultSet.getInt("show_id"));
+                show.setShowDate(resultSet.getDate("show_date").toLocalDate());
+                show.setShowTime(resultSet.getTime("show_time").toLocalTime());
+                Movie movie = new Movie();
+                movie.setMovieTitle(resultSet.getString("movie_title"));
+                movie.setMovieDuration(resultSet.getTime("movie_duration").toLocalTime());
+                show.setMovie(movie);
+                Screen screen = new Screen();
+                screen.setScreenId(resultSet.getInt("screen_id"));
+                screen.setScreenTitle(resultSet.getString("screen_title"));
+                ScreenType screenType = new ScreenType();
+                screenType.setScreenType(resultSet.getString("screen_type"));
+                screen.setScreenType(screenType);
+                Theater theater = new Theater();
+                theater.setTheaterId(resultSet.getInt("theater_id"));
+                theater.setTheaterName(resultSet.getString("theater_name"));
+                screen.setTheater(theater);
+                show.setScreen(screen);
+                booking.setShow(show);
+                User user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                user.setUserName(resultSet.getString("username"));
+                booking.setUser(user);
+                PaymentMethod paymentMethod = new PaymentMethod();
+                paymentMethod.setPaymentMethodId(resultSet.getInt("payment_method_id"));
+                paymentMethod.setPaymentMethod(resultSet.getString("payment_method"));
+                booking.setPaymentMethod(paymentMethod);
+                booking.setGrandTotal(resultSet.getDouble("grand_total"));
+                booking.setNumberOfSeats(resultSet.getInt("number_of_seats"));
+                booking.setBookingStatus(BookingStatus.getBookingStatus(resultSet.getString("booking_status")));
+                List<BookedShowSeat> bookedShowSeats = getBookedSeats(booking.getBookingId(), booking.getShow().getShowId(), connection);
+                booking.setBookedShowSeats(bookedShowSeats);
+                booking.setCreatedBy(resultSet.getInt("created_by"));
+                booking.setUpdatedBy(resultSet.getInt("updated_by"));
+                bookings.add(booking);
+            }
+            return bookings;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new DBException(Message.Error.INTERNAL_ERROR, e);
+        } finally {
+            DBConnection.closeResources(resultSet, preparedStatement, connection);
+        }
+    }
+
     private List<BookedShowSeat> getBookedSeats(int bookingId, int showId, Connection connection) throws DBException {
         String bookedSeatsQuery = "SELECT * " +
                 "FROM show_seats " +

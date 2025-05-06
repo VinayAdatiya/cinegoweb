@@ -21,6 +21,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookingService {
     private final IShowDAO showDAO = new ShowDAOImpl();
@@ -88,6 +89,16 @@ public class BookingService {
             throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
         }
         return bookingMapper.toBookingResponseDTO(booking);
+    }
+
+    public List<BookingResponseDTO> getBookingByUser(int userId) throws ApplicationException {
+        List<Booking> bookings = bookingDAO.getBookingByUser(userId);
+        if (bookings.isEmpty()) {
+            throw new ApplicationException(Message.Error.NO_RECORD_FOUND);
+        }
+        return bookings.stream()
+                .map(bookingMapper::toBookingResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public void resetBooking(int bookingId, int currentUserId) {

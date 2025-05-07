@@ -79,10 +79,13 @@ public class MovieValidator {
                 .collect(Collectors.toList());
         DatabaseUtil.validateIdsExist("crew_designation", "designation_id", designationIds);
 
-        List<String> characterNames = movieRequestDTO.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).collect(Collectors.toList());
+        List<String> characterNames = movieRequestDTO.getMovieCrewEntries().stream().map(MovieCrew::getCharacterName).toList();
+//        System.out.println(characterNames);
         for (String cn : characterNames) {
-            if (cn.length() > 30) {
-                throw new ApplicationException(Message.Error.CHARACTER_NAME_TOO_LONG);
+            if (cn != null) {
+                if (cn.length() > 30) {
+                    throw new ApplicationException(Message.Error.CHARACTER_NAME_TOO_LONG);
+                }
             }
         }
     }

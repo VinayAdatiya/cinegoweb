@@ -10,6 +10,10 @@ import com.cinego.model.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.EntityType;
+import jakarta.persistence.metamodel.Metamodel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -135,10 +139,52 @@ public class MovieDAOImpl implements IMovieDAO {
     }
 
     @Override
-    public List<Movie> getAllMovies() throws DBException {
+    public List<Movie> getAllMovies(int page, int pageSize, String sortBy, String sortOrder, List<String> languages, List<String> formats, List<String> genres) throws DBException {
         try (EntityManager em = JPAConfig.getEntityManagerFactory().createEntityManager()) {
-            String selectAllMovies = "SELECT m FROM Movie m";
-            List<Movie> movies = em.createQuery(selectAllMovies, Movie.class).getResultList();
+
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Movie> criteriaQuery = criteriaBuilder.createQuery(Movie.class);
+            Root<Movie> movieRoot = criteriaQuery.from(Movie.class);
+            List<Predicate> predicates = new ArrayList<>();
+            Metamodel m = em.getMetamodel();
+
+            // Filtering
+            if (languages != null && !languages.isEmpty()) {
+                Join<Movie, Language> languageJoin = movieRoot.join("languages");
+                predicates.add(languageJoin.get("languageName").in(languages));
+            }
+            if (formats != null && !formats.isEmpty()) {
+                Join<Movie, Format> formatJoin = movieRoot.join("formats");
+                predicates.add(formatJoin.get("formatName").in(formats));
+            }
+            if (genres != null && !genres.isEmpty()) {
+                Join<Movie, Genre> genreJoin = movieRoot.join("genres");
+                predicates.add(genreJoin.get("genreName").in(genres));
+            }
+
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
+            // Sorting
+            if (sortBy != null && !sortBy.isEmpty()) {
+                if (sortOrder != null && sortOrder.equalsIgnoreCase("DESC")) {
+                    criteriaQuery.orderBy(criteriaBuilder.desc(movieRoot.get(sortBy)));
+                } else {
+                    criteriaQuery.orderBy(criteriaBuilder.asc(movieRoot.get(sortBy)));
+                }
+            } else {
+                // Default sorting: latest + highest rating
+                criteriaQuery.orderBy(criteriaBuilder.desc(movieRoot.get("movieReleaseDate")), criteriaBuilder.desc(movieRoot.get("movieRating")));
+            }
+
+            TypedQuery<Movie> query = em.createQuery(criteriaQuery);
+
+            // Pagination
+            query.setFirstResult((page - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
+            List<Movie> movies = query.getResultList();
+
+            // Eagerly fetch related entities (as before)
             for (Movie movie : movies) {
                 String fetch_languages = "SELECT l FROM Movie m JOIN m.languages l WHERE m.movieId = :movieIdParam";
                 List<Language> languageList = em.createQuery(fetch_languages, Language.class)
@@ -169,6 +215,39 @@ public class MovieDAOImpl implements IMovieDAO {
                 movie.setMovieCrewEntries(movieCrewList);
             }
             return movies;
+
+//            String selectAllMovies = "SELECT m FROM Movie m";
+//            List<Movie> movies = em.createQuery(selectAllMovies, Movie.class).getResultList();
+//            for (Movie movie : movies) {
+//                String fetch_languages = "SELECT l FROM Movie m JOIN m.languages l WHERE m.movieId = :movieIdParam";
+//                List<Language> languageList = em.createQuery(fetch_languages, Language.class)
+//                        .setParameter("movieIdParam", movie.getMovieId())
+//                        .getResultList();
+//                movie.setLanguages(languageList);
+//
+//                String fetch_genres = "SELECT g FROM Movie m JOIN m.genres g WHERE m.movieId = :movieIdParam";
+//                List<Genre> genreList = em.createQuery(fetch_genres, Genre.class)
+//                        .setParameter("movieIdParam", movie.getMovieId())
+//                        .getResultList();
+//                movie.setGenres(genreList);
+//
+//                String fetch_formats = "SELECT f FROM Movie m JOIN m.formats f WHERE m.movieId = :movieIdParam";
+//                List<Format> formatList = em.createQuery(fetch_formats, Format.class)
+//                        .setParameter("movieIdParam", movie.getMovieId())
+//                        .getResultList();
+//                movie.setFormats(formatList);
+//
+//                String fetchMovieCrew = "SELECT mc FROM Movie m " +
+//                        "JOIN m.movieCrewEntries mc " +
+//                        "JOIN mc.crew " +
+//                        "JOIN mc.crewDesignation " +
+//                        "WHERE m.movieId = :movieIdParam";
+//                List<MovieCrew> movieCrewList = em.createQuery(fetchMovieCrew, MovieCrew.class)
+//                        .setParameter("movieIdParam", movie.getMovieId())
+//                        .getResultList();
+//                movie.setMovieCrewEntries(movieCrewList);
+//            }
+//            return movies;
         } catch (Exception e) {
             throw new DBException(Message.Error.INTERNAL_ERROR, e);
         }

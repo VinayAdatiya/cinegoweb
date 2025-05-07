@@ -11,7 +11,7 @@ public interface IMovieDAO {
 
     Movie getMovieById(int movieId) throws DBException;
 
-    List<Movie> getAllMovies() throws DBException;
+    List<Movie> getAllMovies(int page, int pageSize, String sortBy, String sortOrder, List<String> languages, List<String> formats, List<String> genres) throws DBException;
 
     void updateMovie(Movie movie) throws DBException;
 

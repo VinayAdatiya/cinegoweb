@@ -48,8 +48,8 @@ public class MovieService {
         }
     }
 
-    public List<MovieDTO> getAllMovies() throws DBException {
-        List<Movie> movies = movieDAO.getAllMovies();
+    public List<MovieDTO> getAllMovies(int page, int pageSize, String sortBy, String sortOrder, List<String> languages, List<String> formats, List<String> genres) throws DBException {
+        List<Movie> movies = movieDAO.getAllMovies(page, pageSize, sortBy, sortOrder, languages, formats, genres);
         return movies.stream()
                 .map(movieMapper::toMovieResponseDTO)
                 .collect(Collectors.toList());
